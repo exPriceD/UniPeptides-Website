@@ -1,0 +1,110 @@
+@keyframes slide-in-top {
+  0% {
+    transform: translateY(-200px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.vector-icon2 {
+  position: relative;
+  width: 26px;
+  height: 26px;
+}
+.checkcircle {
+  padding: var(--padding-10xs);
+}
+.checkcircle,
+.phosphor-icons-checkcircle {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.file-uploaded {
+  position: relative;
+  line-height: 28px;
+  display: inline-block;
+  width: 197px;
+  flex-shrink: 0;
+}
+.vector-icon3 {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+.close1,
+.x2 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.x2 {
+  padding: var(--padding-7xs);
+}
+.close1 {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+}
+.modal-header1,
+.the-file-was {
+  display: flex;
+  align-items: center;
+}
+.modal-header1 {
+  width: 342px;
+  height: 32px;
+  flex-direction: row;
+  justify-content: center;
+  gap: var(--gap-base);
+}
+.the-file-was {
+  position: relative;
+  line-height: 24px;
+  width: 299px;
+  height: 60px;
+  flex-shrink: 0;
+}
+.text1 {
+  width: 344px;
+  height: 52px;
+  padding: 0 0 0 var(--padding-5xs);
+  box-sizing: border-box;
+  font-size: var(--font-size-xl);
+  color: var(--gray-70);
+}
+.notification1,
+.ok-message,
+.text1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.notification1 {
+  border-radius: var(--br-9xs);
+  background-color: #cfddd3;
+  box-shadow: var(--shadow-6);
+  border: 2px solid #a0d7af;
+  padding: var(--padding-3xs) 0 0;
+}
+.ok-message {
+  position: relative;
+  background-color: var(--color-white);
+  overflow: hidden;
+  opacity: 0;
+  max-width: 90%;
+  max-height: 90%;
+  text-align: left;
+  font-size: var(--font-size-5xl);
+  color: var(--gray-90);
+  font-family: var(--font-inter);
+}
+.ok-message.animate {
+  animation: 0.5s ease 0s 1 normal forwards slide-in-top;
+}

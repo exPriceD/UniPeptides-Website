@@ -1,0 +1,113 @@
+@keyframes slide-in-top {
+  0% {
+    transform: translateY(-200px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.vector-icon {
+  position: relative;
+  width: 28px;
+  height: 25px;
+}
+.phosphor-icons-warning,
+.warning {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.warning {
+  flex-direction: column;
+  padding: var(--padding-10xs) 2px;
+}
+.phosphor-icons-warning {
+  flex-direction: row;
+}
+.empty-fields {
+  position: relative;
+  line-height: 28px;
+  display: inline-block;
+  width: 197px;
+  flex-shrink: 0;
+}
+.vector-icon1 {
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+.close,
+.x1 {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+.x1 {
+  padding: var(--padding-7xs);
+}
+.close {
+  cursor: pointer;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+}
+.fill-in-the,
+.modal-header {
+  display: flex;
+  align-items: center;
+}
+.modal-header {
+  width: 342px;
+  height: 32px;
+  flex-direction: row;
+  justify-content: center;
+  gap: var(--gap-base);
+}
+.fill-in-the {
+  position: relative;
+  line-height: 24px;
+  width: 270px;
+  height: 79px;
+  flex-shrink: 0;
+}
+.text {
+  width: 344px;
+  height: 89px;
+  padding: 0 0 0 var(--padding-5xs);
+  box-sizing: border-box;
+  font-size: var(--font-size-xl);
+  color: var(--gray-70);
+}
+.error-message,
+.notification,
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.notification {
+  border-radius: var(--br-9xs);
+  background-color: var(--danger-secondary);
+  box-shadow: var(--shadow-6);
+  border: 2px solid var(--danger-border);
+  padding: var(--padding-3xs) 0 0;
+}
+.error-message {
+  position: relative;
+  background-color: var(--color-white);
+  overflow: hidden;
+  opacity: 0;
+  max-width: 90%;
+  max-height: 90%;
+  text-align: left;
+  font-size: var(--font-size-5xl);
+  color: var(--gray-90);
+  font-family: var(--font-inter);
+}
+.error-message.animate {
+  animation: 0.5s ease 0s 1 normal forwards slide-in-top;
+}

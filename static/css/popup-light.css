@@ -1,0 +1,123 @@
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+a, u {
+  text-decoration: none;
+}
+
+.files-will-be {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: inherit;
+  line-height: 20px;
+  font-weight: 600;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 586px;
+  height: 139px;
+}
+.spiner-with-bg,
+.the-files-are {
+  position: absolute;
+  top: 139px;
+  left: 183px;
+  width: 220px;
+  height: 211px;
+}
+.the-files-are {
+  margin: 0;
+  top: 24px;
+  left: 0;
+  font-size: inherit;
+  line-height: 20px;
+  font-weight: 700;
+  font-family: inherit;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 586px;
+  height: 95px;
+}
+.download {
+  margin: 0;
+  position: relative;
+  font-size: var(--font-size-11xl);
+  line-height: 24px;
+  font-weight: 700;
+  font-family: var(--font-inter);
+  color: var(--color-black);
+  text-align: left;
+}
+.download-btn {
+  display: none;
+  cursor: pointer;
+  border: 3px solid var(--color-dodgerblue);
+  padding: var(--padding-mini) 0;
+  background-color: var(--color-white);
+  position: absolute;
+  top: calc(50% - 93.5px);
+  left: calc(50% - 170px);
+  border-radius: var(--br-xl);
+  box-sizing: border-box;
+  width: 339px;
+  overflow: hidden;
+  display: none;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.x {
+  position: relative;
+  font-size: var(--font-size-11xl);
+  line-height: 20px;
+  font-weight: 600;
+  font-family: var(--font-inter);
+  color: var(--color-black);
+  text-align: center;
+}
+.close-btn {
+  cursor: pointer;
+  border: 0;
+  padding: var(--padding-3xs);
+  background-color: transparent;
+  position: absolute;
+  top: calc(50% - 203.5px);
+  left: calc(50% + 243px);
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+}
+.close-btn.animate,
+.modal-content.animate {
+  animation: 1s ease 0s 1 normal forwards fade-in;
+}
+.modal-content {
+  position: relative;
+  border-radius: 30px;
+  background-color: var(--color-white);
+  width: 586px;
+  height: 425px;
+  overflow: hidden;
+  opacity: 0;
+  max-width: 90%;
+  max-height: 90%;
+  text-align: center;
+  font-size: var(--font-size-21xl);
+  color: var(--color-dodgerblue);
+  font-family: var(--font-inter);
+}
