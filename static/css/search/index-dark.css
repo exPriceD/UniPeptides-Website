@@ -39,6 +39,9 @@
   gap: var(--gap-mini);
   opacity: 1;
 }
+.logo:visited {
+    color: var(--color-mediumaquamarine);
+}
 .container.animate,
 .logo.animate {
   animation: 1s ease 0s 1 normal forwards scale-up;
@@ -125,6 +128,7 @@
   font-size: inherit;
   line-height: 24px;
   font-family: inherit;
+  text-align: center;
 }
 .step-11 {
   font-weight: 600;
@@ -198,6 +202,31 @@
   overflow: hidden;
   flex-direction: row;
 }
+.btn-tertiary {
+    color:#000;
+    padding:0;
+    text-align: center;
+    line-height:30px;
+    width:260px;
+    margin:auto;
+    display:block;
+    border:1px solid #000;
+    background-color: var(--color-white);
+    border-radius: var(--br-3xs);
+}
+.btn-tertiary:hover,.example-2 .btn-tertiary:focus{
+    color:#888;
+    border-color:#888;
+}
+.input-file{
+    width:.1px;
+    height:.1px;
+    opacity:0;
+    overflow:hidden;
+    position:absolute;
+    z-index:-1
+}
+
 .proteins-import,
 .step-1,
 .step1-frame {
@@ -369,10 +398,10 @@
 .inputs {
   background-color: rgba(48, 48, 48, 0.8);
   width: 420px;
-  height: 618px;
+  height: 628px;
   flex-direction: column;
   justify-content: flex-start;
-  gap: var(--gap-21xl);
+  gap: 40px;;
 }
 .filters,
 .step-3 {
@@ -487,7 +516,7 @@
   flex-direction: row;
   padding: 0 1px 0 0;
   justify-content: center;
-  gap: var(--gap-31xl);
+  gap: 35px;
 }
 .step-4,
 .the-process-of {

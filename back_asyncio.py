@@ -278,10 +278,7 @@ class AsyncParser:
         return self.parsing_result, self.sequences, self.missing
 
     def run_async_parsing(self):
-        try:
             asyncio.run(self.gather_data())
-        except BaseException:
-            pass
 
     async def gather_data(self):
        async with aiohttp.ClientSession() as session:
@@ -314,32 +311,54 @@ class AsyncParser:
                 "Length": "None",
                 "massDa": "None",
             }
-
-            protein_json = response_json
-
-            result_dict["proteinName"] = protein_json["primaryAccession"]
-
-            result_dict["entryName"] = protein_json["uniProtkbId"]
-
-            result_dict["fullName"] = protein_json["proteinDescription"]["recommendedName"]["fullName"]["value"]
-
-            result_dict["scientificName"] = protein_json["organism"]["scientificName"]
-
-            result_dict["genes"] = protein_json["genes"][0]["geneName"]["value"]
-
-            temp = str(protein_json["sequence"]["molWeight"])
-            result_dict["massDa"] = f'{temp[0:2]},{temp[2:len(temp)]}'
-
-            entryType = protein_json["entryType"]
-            result_dict["entryType"] = entryType[entryType.find('(') + 1: len(entryType) - 1]
-
-            result_dict["commonName"] = protein_json["organism"]["commonName"]
-
-            result_dict["proteinExistence"] = protein_json["proteinExistence"][3:len(protein_json["proteinExistence"])]
-
-            sequence = protein_json["sequence"]["value"]
-
-            result_dict["Length"] = protein_json["sequence"]["length"]
+            sequence = ''
+            protein_json = response_json.copy()
+            try:
+                result_dict["proteinName"] = protein_json["primaryAccession"]
+            except:
+                pass
+            try:
+                result_dict["entryName"] = protein_json["uniProtkbId"]
+            except:
+                pass
+            try:
+                result_dict["fullName"] = protein_json["proteinDescription"]["recommendedName"]["fullName"]["value"]
+            except:
+                pass
+            try:
+                result_dict["scientificName"] = protein_json["organism"]["scientificName"]
+            except:
+                pass
+            try:
+                result_dict["genes"] = protein_json["genes"][0]["geneName"]["value"]
+            except:
+                pass
+            try:
+                temp = str(protein_json["sequence"]["molWeight"])
+                result_dict["massDa"] = f'{temp[0:2]},{temp[2:len(temp)]}'
+            except:
+                pass
+            try:
+                entryType = protein_json["entryType"]
+                result_dict["entryType"] = entryType[entryType.find('(') + 1: len(entryType) - 1]
+            except:
+                pass
+            try:
+                result_dict["commonName"] = protein_json["organism"]["commonName"]
+            except:
+                pass
+            try:
+                result_dict["proteinExistence"] = protein_json["proteinExistence"][3:len(protein_json["proteinExistence"])]
+            except:
+                pass
+            try:
+                sequence = protein_json["sequence"]["value"]
+            except:
+                pass
+            try:
+                result_dict["Length"] = protein_json["sequence"]["length"]
+            except:
+                pass
 
             self.parsing_result.append(result_dict)
             self.sequences.append(sequence)
@@ -375,5 +394,4 @@ def main():
         sequence = sequences[i]
         async_creater(proteinName=uniprot_result["proteinName"])
         async_writer(uniprot_result=uniprot_result, sequence=sequence)
-
 

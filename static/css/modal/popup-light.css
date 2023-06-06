@@ -83,8 +83,10 @@ a, u {
   font-family: var(--font-inter);
   color: var(--color-black);
   text-align: center;
+  cursor: pointer;
 }
 .close-btn {
+  font-weight: 600;
   cursor: pointer;
   border: 0;
   padding: var(--padding-3xs);

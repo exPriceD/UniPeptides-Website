@@ -2,15 +2,15 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>UniPeptides</title>
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <link id="global-theme" rel="stylesheet" href="./static/css/global-light.css"/>
-    <link id="index-theme" rel="stylesheet" href="./static/css/index-light.css"/>
-    <link id="popup" rel="stylesheet" href="{{url_for('static', filename='css/popup-light.css')}}"/>
-    <link id="popupGlobal" rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}"/>
-    <link id="popup-ok-msg" rel="stylesheet" href="{{url_for('static', filename='css/ok-message.css')}}" />
-    <link id="popup-error-msg" rel="stylesheet" href="{{url_for('static', filename='css/error-message.css')}}" />
+    <title>Search for peptides</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600;700;800&display=swap"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link id="global-theme" rel="stylesheet" href="./static/css/search/global-light.css"/>
+    <link id="index-theme" rel="stylesheet" href="./static/css/search/index-light.css"/>
+    <link id="popup" rel="stylesheet" href="{{url_for('static', filename='css/modal/popup-light.css')}}"/>
+    <link id="popupGlobal" rel="stylesheet" href="{{url_for('static', filename='css/modal/global.css')}}"/>
+    <link id="popup-ok-msg" rel="stylesheet" href="{{url_for('static', filename='css/modal/ok-message.css')}}" />
+    <link id="popup-error-msg" rel="stylesheet" href="{{url_for('static', filename='css/modal/error-message.css')}}" />
     <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
@@ -19,19 +19,19 @@
     <div class="window">
       <div class="container" data-animate-on-scroll>
         <header class="header">
-          <div class="logo">
-            <img id="logoIconId" class="logo-icon" alt="" src="{{url_for('static', filename='images/light/logo-blue-1@2x.png')}}"/>
+          <a href="/" class="logo" style="text-decoration: none" id="Logo">
+            <img id="logoIconId" class="logo-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}"/>
             <h1 class="site-name">UniPeptides</h1>
-          </div>
+          </a>
           <div class="setting-btns">
-            <button class="small-btn" onclick="themeChange()">
-              <img class="night-icon" alt="" src="{{url_for('static', filename='images/light/night.svg')}}" />
+            <button class="small-btn" onclick="themeChange('search')">
+              <img class="night-icon" alt="" src="{{url_for('static', filename='images/header/light/night.svg')}}" />
             </button>
             <button class="small-btn">
-              <img class="help-icon" alt="" src="{{url_for('static', filename='images/light/help.svg')}}" />
+              <img class="help-icon" alt="" src="{{url_for('static', filename='images/header/light/help.svg')}}" />
             </button>
-            <button class="small-btn">
-              <img class="united-kingdom-icon" alt="" src="{{url_for('static', filename='images/light/united-kingdom.svg')}}"/>
+            <button class="small-btn" onclick="changeLang()">
+              <img class="united-kingdom-icon" alt="" src="{{url_for('static', filename='images/header/light/united-kingdom.svg')}}"/>
             </button>
           </div>
         </header>
@@ -39,36 +39,38 @@
           <div class="handler">
             <div class="inputs">
               <div class="step-1">
-                <h1 class="step-11">Step 1</h1>
+                <h1 id="h-step1" class="step-11">Step 1</h1>
                 <div class="step1-frame">
-                  <h1 class="enter-one-or">Enter one or more protein</h1>
+                  <h1 id="action-step1" class="enter-one-or">Enter one or more protein</h1>
                   <input class="step1-frame-child" type="text" name="proteins_value" placeholder="Q14050" id="proteins-input"/>
                   <h2 class="enter-one-or">OR</h2>
                   <div class="proteins-import">
                     <h3 class="import-txt-file">import TXT file</h3>
-                    <button class="import-proteins-btn">
-                      <h1 class="import-file">Import file</h1>
-                    </button>
+                    <input type="file" name="userProteinsFile" id="userProteinsFile" class="input-file" accept=".txt">
+                    <label for="userProteinsFile" class="btn btn-tertiary js-labelFile">
+                      <span class="js-fileName">Select</span>
+                    </label>
                   </div>
                 </div>
               </div>
               <div class="step-2">
-                <h1 class="step-21">Step 2</h1>
+                <h1 id="h-step2" class="step-21">Step 2</h1>
                 <div class="step1-frame1">
-                  <h1 class="enter-one-or1">Enter one or more peptides</h1>
+                  <h1 id="action-step2" class="enter-one-or1">Enter one or more peptides</h1>
                   <input class="step1-frame-item" type="text" name="peptides_value" placeholder="GPPG, ATRGL, GGT" id="peptides-input"/>
-                  <h2 class="or1">OR</h2>
-                  <div class="proteins-import1">
-                    <h3 class="import-txt-file1">import TXT file</h3>
-                    <button class="imopt-peptides-btn">
-                      <h1 class="import-file">Import file</h1>
-                    </button>
+                  <h2 class="enter-one-or">OR</h2>
+                  <div class="proteins-import">
+                    <h3 class="import-txt-file">import TXT file</h3>
+                    <input type="file" name="userPeptidesFile" id="userPeptidesFile" class="input-file" accept=".txt">
+                    <label for="userPeptidesFile" class="btn btn-tertiary js-labelFile">
+                      <span class="js-fileName">Select</span>
+                    </label>
                   </div>
                 </div>
               </div>
             </div>
             <div class="step3">
-              <h1 class="step-3">Step 3</h1>
+              <h1 id="h-step3" class="step-3">Step 3</h1>
               <div class="check-box">
                 <div class="entry-identifier">
                   <div class="frame-parent">
@@ -90,7 +92,7 @@
                 </div>
                 <div class="filter-div">
                   <input name="commonName" id="common_name" class="filters" type="checkbox" checked=""/>
-                  <h1 class="organism-common-name1">Organism (common name)</h1>
+                  <h1 class="text-filters">Organism (common name)</h1>
                 </div>
                 <div class="filter-div">
                   <input name="genes" id="gene" class="filters" type="checkbox" checked=""/>
@@ -102,7 +104,7 @@
                 </div>
                 <div class="filter-div">
                   <input name="length" id="sequence_length" class="filters" type="checkbox" checked=""/>
-                  <h1 class="length1">Length</h1>
+                  <h1 class="text-filters">Length</h1>
                 </div>
                 <div class="filter-div">
                   <input name="massDa" id="mass_da" class="filters" type="checkbox" checked=""/>
@@ -117,7 +119,7 @@
                   <h1 class="text-filters">Peptide ID</h1>
                 </div>
                 <div class="filter-div">
-                  <input name="sequence" id="sequence"class="filters" type="checkbox" checked=""/>
+                  <input name="sequence" id="sequence" class="filters" type="checkbox" checked=""/>
                   <h1 class="text-filters">Sequence</h1>
                 </div>
                 <div class="filter-div">
@@ -148,9 +150,9 @@
             </div>
           </div>
           <div class="strat">
-            <h1 class="step-4">Step 4</h1>
+            <h1 id="h-step4" class="step-4">Step 4</h1>
             <div class="the-process-of-searching-for-p-wrapper">
-              <h1 class="the-process-of">
+              <h1 id="step4-text" class="the-process-of">
                 The process of searching for peptides and creating Excel
                 spreadsheets takes time, depending on the number of proteins,
                 peptides, the quality of the Internet connection, efficiency
@@ -159,7 +161,7 @@
             </div>
             <div class="start-btn-wrapper">
               <button type="submit" class="start-btn" id="startBtn" onclick=startLoadingPopup()>
-                <h1 class="run">Create</h1>
+                <h1 id="run-btn" class="run">Create</h1>
               </button>
             </div>
           </div>
@@ -190,7 +192,7 @@
         </div>
       </div>
     </div>
-    <div id="okMessagePopup" class="popup-overlay" style="display: none">
+    <div id="okMessagePopup" class="popup-overlay" style="display: none" >
       <div class="ok-message" data-animate-on-scroll>
         <div class="notification1">
           <div class="modal-header1">
@@ -215,44 +217,69 @@
     <div id="modalContentPopup" class="popup-overlay" style="display: none">
       <div class="modal-content" data-animate-on-scroll>
         <h1 id="popupText" class="files-will-be" style="display:{{loading_atr}};">Files will be created soon</h1>
-        <img id="popupPreloader" class="spiner-with-bg" style="display:{{loading_atr}};" alt="" src="{{url_for('static', filename='images/light/rolling-1.4s-300px-light.gif')}}"/>
+        <img id="popupPreloader" class="spiner-with-bg" style="display:{{loading_atr}};" alt="" src="{{url_for('static', filename='images/modal/rolling-1.4s-300px-light.gif')}}"/>
         <button id="downloadBtn" class="download-btn" style="display:{{end_atr}};">
           <a id="downloadLink" href="#"><h1 class="download">Download</h1></a>
         </button>
         <button class="close-btn" id="popupcloseBtn" onclick=closePopup("modalContentPopup") data-animate-on-scroll>
-          <div class="x">X</div>
+          <label class="x">X</label>
         </button>
       </div>
     </div>
     <script>
       Animation()
 
-      $(document).on('submit','#post-form',function(e) {
-        e.preventDefault();
-        $.ajax({type:'POST', url:'/', data:{
-            proteins_value:$("#proteins-input").val(),
-            peptides_value:$("#peptides-input").val(),
-            entryName:$("#entry_name").is(':checked'),
-            entryType:$("#status").is(':checked'),
-            fullName:$("#protein_name").is(':checked'),
-            scientificName:$("#scientific_name").is(':checked'),
-            commonName:$("#common_name").is(':checked'),
-            genes:$("#gene").is(':checked'),
-            proteinExistence:$("#protein_existence").is(':checked'),
-            length:$("#sequence_length").is(':checked'),
-            massDa:$("#mass_da").is(':checked'),
-            category:$("#category").is(':checked'),
-            id:$("#peptide_id").is(':checked'),
-            sequence:$("#sequence").is(':checked'),
-            sequence_length:$("#peptide_length").is(':checked'),
-            occurrence:$("#occurrence").is(':checked'),
-            position:$("#position").is(':checked'),
-            cter:$("#cterm").is(':checked'),
-            nter:$("#nterm").is(':checked'),
-            relative:$("#relative").is(':checked'),
-          }
-      })
-    });
+      $('#userProteinsFile').on('click touchstart' , function(){
+          $(this).val('');
+      });
+      $("#userProteinsFile").change(function(e){
+         openMessage("okMessagePopup");
+      });
+
+      $('#userPeptidesFile').on('click touchstart' , function(){
+          $(this).val('');
+      });
+      $("#userPeptidesFile").change(function(e){
+         openMessage("okMessagePopup");
+      });
+
+        $(document).on('submit','#post-form',function(e) {
+          e.preventDefault();
+          var form_data = new FormData();
+          form_data.append('userProteins', $('#userProteinsFile').prop('files')[0]);
+          form_data.append('userPeptides', $('#userPeptidesFile').prop('files')[0]);
+          form_data.append('proteins_value', $("#proteins-input").val());
+          form_data.append('peptides_value', $("#peptides-input").val());
+          form_data.append('entryName', $("#entry_name").is(':checked'));
+          form_data.append('entryType', $("#status").is(':checked'));
+          form_data.append('fullName', $("#protein_name").is(':checked'));
+          form_data.append('scientificName', $("#scientific_name").is(':checked'));
+          form_data.append('commonName', $("#common_name").is(':checked'));
+          form_data.append('genes', $("#gene").is(':checked'));
+          form_data.append('proteinExistence', $("#protein_existence").is(':checked'));
+          form_data.append('length', $("#sequence_length").is(':checked'));
+          form_data.append('massDa', $("#mass_da").is(':checked'));
+          form_data.append('category', $("#category").is(':checked'));
+          form_data.append('id', $("#peptide_id").is(':checked'));
+          form_data.append('sequence', $("#sequence").is(':checked'));
+          form_data.append('sequence_length', $("#peptide_length").is(':checked'));
+          form_data.append('occurrence', $("#occurrence").is(':checked'));
+          form_data.append('position', $("#position").is(':checked'));
+          form_data.append('cter', $("#cterm").is(':checked'));
+          form_data.append('nter', $("#nterm").is(':checked'));
+          form_data.append('relative', $("#relative").is(':checked'));
+
+          $.ajax({
+            type:'POST',
+            dataType:'json',
+            url:'/',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                console.log('Success!');}})
+        });
 
     $(document).ready(function(){
       var socket = io();

@@ -1,6 +1,7 @@
 import os
 import shutil
 import json
+import time
 
 
 def creating_zip():
@@ -11,11 +12,20 @@ def creating_zip():
     shutil.make_archive(
         filename,
         'zip',
-        f"C:\\Users\\loler\\PycharmProjects\\UniPeptides-website\\output\\{filename}"
+        f"uploads/outputs//{filename}"
     )
-    shutil.move(f"{filename}.zip", "C:\\Users\\loler\\PycharmProjects\\UniPeptides-website\\output\\")
+    shutil.move(f"{filename}.zip", "uploads/outputs\\")
     return filename
 
 
-def remove_user_config():
+def remove_config():
     os.remove("config.json")
+    if os.path.exists(os.path.join(os.getcwd(), "uploads\\inputs\\userProteins.txt")):
+        os.remove("uploads/inputs/userProteins.txt")
+    if os.path.exists(os.path.join(os.getcwd(), "uploads\\inputs\\userPeptides.txt")):
+        os.remove("uploads/inputs/userPeptides.txt")
+
+
+def remove_results(filename):
+    os.remove(f"uploads/outputs/{filename}")
+    os.remove(f"uploads/outputs/{filename}.zip")

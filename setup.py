@@ -18,12 +18,12 @@ def creatingLogs():
 
 
 def setupConfig():
-    if not os.path.isdir('output'):
-        os.mkdir("output")
+    if not os.path.isdir('uploads/outputs'):
+        os.mkdir("uploads/outputs")
 
     time = str(datetime.datetime.today().replace(microsecond=0)).replace(':', ' ').replace(' ', '')
     mk_name = f"Result{time}"
-    os.mkdir(f"output/{mk_name}")
+    os.mkdir(f"uploads/outputs/{mk_name}")
 
     config = {
         "proteins": {
@@ -33,7 +33,7 @@ def setupConfig():
             "value": []
         },
         "savePath": {
-            "value": f"C:\\Users\\loler\\PycharmProjects\\UniPeptides-website\\output\\{mk_name}"
+            "value": f"{os.getcwd()}\\uploads\\outputs\\{mk_name}"
         },
         "databasePath": {
             "value": ''
@@ -79,7 +79,17 @@ def filling_config(user_data: dict):
         if key == "peptides_value":
             config["peptides"]["value"].extend(filter(None, re.split('[;, .]+', user_data[key])))
             continue
-        config["excelFilters"][key] = True if user_data[key] == "true" else False
+        if key != "userPeptides" and key != "userProteins":
+            config["excelFilters"][key] = True if user_data[key] == "true" else False
+    if os.path.exists(os.path.join(os.getcwd(), "uploads\\inputs\\userProteins.txt")):
+        with open(os.path.join(os.getcwd(), "uploads\\inputs\\userProteins.txt"), encoding="UTF8") as user_file:
+            user_proteins = user_file.readline()
+            print(user_proteins)
+            config["proteins"]["value"].extend(filter(None, re.split('[;, .]+', user_proteins)))
+    if os.path.exists(os.path.join(os.getcwd(), "uploads\\inputs\\userPeptides.txt")):
+        with open(os.path.join(os.getcwd(), "uploads\\inputs\\userPeptides.txt"), encoding="UTF8") as user_file:
+            user_peptides = user_file.readline()
+            config["peptides"]["value"].extend(filter(None, re.split('[;, .]+', user_peptides)))
 
     with open("config.json", "w") as json_cfg:
         json.dump(config, json_cfg, indent=4)
