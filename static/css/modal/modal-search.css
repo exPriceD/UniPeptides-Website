@@ -1,0 +1,93 @@
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.x1 {
+  position: relative;
+  font-size: var(--font-size-11xl);
+  line-height: 20px;
+  font-weight: 600;
+  font-family: var(--font-inter);
+  color: var(--color-black);
+  text-align: center;
+}
+.close-btn1,
+.h1 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.close-btn1 {
+  cursor: pointer;
+  border: 0;
+  padding: var(--padding-mini) var(--padding-mini) 0;
+  background-color: transparent;
+  width: 68px;
+  height: 40px;
+  overflow: hidden;
+  flex-shrink: 0;
+  flex-direction: row;
+  box-sizing: border-box;
+  opacity: 0;
+}
+.close-btn1.animate,
+.modal-search.animate {
+  animation: 1s ease 0s 1 normal forwards fade-in;
+}
+.h1 {
+  margin: 0;
+  position: relative;
+  font-size: inherit;
+  line-height: 20px;
+  font-weight: 800;
+  font-family: inherit;
+  width: 586px;
+}
+.close-btn-group {
+  height: 65px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+.span {
+  font-weight: 600;
+}
+.proteins-q14050-p05760-container {
+  align-self: stretch;
+  position: relative;
+  line-height: 55px;
+}
+.modal-search,
+.proteins-q14050-p05760-p123-parent {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.proteins-q14050-p05760-p123-parent {
+  width: 586px;
+  padding: var(--padding-21xl) var(--padding-7xl) var(--padding-11xl);
+  box-sizing: border-box;
+  align-items: flex-start;
+  gap: var(--gap-11xl);
+  text-align: left;
+  font-size: var(--font-size-13xl);
+}
+.modal-search {
+  position: relative;
+  border-radius: var(--br-11xl);
+  background-color: var(--gray-10);
+  align-items: center;
+  opacity: 0;
+  max-width: 90%;
+  max-height: 90%;
+  text-align: center;
+  font-size: var(--font-size-16xl);
+  color: var(--color-dodgerblue);
+  font-family: var(--font-inter);
+}

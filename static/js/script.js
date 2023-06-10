@@ -3,30 +3,18 @@ function themeChange(page) {
     let indexTheme = document.getElementById("index-theme");
     let logo = document.getElementById("logoIconId");
     console.log(globalTheme.getAttribute("href"));
-    if (page === "search") {
-        if (globalTheme.getAttribute("href") === "./static/css/search/global-light.css") {
-            globalTheme.href = "./static/css/search/global-dark.css";
-            indexTheme.href = "./static/css/search/index-dark.css";
+    if (globalTheme.getAttribute("href") === `./static/css/${page}/global-light.css`) {
+            globalTheme.href = `./static/css/${page}/global-dark.css`;
+            indexTheme.href = `./static/css/${page}/index-dark.css`;
             logo.src = "./static/images/header/dark/logo-greentransformed-1@2x.png";
         } else {
-            globalTheme.href = "./static/css/search/global-light.css";
-            indexTheme.href = "./static/css/search/index-light.css";
+            globalTheme.href = `./static/css/${page}/global-light.css`;
+            indexTheme.href = `./static/css/${page}/index-light.css`;
             logo.src = "./static/images/header/light/logo-blue-1@2x.png";
-        }
-    } else if(page === "database") {
-        if (globalTheme.getAttribute("href") === "./static/css/database/global-light.css") {
-            globalTheme.href = "./static/css/database/global-dark.css";
-            indexTheme.href = "./static/css/database/index-dark.css";
-            logo.src = "./static/images/header/dark/logo-greentransformed-1@2x.png";
-        } else {
-            globalTheme.href = "./static/css/database/global-light.css";
-            indexTheme.href = "./static/css/database/index-light.css";
-            logo.src = "./static/images/header/light/logo-blue-1@2x.png";
-        }
     }
-
-
 }
+
+
 function Animation() {
     var scrollAnimElements = document.querySelectorAll("[data-animate-on-scroll]");
     var observer = new IntersectionObserver(
@@ -82,37 +70,39 @@ function closePopup(elementsId) {
     }
 }
 
-function startLoadingPopup() {
-    let proteinInput = document.getElementById("proteins-input");
-    let peptidesInput = document.getElementById("peptides-input");
-    if (!proteinInput.value && document.getElementById("userProteinsFile").value == "") {
-        openMessage("errorMessagePopup");
-        return;
-    }
-    if (!peptidesInput.value && document.getElementById("userPeptidesFile").value == "") {
-        openMessage("errorMessagePopup");
-        return;
-    }
-    let popup = document.getElementById("modalContentPopup");
-    if (!popup) return;
-    let popupStyle = popup.style;
-    if (popupStyle) {
-        popupStyle.display = "flex";
-        popupStyle.zIndex = 100;
-        popupStyle.backgroundColor = "rgba(0, 0, 0, 0.6)";
-        popupStyle.alignItems = "center";
-        popupStyle.justifyContent = "center";
-    }
-    popup.removeAttribute("closable");
+function startPopup(popupName) {
+    if (popupName === "loading") {
+        let proteinInput = document.getElementById("proteins-input");
+        let peptidesInput = document.getElementById("peptides-input");
+        if (!proteinInput.value && document.getElementById("userProteinsFile").value == "") {
+            openMessage("errorMessagePopup");
+            return;
+        }
+        if (!peptidesInput.value && document.getElementById("userPeptidesFile").value == "") {
+            openMessage("errorMessagePopup");
+            return;
+        }
+        let popup = document.getElementById("modalContentPopup");
+        if (!popup) return;
+        let popupStyle = popup.style;
+        if (popupStyle) {
+            popupStyle.display = "flex";
+            popupStyle.zIndex = 100;
+            popupStyle.backgroundColor = "rgba(0, 0, 0, 0.6)";
+            popupStyle.alignItems = "center";
+            popupStyle.justifyContent = "center";
+        }
+        popup.removeAttribute("closable");
 
-    let onClick =
-        popup.onClick ||
-            function (e) {
-                if (e.target === popup && popup.hasAttribute("closable")) {
-                    popupStyle.display = "none";
-                }
-            };
-    popup.addEventListener("click", onClick);
+        let onClick =
+            popup.onClick ||
+                function (e) {
+                    if (e.target === popup && popup.hasAttribute("closable")) {
+                        popupStyle.display = "none";
+                    }
+                };
+        popup.addEventListener("click", onClick);
+    }
 }
 
 function openMessage(elementsId) {

@@ -14,7 +14,7 @@
     opacity: 1;
   }
 }
-.logo-blue-1-icon {
+.logo-icon {
   position: relative;
   border-radius: var(--br-xl);
   width: 116px;
@@ -22,11 +22,11 @@
   object-fit: cover;
 }
 .logo,
-.unipeptides {
+.site-name {
   display: flex;
   align-items: center;
 }
-.unipeptides {
+.site-name {
   margin: 0;
   position: relative;
   font-size: inherit;
@@ -54,24 +54,24 @@
 .logo.animate {
   animation: 1s ease 0s 1 normal forwards scale-up;
 }
-.night-icon {
+.small-btn-icon {
   position: relative;
   width: 33px;
   height: 33px;
 }
-.settings-btn,
-.settings-btn1 {
-  cursor: pointer;
-  border: 0;
-  background-color: var(--color-dodgerblue);
-  border-radius: var(--br-9xs);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+.small-btn {
+	 cursor: pointer;
+	 border: 0;
+	 padding: 0;
+	 background-color: var(--color-dodgerblue);
+	 position: relative;
+	 border-radius: var(--br-9xs);
+	 width: 43px;
+	 height: 43px;
+	 overflow: hidden;
+	 flex-shrink: 0;
 }
-.settings-btn {
+.small-icon-btn {
   padding: 0;
   width: 43px;
   height: 43px;
@@ -87,7 +87,7 @@
   overflow: hidden;
   flex-shrink: 0;
 }
-.btns,
+.setting-btns,
 .settings-btn2 {
   display: flex;
   align-items: center;
@@ -102,7 +102,7 @@
   overflow: hidden;
   flex-direction: column;
 }
-.btns {
+.setting-btns {
   width: 149px;
   height: 180px;
   flex-direction: row;
@@ -225,12 +225,12 @@
   padding: 0 var(--padding-31xl);
   gap: var(--gap-mini);
 }
-.block,
+.search-block,
 .input {
   overflow: hidden;
   flex-shrink: 0;
 }
-.block {
+.search-block {
   position: relative;
   border-radius: var(--br-3xs);
   background-color: var(--color-dodgerblue);
@@ -286,7 +286,7 @@
   box-sizing: border-box;
 }
 .start-btn {
-  cursor: auto;
+  cursor: pointer;
   border: 3px solid var(--color-dodgerblue);
   padding: var(--padding-5xs) var(--padding-xl);
   background-color: var(--color-white);
@@ -406,16 +406,16 @@
   animation: 1s ease 0s 1 normal forwards fade-in;
 }
 @media screen and (max-width: 1360px) {
-  .logo-blue-1-icon {
+  .logo-icon {
     width: 116px;
     height: 116px;
   }
-  .unipeptides {
+  .site-name {
     text-align: left;
     width: 381px;
     height: 24px;
   }
-  .btns,
+  .setting-btns,
   .header,
   .logo {
     flex-direction: row;
@@ -427,7 +427,7 @@
     gap: var(--gap-mini);
     justify-content: flex-start;
   }
-  .btns,
+  .setting-btns,
   .header {
     width: 149px;
     height: 185px;
@@ -451,7 +451,7 @@
     width: 253px;
     height: 24px;
   }
-  .block,
+  .search-block,
   .import-peptides-btn,
   .peptides-import {
     width: 138px;
@@ -459,12 +459,12 @@
     align-items: center;
     justify-content: center;
   }
-  .block,
+  .search-block,
   .peptides-import {
     width: 774px;
     height: 54px;
   }
-  .block {
+  .search-block {
     width: 777px;
     height: 270px;
     justify-content: flex-start;
@@ -545,15 +545,15 @@
   }
 }
 @media screen and (max-width: 1000px) {
-  .logo-blue-1-icon {
+  .logo-icon {
     width: 116px;
     height: 116px;
   }
-  .unipeptides {
+  .site-name {
     width: 381px;
     height: 24px;
   }
-  .btns,
+  .setting-btns,
   .header,
   .logo {
     flex-direction: row;
@@ -565,12 +565,12 @@
     gap: var(--gap-mini);
     justify-content: flex-end;
   }
-  .btns,
+  .setting-btns,
   .header {
     height: 185px;
     justify-content: center;
   }
-  .btns {
+  .setting-btns {
     width: 149px;
     gap: var(--gap-3xs);
   }
@@ -600,7 +600,7 @@
     width: 692px;
     height: 54px;
   }
-  .block {
+  .search-block {
     width: 695px;
     height: 297px;
   }
@@ -672,7 +672,7 @@
     height: 186px;
     flex-direction: column;
   }
-  .btns {
+  .setting-btns {
     flex-direction: row;
   }
   .header {
@@ -698,7 +698,7 @@
     align-items: center;
     justify-content: flex-start;
   }
-  .btns,
+  .setting-btns,
   .header {
     align-items: center;
     justify-content: center;
@@ -726,7 +726,7 @@
     height: 101px;
     flex-direction: column;
   }
-  .block {
+  .search-block {
     width: 400px;
   }
   .input {

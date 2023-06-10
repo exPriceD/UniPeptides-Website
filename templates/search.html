@@ -25,13 +25,13 @@
           </a>
           <div class="setting-btns">
             <button class="small-btn" onclick="themeChange('search')">
-              <img class="night-icon" alt="" src="{{url_for('static', filename='images/header/light/night.svg')}}" />
+              <img class="small-btn-icon" alt="" src="{{url_for('static', filename='images/header/light/night.svg')}}" />
             </button>
             <button class="small-btn">
-              <img class="help-icon" alt="" src="{{url_for('static', filename='images/header/light/help.svg')}}" />
+              <img class="small-btn-icon" alt="" src="{{url_for('static', filename='images/header/light/help.svg')}}" />
             </button>
             <button class="small-btn" onclick="changeLang()">
-              <img class="united-kingdom-icon" alt="" src="{{url_for('static', filename='images/header/light/united-kingdom.svg')}}"/>
+              <img class="small-btn-icon" alt="" src="{{url_for('static', filename='images/header/light/united-kingdom.svg')}}"/>
             </button>
           </div>
         </header>
@@ -160,7 +160,7 @@
               </h1>
             </div>
             <div class="start-btn-wrapper">
-              <button type="submit" class="start-btn" id="startBtn" onclick=startLoadingPopup()>
+              <button type="submit" class="start-btn" id="startBtn" onclick=startPopup('loading')>
                 <h1 id="run-btn" class="run">Create</h1>
               </button>
             </div>
@@ -272,7 +272,7 @@
           $.ajax({
             type:'POST',
             dataType:'json',
-            url:'/',
+            url:'/search',
             data: form_data,
             contentType: false,
             cache: false,

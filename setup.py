@@ -84,7 +84,6 @@ def filling_config(user_data: dict):
     if os.path.exists(os.path.join(os.getcwd(), "uploads\\inputs\\userProteins.txt")):
         with open(os.path.join(os.getcwd(), "uploads\\inputs\\userProteins.txt"), encoding="UTF8") as user_file:
             user_proteins = user_file.readline()
-            print(user_proteins)
             config["proteins"]["value"].extend(filter(None, re.split('[;, .]+', user_proteins)))
     if os.path.exists(os.path.join(os.getcwd(), "uploads\\inputs\\userPeptides.txt")):
         with open(os.path.join(os.getcwd(), "uploads\\inputs\\userPeptides.txt"), encoding="UTF8") as user_file:

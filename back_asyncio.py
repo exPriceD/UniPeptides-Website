@@ -232,7 +232,7 @@ class Writer:
                 r += count_peptide + 1
 
         if not pep_flag:
-            result.cell(row=r + 2, column=2).value = 'Not peptides in file'
+            result.cell(row=r + 2, column=2).value = 'Not peptides in file.zip'
             result.cell(row=r + 2, column=2).font = Font(bold=True)
 
         for col in result.columns:

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Log in</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"/>
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link id="global-theme" rel="stylesheet" href="./static/css/account/authorization/global-light.css" />
+    <link id="index-theme" rel="stylesheet" href="./static/css/account/authorization/index-light.css" />
+    <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
+  </head>
+  <body>
+    <div class="login" data-animate-on-scroll>
+      <div class="container" data-animate-on-scroll>
+        <header class="header">
+          <a href="/" class="logo" style="text-decoration: none" data-animate-on-scroll>
+            <img id="logoIconId" class="logo-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}" />
+            <h1 class="site-name">UniPeptides</h1>
+          </a>
+          <div class="setting-btns">
+            <button class="small-btn">
+              <img class="night-icon" alt="" src="{{url_for('static', filename='images/header/light/night.svg')}}" />
+            </button>
+            <button class="small-btn1">
+              <img class="night-icon" alt="" src="{{url_for('static', filename='images/header/light/help.svg')}}" />
+            </button>
+            <button class="small-btn2">
+              <img class="united-kingdom-icon" alt="" src="{{url_for('static', filename='images/header/light/united-kingdom.svg')}}"/>
+            </button>
+          </div>
+        </header>
+        <div class="content">
+            <form class="login-form" method="POST" id="post-form" action="">
+            {{ form.hidden_tag() }}
+            <h1 class="h-text">Login</h1>
+            <div class="input-parent">
+              <div class="input">
+                <div class="password">Login</div>
+                {{ form.login(class_="input-inner") }}
+                <div class="helper-text-input" id="login-helper-text"></div>
+              </div>
+              <div class="input">
+                <div class="password">Password</div>
+                {{ form.password(class_="input-inner") }}
+                <div class="helper-text-input" id="password-helper-text"></div>
+              </div>
+              <div class="checkbox-remember">
+                {{ form.remember(class_="remember") }}
+                <label class="checkbox-text" >Remember me</label>
+              </div>
+              <div class="button-parent">
+                <button class="button" type="submit">
+                  <span class="login4">Login</span>
+                </button>
+                <div class="for-the-first-container">
+                  For the first time on the site?
+                  <a href="/register" class="register">Register!</a>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      Animation();
+      </script>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Search for peptides</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link id="global-theme" rel="stylesheet" href="./static/css/menu/global-light.css"/>
+    <link id="index-theme" rel="stylesheet" href="./static/css/menu/index-light.css"/>
+    <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
+  </head>
+  <body>
+    <div class="main-menu" data-animate-on-scroll>
+      <div class="container" data-animate-on-scroll>
+        <header class="header">
+          <div class="logo" data-animate-on-scroll>
+            <img id="logoIconId" class="logo-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}"/>
+            <h1 class="site-name">UniPeptides</h1>
+          </div>
+          <div class="setting-btns">
+            <button class="small-btn" onclick="themeChange('menu')">
+              <img class="small-btn-icon" alt="" src="{{url_for('static', filename='images/header/light/night.svg')}}" />
+            </button>
+            <button class="small-btn" onclick="document.location.href='/account';">
+              <img class="small-btn-icon" alt="" src="{{url_for('static', filename='images/header/light/help.svg')}}" />
+            </button>
+            <button class="small-btn">
+              <img class="small-btn-icon" alt="" src="{{url_for('static', filename='images/header/light/united-kingdom.svg')}}"/>
+            </button>
+          </div>
+        </header>
+        <form class="content">
+          <div class="row">
+            <div class="search-block">
+              <h1 class="lable">Search for peptides</h1>
+              <label class="text-about">
+                <label class="a-program-for">
+                  A program for searching for peptides or motifs in proteins. As
+                  a result, the user receives an Excel table with all the
+                  peptides and information about them
+                </label>
+              </label>
+              <a href="/search" class="ahref">
+                <span class="btn-text">Search</span>
+                <img class="phosphor-icons-caretcircleri" alt="" src="{{url_for('static', filename='images/phosphor-icons--caretcircleright.svg')}}"/>
+              </a>
+            </div>
+            <div class="database-block">
+              <h1 class="lable1">Creating a database of peptides</h1>
+              <label class="text-about1">
+                You can create your own database of peptides, presented in the
+                form of an Excel spreadsheet and use it when searching in
+                proteins
+              </label>
+              <a href="/database" class="ahref">
+                <span class="btn-text1">Create</span>
+                <img class="phosphor-icons-caretcircleri" alt="" src="{{url_for('static', filename='images/phosphor-icons--caretcircleright.svg')}}"/>
+              </a>
+            </div>
+          </div>
+          <div class="row1">
+            <div class="block2">
+              <h1 class="lable">Information</h1>
+              <label class="text-about2">
+                Information about the program. How to use it, how to avoid
+                mistakes. Description of the principle of operation, where the
+                information comes from. All links
+              </label>
+              <a class="ahref">
+                <span class="btn-text2">Info</span>
+                <img class="phosphor-icons-caretcircleri" alt="" src="{{url_for('static', filename='images/phosphor-icons--caretcircleright.svg')}}"/>
+              </a>
+            </div>
+            <div class="block3">
+              <h1 class="lable">Account</h1>
+              <label class="text-about3">You can register on our website to save the results of your queries</label>
+              <a href="/account" class="ahref" style="text-decoration: none;">
+                <span class="btn-text3">Account</span>
+                <img class="phosphor-icons-caretcircleri" alt="" src="{{url_for('static', filename='images/phosphor-icons--caretcircleright.svg')}}"/>
+              </a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      Animation()
+    </script>
+  </body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"/>
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link id="global-theme" rel="stylesheet" href="./static/css/account/authorization/global-light.css" />
+    <link id="index-theme" rel="stylesheet" href="./static/css/account/authorization/index-light.css" />
+    <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="login" data-animate-on-scroll>
+      <div class="container" data-animate-on-scroll>
+        <header class="header">
+          <a href="/" class="logo" style="text-decoration: none" data-animate-on-scroll>
+            <img id="logoIconId" class="logo-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}" />
+            <h1 class="site-name">UniPeptides</h1>
+          </a>
+          <div class="setting-btns">
+            <button class="small-btn">
+              <img class="night-icon" alt="" src="{{url_for('static', filename='images/header/light/night.svg')}}" />
+            </button>
+            <button class="small-btn1">
+              <img class="night-icon" alt="" src="{{url_for('static', filename='images/header/light/help.svg')}}" />
+            </button>
+            <button class="small-btn2">
+              <img class="united-kingdom-icon" alt="" src="{{url_for('static', filename='images/header/light/united-kingdom.svg')}}"/>
+            </button>
+          </div>
+        </header>
+        <div class="content">
+          <form class="login-form" method="post" id="post-form" action="/account">
+            <h1 class="h-text">Registration</h1>
+            <div class="input-parent">
+              <div class="input">
+                <div class="password">Login</div>
+                <input class="input-inner" type="text" id="login-input" name="username"/>
+                <div class="helper-text-input" id="login-helper-text"></div>
+              </div>
+              <div class="input">
+                <div class="password">Email</div>
+                <input class="input-inner" type="Email" id="email-input" name="email"/>
+                <div class="helper-text-input" id="email-helper-text"></div>
+              </div>
+              <div class="input">
+                <div class="password">Password</div>
+                <input class="input-inner" type="password" id="password-input" name="password"/>
+                <div class="helper-text-input" id="password-helper-text"></div>
+              </div>
+              <div class="button-parent">
+                <button class="button" type="submit">
+                  <span class="login4">Register</span>
+                </button>
+                <div class="for-the-first-container">
+                  Already registered?
+                  <a href="/login" class="register"> Log in!</a>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      Animation();
+
+      const loginInput = document.getElementById("login-input");
+      const emailInput = document.getElementById("email-input");
+      const passwordInput = document.getElementById("password-input");
+      const loginText = document.getElementById("login-helper-text");
+      const emailText = document.getElementById("email-helper-text");
+      const passwordText = document.getElementById("password-helper-text");
+
+      function checkLength() {
+        if (loginInput.value.length > 16) {
+          loginText.innerHTML = "The username is too long. Maximum 16 characters";
+          loginText.style.display = "flex";
+          loginInput.style.border = "2px solid var(--color-red)";
+        }
+        else {
+          loginText.style.display = "none";
+          loginInput.style.border = "2px solid var(--gray-40)";
+        }
+        if (!(loginInput === document.activeElement) && loginInput.value.length < 16 && loginInput.value.length > 0) {
+          loginInput.style.border = "2px solid #115424";
+        }
+      }
+
+      function checkEmail() {
+        if (!(emailInput === document.activeElement) && emailInput.value.length > 0 && !emailInput.value.includes('@')) {
+          emailText.innerHTML = "Invalid email";
+          emailText.style.display = "flex";
+          emailInput.style.border = "2px solid var(--color-red)";
+        } else {
+          emailText.style.display = "none";
+          emailInput.style.border = "2px solid var(--gray-40)";
+        }
+        if (!(emailInput === document.activeElement) && emailInput.value.includes('@') && emailInput.value.length > 0) {
+          emailInput.style.border = "2px solid #115424";
+        }
+      }
+      var intervalLogin = setInterval(checkLength, 100);
+      var intervalEmail = setInterval(checkEmail, 100);
+      loginInput.onfocus = function() {
+        setInterval(intervalLogin, 100);
+      }
+      setInterval(intervalEmail, 100);
+
+      $(document).on('submit','#post-form',function(e) {
+          e.preventDefault();
+          var flag = true;
+          if (!loginInput.value) {
+            flag = false;
+            clearInterval(intervalLogin);
+            loginText.innerHTML = "Write your login";
+            loginText.style.display = "flex";
+            loginInput.style.border = "2px solid var(--color-red)";
+            loginInput.onfocus = function() {
+                  intervalLogin = setInterval(checkLength, 100);
+                  loginText.style.display = "none";
+                  loginInput.style.border = "2px solid var(--gray-40)";
+                  setInterval(intervalLogin, 100);
+            }
+          };
+          if (!emailInput.value) {
+              flag = false;
+              clearInterval(intervalEmail);
+              emailText.innerHTML = "Write your email";
+              emailText.style.display = "flex";
+              emailInput.style.border = "2px solid var(--color-red)";
+              emailInput.onfocus = function() {
+                    intervalEmail = setInterval(checkEmail, 100);
+                    emailText.style.display = "none";
+                    emailInput.style.border = "2px solid var(--gray-40)";
+                    setInterval(intervalEmail, 100);
+
+              }
+          };
+          if (!passwordInput.value) {
+              flag = false;
+              passwordText.innerHTML = "Write your password";
+              passwordText.style.display = "flex";
+              passwordInput.style.border = "2px solid var(--color-red)";
+              passwordInput.onfocus = function() {
+                    passwordText.style.display = "none";
+                    passwordInput.style.border = "2px solid var(--gray-40)";
+              }
+          };
+          if (flag === true) {
+            var form_data = new FormData();
+            form_data.append('username', $('#login-input').val());
+            form_data.append('email', $('#email-input').val());
+            form_data.append('password', $('#password-input').val());
+
+            $.ajax({
+              type:'POST',
+              dataType:'json',
+              url:'/register',
+              data: form_data,
+              contentType: false,
+              cache: false,
+              processData: false,
+              success: function(data) {
+                  console.log("success");
+              }
+            });
+          }
+      });
+
+      $(document).ready(function(){
+        var socket = io();
+        socket.on('username already exist', function() {
+            clearInterval(intervalLogin);
+            loginText.innerHTML = "User already exist";
+            loginText.style.display = "flex";
+            loginInput.style.border = "2px solid var(--color-red)";
+            loginInput.onfocus = function() {
+              intervalLogin = setInterval(checkLength, 100);
+              loginText.style.display = "none";
+              loginInput.style.border = "2px solid var(--gray-40)";
+              setInterval(intervalLogin, 100);
+            };
+        });
+
+        socket.on('email already exist', function() {
+            clearInterval(intervalEmail);
+            emailText.innerHTML = "Email already exist";
+            emailText.style.display = "flex";
+            emailInput.style.border = "2px solid var(--color-red)";
+            emailInput.onfocus = function() {
+              intervalEmail = setInterval(checkEmail, 100);
+              emailText.style.display = "none";
+              emailInput.style.border = "2px solid var(--gray-40)";
+              setInterval(intervalEmail, 100);
+            };
+        });
+        socket.on('user was created', function() {
+          window.location.href = "/account";
+        });
+      })
+
+      </script>
+  </body>
+</html>

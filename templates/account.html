@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"/>
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link id="global-theme" rel="stylesheet" href="./static/css/account/global-light.css" />
+    <link id="index-theme" rel="stylesheet" href="./static/css/account/index-light.css" />
+    <link id="popupSearch" rel="stylesheet" href="{{url_for('static', filename='css/modal/modal-search.css')}}"/>
+    <link id="popupDatabase" rel="stylesheet" href="{{url_for('static', filename='css/modal/modal-database.css')}}"/>
+    <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="account" data-animate-on-scroll>
+      <div class="container" data-animate-on-scroll>
+        <header class="header">
+          <a href="/" class="logo" data-animate-on-scroll>
+            <img id="logoIconId" class="logo-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}"/>
+            <h1 class="site-name">UniPeptides</h1>
+          </a>
+          <div class="setting-btns">
+            <button class="small-btn" onclick="themeChange('account')">
+              <img class="small-icon-btn" alt="" src="{{url_for('static', filename='images/header/light/night.svg')}}" />
+            </button>
+            <button class="small-btn">
+              <img class="small-icon-btn" alt="" src="{{url_for('static', filename='images/header/light/help.svg')}}" />
+            </button>
+            <button class="small-btn">
+              <img class="small-icon-btn" alt="" src="{{url_for('static', filename='images/header/light/united-kingdom.svg')}}"/>
+            </button>
+          </div>
+        </header>
+        <div class="content">
+          <div class="user">
+            <b class="user-name">Hi, {{ username }}!</b>
+            <div class="frame-parent">
+              <div class="button-parent">
+                <button class="btn-select">
+                  <span class="btn-text">Select all</span>
+                </button>
+                <button class="btn-download">
+                  <span class="btn-text">Download selected</span>
+                </button>
+              </div>
+              <div class="button-group">
+                <button class="btn-deleate">
+                  <span class="btn-text">Deleate selected</span>
+                </button>
+                <a href="{{ url_for('logout')}}" class="btn-logout" style="text-decoration: none;">
+                  <span class="btn-text">Log out</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="results">
+            <div class="search-block">
+              <b class="block-name">Search for peptides</b>
+              <div class="result-wrapper" id="wrapper">
+                {% if results %}
+                {% for result in results %}
+                <div class="result" id="{{ result[0] }}">
+                  <input class="checkbox" type="checkbox" />
+                  <span class="date" onclick="">{{ result[0] }}</span>
+                  <div class="action-btns">
+                    <a href="{{ url_for('get_result', result=result[0])}}" class="small-btn">
+                      <img class="small-icon-btn" alt="" src="{{url_for('static', filename='images/download.svg')}}"/>
+                    </a>
+                    <button class="small-btn-red" onclick="delResult('{{ result[0] }}')">
+                      <img class="small-icon-btn" alt="" src="{{url_for('static', filename='images/basket.svg')}}"/>
+                    </button>
+                  </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+              </div>
+            </div>
+            <div class="search-block">
+              <b class="block-name">Database creating</b>
+              <div class="result-wrapper">
+                <div class="result" id="databaseResult">
+                  <input class="checkbox" type="checkbox" />
+                  <span class="date" onclick="">07.06.2023 12:55</span>
+                  <div class="action-btns">
+                    <button class="small-btn">
+                      <img class="small-icon-btn" alt="" src="{{url_for('static', filename='images/download.svg')}}"/>
+                    </button>
+                    <button class="small-btn-red">
+                      <img class="small-icon-btn" alt="" src="{{url_for('static', filename='images/basket.svg')}}"/>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modalSearchPopup" class="popup-overlay" style="display: none">
+      <div class="modal-search" data-animate-on-scroll>
+        <div class="close-btn-group">
+          <button class="close-btn1" onclick=closePopup("modalSearchPopup") data-animate-on-scroll>
+            <label class="x1">X</label>
+          </button>
+          <h1 class="h1">07.06.2023 12:55</h1>
+        </div>
+        <div class="proteins-q14050-p05760-p123-parent">
+          <div class="proteins-q14050-p05760-container">
+            <b>Proteins:</b>
+            <span class="span"> </span>
+            <span>Q14050, P05760, P12390, P0SAPP, QA1405, AAAAAA, BBBBBB</span>
+          </div>
+          <div class="proteins-q14050-p05760-container">
+            <b>Peptides:</b>
+            <span class="span"> </span>
+            <span>GPPG, GPF AN, ATT, A, G , T, TGG, TMN, TM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modalDatabasePopup" class="popup-overlay" style="display: none">
+      <div class="modal-database" data-animate-on-scroll>
+        <div class="close-btn-parent">
+          <button class="close-btn" onclick=closePopup("modalDatabasePopup") data-animate-on-scroll>
+            <label class="x">X</label>
+          </button>
+          <h1 class="h1">Date</h1>
+        </div>
+        <div class="peptides-wrapper">
+          <div class="peptides">Peptides:</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      Animation();
+      function delResult(result) {
+        result_time = document.getElementById(result);
+        $(document).ready(function(){
+          var socket = io();
+          socket.emit('delete result', {data: result});
+          result_time.remove();
+          return false;
+        });
+      }
+
+      var result = document.getElementById("result");
+      if (result) {
+        result.addEventListener("click", function () {
+          var popup = document.getElementById("modalSearchPopup");
+          if (!popup) return;
+          var popupStyle = popup.style;
+          if (popupStyle) {
+            popupStyle.display = "flex";
+            popupStyle.zIndex = 100;
+            popupStyle.backgroundColor = "rgba(113, 113, 113, 0.3)";
+            popupStyle.alignItems = "center";
+            popupStyle.justifyContent = "center";
+          }
+          popup.setAttribute("closable", "");
+
+          var onClick =
+            popup.onClick ||
+            function (e) {
+              if (e.target === popup && popup.hasAttribute("closable")) {
+                popupStyle.display = "none";
+              }
+            };
+          popup.addEventListener("click", onClick);
+        });
+      }
+
+      var result1 = document.getElementById("result1");
+      if (result1) {
+        result1.addEventListener("click", function () {
+          var popup = document.getElementById("modalDatabasePopup");
+          if (!popup) return;
+          var popupStyle = popup.style;
+          if (popupStyle) {
+            popupStyle.display = "flex";
+            popupStyle.zIndex = 100;
+            popupStyle.backgroundColor = "rgba(113, 113, 113, 0.3)";
+            popupStyle.alignItems = "center";
+            popupStyle.justifyContent = "center";
+          }
+          popup.setAttribute("closable", "");
+
+          var onClick =
+            popup.onClick ||
+            function (e) {
+              if (e.target === popup && popup.hasAttribute("closable")) {
+                popupStyle.display = "none";
+              }
+            };
+          popup.addEventListener("click", onClick);
+        });
+      }
+      </script>
+  </body>
+</html>

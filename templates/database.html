@@ -20,25 +20,25 @@
       <div class="container" data-animate-on-scroll>
         <header class="header">
           <a href="/" class="logo" style="text-decoration: none" id="Logo">
-            <img id="logoIconId" class="logo-blue-1-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}"/>
-            <h1 class="unipeptides">UniPeptides</h1>
+            <img id="logoIconId" class="logo-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}"/>
+            <h1 class="site-name">UniPeptides</h1>
           </a>
-          <div class="btns">
-            <button class="settings-btn" onclick="themeChange('database')">
-              <img class="night-icon" alt="" src="{{url_for('static', filename='images/header/light/night.svg')}}" />
+          <div class="setting-btns">
+            <button class="small-btn" onclick="themeChange('database')">
+              <img class="small-btn-icon" alt="" src="{{url_for('static', filename='images/header/light/night.svg')}}" />
             </button>
-            <button class="settings-btn1">
-              <img class="night-icon" alt="" src="{{url_for('static', filename='images/header/light/help.svg')}}" />
+            <button class="small-btn">
+              <img class="small-btn-icon" alt="" src="{{url_for('static', filename='images/header/light/help.svg')}}" />
             </button>
-            <button class="settings-btn2">
-              <img class="united-kingdom-icon" alt="" src="{{url_for('static', filename='images/header/light/united-kingdom.svg')}}"/>
+            <button class="small-btn">
+              <img class="small-btn-icon" alt="" src="{{url_for('static', filename='images/header/light/united-kingdom.svg')}}"/>
             </button>
           </div>
         </header>
         <div class="content">
           <form class="form">
             <div class="input">
-              <div class="block">
+              <div class="search-block">
                 <h1 class="h-step1">Enter peptides to create a database</h1>
                 <input class="input-peptides" type="text" placeholder="NYKKPKL, PSQQQP, YKPR"/>
                 <div class="peptides-import">
@@ -56,7 +56,7 @@
                 is not found on the BIOPEP-WM website, the cells will remain
                 empty</label>
               <button class="start-btn">
-                <label class="lable-start">Create databse</label>
+                <span class="lable-start">Create databse</span>
               </button>
             </div>
           </form>

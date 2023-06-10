@@ -46,12 +46,12 @@
 .logo.animate {
   animation: 1s ease 0s 1 normal forwards scale-up;
 }
-.night-icon {
+.small-btn-icon {
   position: relative;
   width: 33px;
   height: 33px;
 }
-.settings-btn {
+.small-icon-btn {
   cursor: pointer;
   border: 0;
   padding: 0;
