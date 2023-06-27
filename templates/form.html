@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link rel="stylesheet" href="./static/css/form/global.css" />
+    <link rel="stylesheet" href="./static/css/form/index.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"/>
+  </head>
+  <body>
+    <div class="db-form" data-animate-on-scroll>
+      <div class="container" data-animate-on-scroll>
+        <header class="header">
+          <a href="/" class="logo" data-animate-on-scroll style="text-decoration: none">
+            <img class="logo-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}" />
+            <h1 class="site-name">UniPeptides</h1>
+          </a>
+          <div class="setting-btns">
+            <button class="small-btn">
+              <img class="night-icon" alt="" src="{{url_for('static', filename='images/header/light/night.svg')}}" />
+            </button>
+            <button class="small-btn1">
+              <img class="night-icon" alt="" src="{{url_for('static', filename='images/header/light/help.svg')}}" />
+            </button>
+            <button class="small-btn2">
+              <img class="united-kingdom-icon" alt="" src="{{url_for('static', filename='images/header/light/united-kingdom.svg')}}"/>
+            </button>
+          </div>
+        </header>
+        <form class="content">
+          <div class="instructions">
+            <div class="accordion">
+              <h1 class="title">Instructions for filling out the form for adding a peptide to the database</h1>
+              <label class="show-btn" onclick="instruction()">
+                <img class="vector-icon" alt="" src="{{url_for('static', filename='images/vector4.svg')}}" />
+              </label>
+            </div>
+            <div class="steps" style="display: none;">
+              <div class="text">
+                <ul class="step-1-step-2-step-3-step-4">
+                  <li class="step-1">Fill out the form</li>
+                  <li class="step-1">Some fields can be left blank</li>
+                  <li class="step-1">The status of the application can be viewed in your personal account</li>
+                  <li>If there is enough information, then the peptide will be added</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="inputs1">
+            <div class="input">
+              <div class="peptide-sequence-container">
+                <span class="organism-scientific-name">Peptide sequence </span>
+                <span class="span">*</span>
+              </div>
+              <input class="input-inner" type="text" maxlength minlength />
+            </div>
+            <div class="input">
+              <span class="organism-scientific-name">Organism (scientific name)</span>
+              <input class="input-inner" type="text" maxlength minlength />
+            </div>
+            <div class="input">
+              <span class="organism-scientific-name">Organism (common name)</span>
+              <input class="input-inner" type="text" maxlength minlength />
+            </div>
+            <div class="input">
+              <span class="organism-scientific-name">Activity</span>
+              <input class="input-inner" type="text" maxlength minlength />
+            </div>
+            <div class="input">
+              <span class="organism-scientific-name">Protein source</span>
+              <input class="input-inner" type="text" maxlength minlength />
+            </div>
+          </div>
+          <div class="inputs2">
+            <div class="input">
+              <span class="organism-scientific-name">Mass (Da)</span>
+              <input class="input-inner5" type="text" maxlength minlength />
+            </div>
+            <div class="input">
+              <span class="organism-scientific-name">Tissue source or synthetic</span>
+              <input class="input-inner" type="text" maxlength minlength />
+            </div>
+            <div class="input">
+              <span class="organism-scientific-name">PMID</span>
+              <input class="input-inner" type="text" maxlength minlength />
+            </div>
+            <div class="text-area">
+              <div class="peptide-sequence-container">
+                <span class="peptide-sequence">Reference </span>
+                <span class="span">*</span>
+              </div>
+              <div class="textarea-default"></div>
+            </div>
+          </div>
+          <div class="send-form">
+            <div class="button">
+              <div class="send">Send</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      var scrollAnimElements = document.querySelectorAll("[data-animate-on-scroll]");
+      var observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting || entry.intersectionRatio > 0) {
+              const targetElement = entry.target;
+              targetElement.classList.add("animate");
+              observer.unobserve(targetElement);
+            }
+          }
+        },
+        {
+          threshold: 0.15,
+        }
+      );
+      
+      for (let i = 0; i < scrollAnimElements.length; i++) {
+        observer.observe(scrollAnimElements[i]);
+      }
+
+      var instructionFlag = "closed";
+      function instruction() {
+        div = document.querySelector("body > div > div > form > div.instructions > div.steps");
+        if (instructionFlag === "closed") {
+          div.style.display = "flex";
+          instructionFlag = "opened";
+        } else {
+          div.style.display = "none";
+          instructionFlag = "closed";
+        }
+      }
+      </script>
+  </body>
+</html>

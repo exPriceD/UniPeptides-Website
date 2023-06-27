@@ -70,7 +70,20 @@ def close_connection_db(error):
 
 @app.route('/database')
 def database():
-    return render_template("index.html")
+    return render_template("db.html")
+
+
+@app.route('/api/database')
+def get_db_json():
+    with open('templates/peptides_database.json', "r") as f:
+        data = json.load(f)
+    return jsonify(data)
+
+
+@app.route('/databaseForm')
+@login_required
+def database_form():
+    return render_template('form.html')
 
 
 @app.route('/')
@@ -130,13 +143,6 @@ def login():
 def logout():
     logout_user()
     return redirect("/login")
-
-
-@app.route('/api/database')
-def get_db_json():
-    with open('templates/peptides_database.json', "r") as f:
-        data = json.load(f)
-    return jsonify(data)
 
 
 @app.route('/register', methods=["POST", "GET"])
