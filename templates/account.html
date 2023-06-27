@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <title>Account</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"/>
     <meta name="viewport" content="initial-scale=1, width=device-width" />
     <link id="global-theme" rel="stylesheet" href="./static/css/account/global-light.css" />
@@ -16,7 +17,7 @@
     <div class="account" data-animate-on-scroll>
       <div class="container" data-animate-on-scroll>
         <header class="header">
-          <a href="/" class="logo" data-animate-on-scroll>
+          <a href="/" class="logo" style="text-decoration: none" data-animate-on-scroll>
             <img id="logoIconId" class="logo-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}"/>
             <h1 class="site-name">UniPeptides</h1>
           </a>
@@ -62,8 +63,8 @@
                 {% for result in results %}
                 <div class="result" id="{{ result[0] }}">
                   <input class="checkbox" type="checkbox" />
-                  <span class="date" onclick="">{{ result[0] }}</span>
-                  <div class="action-btns">
+                  <span class="date" onclick="openResult('{{ result[0] }}', '{{ result[1] }}', '{{ result[2] }}')">{{ result[0] }}</span>
+                  <div class="action-btns"> 
                     <a href="{{ url_for('get_result', result=result[0])}}" class="small-btn">
                       <img class="small-icon-btn" alt="" src="{{url_for('static', filename='images/download.svg')}}"/>
                     </a>
@@ -77,7 +78,7 @@
               </div>
             </div>
             <div class="search-block">
-              <b class="block-name">Database creating</b>
+              <b class="block-name">Requests to add to the database</b>
               <div class="result-wrapper">
                 <div class="result" id="databaseResult">
                   <input class="checkbox" type="checkbox" />
@@ -104,18 +105,16 @@
           <button class="close-btn1" onclick=closePopup("modalSearchPopup") data-animate-on-scroll>
             <label class="x1">X</label>
           </button>
-          <h1 class="h1">07.06.2023 12:55</h1>
+          <h1 class="h1" id="res_date"></h1>
         </div>
         <div class="proteins-q14050-p05760-p123-parent">
           <div class="proteins-q14050-p05760-container">
             <b>Proteins:</b>
-            <span class="span"> </span>
-            <span>Q14050, P05760, P12390, P0SAPP, QA1405, AAAAAA, BBBBBB</span>
+            <span class="text_span" id="proteins_value"></span>
           </div>
           <div class="proteins-q14050-p05760-container">
             <b>Peptides:</b>
-            <span class="span"> </span>
-            <span>GPPG, GPF AN, ATT, A, G , T, TGG, TMN, TM</span>
+            <span class="text_span" id="peptides_value"></span>
           </div>
         </div>
       </div>
@@ -147,9 +146,13 @@
         });
       }
 
-      var result = document.getElementById("result");
-      if (result) {
-        result.addEventListener("click", function () {
+      function openResult(date, proteins_val, peptides_val){
+          res_date = document.getElementById("res_date");
+          peptides = document.getElementById("peptides_value");
+          proteins = document.getElementById("proteins_value");
+          peptides.innerHTML = peptides_val;
+          proteins.innerHTML = proteins_val;
+          res_date.innerHTML = date;
           var popup = document.getElementById("modalSearchPopup");
           if (!popup) return;
           var popupStyle = popup.style;
@@ -170,7 +173,6 @@
               }
             };
           popup.addEventListener("click", onClick);
-        });
       }
 
       var result1 = document.getElementById("result1");

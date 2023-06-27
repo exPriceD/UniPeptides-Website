@@ -6,7 +6,7 @@
     opacity: 1;
   }
 }
-.x1 {
+.x {
   position: relative;
   font-size: var(--font-size-11xl);
   line-height: 20px;
@@ -15,13 +15,13 @@
   color: var(--color-black);
   text-align: center;
 }
-.close-btn1,
+.close-btn,
 .h1 {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.close-btn1 {
+.close-btn {
   cursor: pointer;
   border: 0;
   padding: var(--padding-mini) var(--padding-mini) 0;
@@ -34,8 +34,8 @@
   box-sizing: border-box;
   opacity: 0;
 }
-.close-btn1.animate,
-.modal-search.animate {
+.close-btn.animate,
+.result-info.animate {
   animation: 1s ease 0s 1 normal forwards fade-in;
 }
 .h1 {
@@ -47,7 +47,7 @@
   font-family: inherit;
   width: 586px;
 }
-.close-btn-group {
+.close-btn-parent {
   height: 65px;
   display: flex;
   flex-direction: column;
@@ -57,32 +57,51 @@
 .span {
   font-weight: 600;
 }
+.text_span {
+    height: auto;
+    overflow-x: scroll;
+}
+.text_span::-webkit-scrollbar {
+  width: 5px;
+}
+
+.text_span::-webkit-scrollbar-track {
+  -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
+  background-color: #f9f9fd;
+  border-radius: 5px;
+}
+
+.text_span::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: var(--color-dodgerblue);
+}
 .proteins-q14050-p05760-container {
   align-self: stretch;
   position: relative;
   line-height: 55px;
+  display: flex;
+  flex-direction: column;
 }
-.modal-search,
-.proteins-q14050-p05760-p123-parent {
+.proteins-q14050-p05760-p123-parent,
+.result-info {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: flex-start;
 }
 .proteins-q14050-p05760-p123-parent {
   width: 586px;
   padding: var(--padding-21xl) var(--padding-7xl) var(--padding-11xl);
   box-sizing: border-box;
-  align-items: flex-start;
   gap: var(--gap-11xl);
   text-align: left;
   font-size: var(--font-size-13xl);
 }
-.modal-search {
+.result-info {
   position: relative;
   border-radius: var(--br-11xl);
   background-color: var(--gray-10);
-  align-items: center;
   opacity: 0;
   max-width: 90%;
   max-height: 90%;

@@ -155,7 +155,6 @@
             form_data.append('username', $('#login-input').val());
             form_data.append('email', $('#email-input').val());
             form_data.append('password', $('#password-input').val());
-
             $.ajax({
               type:'POST',
               dataType:'json',
@@ -168,6 +167,7 @@
                   console.log("success");
               }
             });
+            e.stopPropagation();
           }
       });
 
@@ -198,7 +198,7 @@
               setInterval(intervalEmail, 100);
             };
         });
-        socket.on('user was created', function() {
+        socket.on('session was created', function(e) {
           window.location.href = "/account";
         });
       })

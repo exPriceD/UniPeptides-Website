@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_from_directory, g, redirect, url_for
+from flask import Flask, render_template, request, send_from_directory, g, redirect, jsonify
 from flask_socketio import SocketIO, emit
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user
@@ -9,6 +9,7 @@ import sqlite3
 import run_script
 import completion
 import os
+import json
 import datetime
 
 
@@ -69,7 +70,7 @@ def close_connection_db(error):
 
 @app.route('/database')
 def database():
-    return render_template("database.html")
+    return render_template("index.html")
 
 
 @app.route('/')
@@ -80,10 +81,10 @@ def menu():
 @app.route('/account')
 @login_required
 def account():
-    time = dbase.getSearchResult(current_user.get_username(), current_user.get_email())
-    if time:
-        time = list(reversed(time))
-    return render_template("account.html", username=current_user.get_username(), results=time)
+    res = dbase.getSearchResult(current_user.get_username(), current_user.get_email())
+    if res:
+        res = list(reversed(res))
+    return render_template("account.html", username=current_user.get_username(), results=res)
 
 
 @app.route('/account/<result>')
@@ -105,36 +106,23 @@ def remove_result(message):
 def login():
     if current_user.is_authenticated:
         return redirect("/account")
-    form = LoginForm()
-    if form.is_submitted():
-        print("submitted")
-
-    if form.validate():
-        print("valid")
-    if form.validate_on_submit():
-        if "@" in form.login.data:
-            user = dbase.getUserByEmail(form.login.data)
+    if request.method == "POST":
+        if "@" in request.form["login"]:
+            user = dbase.getUserByEmail(request.form["login"])
         else:
-            user = dbase.getUserByName(form.login.data)
-        if user and check_password_hash(pwhash=user["password"], password=form.password.data):
-            print("auth")
-            remember = form.remember.data
-            userLogin = UserLogin().create(user=user)
-            login_user(userLogin, remember=remember)
-            return redirect(request.args.get("next") or "/account")
-    return render_template("login.html", form=form)
-
-    """if request.method == "POST":
-        if "@" in request.form["username"]:
-            user = dbase.getUserByEmail(request.form["username"])
+            user = dbase.getUserByName(request.form["login"])
+        if not user:
+            not_user()
         else:
-            user = dbase.getUserByName(request.form["username"])
-        remember = True if request.form.get('rememberme') else False
-        if user and check_password_hash(pwhash=user["password"], password=request.form["password"]):
-            userLogin = UserLogin().create(user=user)
-            login_user(userLogin, remember=remember)
-            return redirect(request.args.get("next") or "/account")
-    return render_template("login.html")"""
+            remember = True if request.form.get('rememberme') else False
+            if check_password_hash(pwhash=user["password"], password=request.form["password"]):
+                userLogin = UserLogin().create(user=user)
+                login_user(userLogin, remember=remember)
+                session_was_created()
+                return redirect(request.args.get("next") or "/account")
+            else:
+                not_password()
+    return render_template("login.html")
 
 
 @app.route("/logout")
@@ -142,6 +130,13 @@ def login():
 def logout():
     logout_user()
     return redirect("/login")
+
+
+@app.route('/api/database')
+def get_db_json():
+    with open('templates/peptides_database.json', "r") as f:
+        data = json.load(f)
+    return jsonify(data)
 
 
 @app.route('/register', methods=["POST", "GET"])
@@ -160,7 +155,7 @@ def registration():
                 user = dbase.getUserByEmail(request.form["email"])
                 userLogin = UserLogin().create(user=user)
                 login_user(userLogin)
-                return user_was_created()
+                session_was_created()
             else:
                 print(status)
                 if status == 'username':
@@ -186,13 +181,22 @@ def get_value():
                 dt_now = str(datetime.datetime.now()).split('.')[0]
                 run_script.run_processing(form_data)
                 filename = completion.creating_zip()
-                completion.remove_config()
                 change_css(filename)
                 if current_user.is_authenticated:
                     blob_file = convert_to_binary_data(f"uploads/outputs/{filename}.zip")
-                    result = dbase.addResult(current_user.get_username(), current_user.get_email(), dt_now, blob_file)
+                    proteins = ','.join(get_proteins())
+                    peptides = ','.join(get_peptides())
+                    result = dbase.addResult(
+                        current_user.get_username(),
+                        current_user.get_email(),
+                        dt_now,
+                        blob_file,
+                        proteins,
+                        peptides
+                    )
                     if result:
                         print('Файл добавлен')
+                completion.remove_config()
 
     return render_template("search.html", loading_atr="flex", end_atr="none")
 
@@ -221,13 +225,23 @@ def email_already_exist():
 
 
 @socketio.event
-def user_was_created():
-    emit('user was created', namespace='/', broadcast=True)
+def session_was_created():
+    emit('session was created', namespace='/', broadcast=True)
 
 
 @socketio.event
 def result_was_deleted():
     emit('result was deleted', namespace='/', broadcast=True)
+
+
+@socketio.event
+def not_user():
+    emit('user not found', namespace='/', broadcast=True)
+
+
+@socketio.event
+def not_password():
+    emit('incorrect password', namespace='/', broadcast=True)
 
 
 def allowed_file(filename):
@@ -243,6 +257,19 @@ def convert_to_binary_data(filename):
 def convert_to_file(data, filename):
     with open(filename, 'wb') as file:
         file.write(data)
+
+
+def get_proteins():
+    with open("config.json", "r") as json_cfg:
+        config = json.load(json_cfg)
+    return config["proteins"]["value"]
+
+
+def get_peptides():
+    with open("config.json", "r") as json_cfg:
+        config = json.load(json_cfg)
+    return config["peptides"]["value"]
+
 
 if __name__ == "__main__":
     app.debug = True

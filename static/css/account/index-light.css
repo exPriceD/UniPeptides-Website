@@ -47,6 +47,9 @@
   gap: var(--gap-mini);
   opacity: 1;
 }
+.logo:visited {
+    color: var(--color-dodgerblue);
+}
 .container.animate,
 .logo.animate {
   animation: 1s ease 0s 1 normal forwards scale-up;
@@ -589,6 +592,7 @@
     width: 248px;
     align-self: stretch;
     height: auto;
+    font-size: 25px;
   }
   .settings-btn3,
   .small-btn-red {
@@ -1106,7 +1110,7 @@
 .modal-search,
 .proteins-q14050-p05760-p123-parent {
   overflow: hidden;
-  display: flex;
+
   flex-direction: column;
   justify-content: flex-start;
 }

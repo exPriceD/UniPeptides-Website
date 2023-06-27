@@ -278,7 +278,7 @@ class AsyncParser:
         return self.parsing_result, self.sequences, self.missing
 
     def run_async_parsing(self):
-            asyncio.run(self.gather_data())
+        asyncio.run(self.gather_data())
 
     async def gather_data(self):
        async with aiohttp.ClientSession() as session:
