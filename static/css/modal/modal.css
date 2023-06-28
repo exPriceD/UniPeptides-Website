@@ -1,0 +1,84 @@
+.feather-icons-info {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+.file-was-created {
+  flex: 1;
+  position: relative;
+  line-height: 28px;
+  font-weight: 500;
+}
+.phosphor-icons-x {
+  position: relative;
+  width: 43px;
+  height: 43px;
+  cursor: pointer;
+}
+.modal-header2 {
+  align-self: stretch;
+  height: 52px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-mini);
+  font-size: 30px;
+}
+.spiner-with-bg {
+  position: relative;
+  width: 220px;
+  height: 211px;
+}
+.download {
+  position: relative;
+  line-height: 20px;
+  font-weight: 500;
+}
+.button1 {
+  border-radius: var(--br-9xs);
+  background-color: var(--color-dodgerblue);
+  width: 236px;
+  height: 62px;
+  display: flex;
+  flex-direction: row;
+  padding: var(--padding-5xs) var(--padding-base);
+  box-sizing: border-box;
+  justify-content: center;
+}
+.button,
+.button1,
+.modal {
+  align-items: center;
+}
+.button {
+  width: 436px;
+  height: 76px;
+  display: none;
+  flex-direction: row;
+  justify-content: center;
+  font-size: var(--font-size-11xl);
+  color: var(--gray-10);
+}
+.modal {
+  position: relative;
+  border-radius: 7px;
+  background-color: var(--gray-10);
+  box-shadow: var(--shadow-6);
+  width: 530px;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  box-sizing: border-box;
+  justify-content: flex-start;
+  gap: var(--gap-21xl);
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+  text-align: left;
+  font-size: var(--font-size-21xl);
+  color: var(--gray-90);
+  font-family: var(--font-inter);
+}

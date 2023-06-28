@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <link rel="stylesheet" href="./static/css/db/global.css" />
+    <link rel="stylesheet" href="./static/css/global.css" />
     <link rel="stylesheet" href="./static/css/db/index.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"/>
@@ -30,35 +30,35 @@
             </button>
           </div>
         </header>
-        <div class="content">
-          <hr class="mtb-3">
-          <table id="table" class="db_table" style="width: 100%;">
-            <thead>
-              <tr>
-                <th style="width:20px;"><input class="checkbox" type="checkbox" onclick="selectAll()" id="mainCheck"/></th>
-                <th>ID</th>
-                <th>Sequence</th>
-                <th>Length</th>
-                <th>Scientific name</th>
-                <th>Common name</th>
-                <th>Antioxidant</th>
-                <th>Antihypertension</th>
-                <th>Antidiabetic</th>
-              </tr>
-            </thead>
-          </table>
+          <div class="content">
+            <hr class="mtb-3">
+            <table id="table" class="db_table" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th style="width:20px;"><input class="checkbox" type="checkbox" onclick="selectAll()" id="mainCheck"/></th>
+                  <th>ID</th>
+                  <th>Sequence</th>
+                  <th>Length</th>
+                  <th>Scientific name</th>
+                  <th>Common name</th>
+                  <th>Antioxidant</th>
+                  <th>Antihypertension</th>
+                  <th>Antidiabetic</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+          <div class="table-btn">
+            <button type="submit" class="ahref" id="usePeptides" onclick="func()">
+              <span class="btn-text">Use peptides to search</span>
+              <img class="phosphor-icons-caretcircleri" alt="" src="{{url_for('static', filename='images/phosphor-icons--caretcircleright.svg')}}"/>
+            </button>
+            <a href="/databaseForm" class="ahref" id="addPeptides">
+              <span class="btn-text">Add peptide to the database</span>
+              <img class="phosphor-icons-caretcircleri" alt="" src="{{url_for('static', filename='images/phosphor-icons--caretcircleright.svg')}}"/>
+            </a>
+          </div>
         </div>
-        <div class="table-btn">
-          <button class="ahref" id="usePeptides">
-            <span class="btn-text">Use peptides to search</span>
-            <img class="phosphor-icons-caretcircleri" alt="" src="{{url_for('static', filename='images/phosphor-icons--caretcircleright.svg')}}"/>
-          </button>
-          <a href="/databaseForm" class="ahref" id="addPeptides">
-            <span class="btn-text">Add peptide to the database</span>
-            <img class="phosphor-icons-caretcircleri" alt="" src="{{url_for('static', filename='images/phosphor-icons--caretcircleright.svg')}}"/>
-          </a>
-        </div>
-      </div>
     </div>
 
     <script>
@@ -256,6 +256,19 @@
           }
        });
 
+      function func() {
+          const checkbox_list = document.getElementsByClassName("checkbox");
+          const sequence_list = document.getElementsByClassName("sequence-bold");
+          let checked_seq = [];
+          for (let i = 1; i < checkbox_list.length; i++) {
+            if (checkbox_list[i].checked) {
+              checked_seq.push(sequence_list[i].innerHTML);
+            }
+          }
+          let peptides = checked_seq.join("?");
+          console.log(peptides);
+          window.location.href = `/search?peptides=${peptides}`;
+      }
       </script>
   </body>
 </html>

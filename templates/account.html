@@ -5,7 +5,7 @@
     <title>Account</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"/>
     <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <link id="global-theme" rel="stylesheet" href="./static/css/account/global-light.css" />
+    <link id="global-theme" rel="stylesheet" href="./static/css/global.css" />
     <link id="index-theme" rel="stylesheet" href="./static/css/account/index-light.css" />
     <link id="popupSearch" rel="stylesheet" href="{{url_for('static', filename='css/modal/modal-search.css')}}"/>
     <link id="popupDatabase" rel="stylesheet" href="{{url_for('static', filename='css/modal/modal-database.css')}}"/>
@@ -61,14 +61,17 @@
               <div class="result-wrapper" id="wrapper">
                 {% if results %}
                 {% for result in results %}
-                <div class="result" id="{{ result[0] }}">
+                <div class="result" id="{{ result.id }}">
                   <input class="checkbox" type="checkbox" />
-                  <span class="date" onclick="openResult('{{ result[0] }}', '{{ result[1] }}', '{{ result[2] }}')">{{ result[0] }}</span>
+                  <span class="date"
+                        onclick="openResult('{{ result.date }}', '{{ result.proteins }}', '{{ result.peptides }}')">
+                        {{ result.date }}
+                  </span>
                   <div class="action-btns"> 
-                    <a href="{{ url_for('get_result', result=result[0])}}" class="small-btn">
+                    <a href="{{ url_for('get_result', result_id=result.id)}}" class="small-btn">
                       <img class="small-icon-btn" alt="" src="{{url_for('static', filename='images/download.svg')}}"/>
                     </a>
-                    <button class="small-btn-red" onclick="delResult('{{ result[0] }}')">
+                    <button class="small-btn-red" onclick="delResult('{{ result.id }}')">
                       <img class="small-icon-btn" alt="" src="{{url_for('static', filename='images/basket.svg')}}"/>
                     </button>
                   </div>
@@ -80,17 +83,21 @@
             <div class="search-block">
               <b class="block-name">Requests to add to the database</b>
               <div class="result-wrapper">
-                <div class="result" id="databaseResult">
-                  <input class="checkbox" type="checkbox" />
-                  <span class="date" onclick="">07.06.2023 12:55</span>
-                  <div class="action-btns">
-                    <button class="small-btn">
-                      <img class="small-icon-btn" alt="" src="{{url_for('static', filename='images/download.svg')}}"/>
-                    </button>
-                    <button class="small-btn-red">
-                      <img class="small-icon-btn" alt="" src="{{url_for('static', filename='images/basket.svg')}}"/>
-                    </button>
-                  </div>
+                {% if requests %}
+                {% for request in requests %}
+                <div class="result" id="{{ request.id }}">
+                  <span class="date">{{ request.date }}</span>
+                  <span class="request_status">Сonsideration</span>
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="result" id="">
+                  <span class="date">{{ request.date }}</span>
+                  <span class="request_status">Accepted</span>
+                </div>
+                <div class="result" id="">
+                  <span class="date">{{ request.date }}</span>
+                  <span class="request_status">Cancelled</span>
                 </div>
               </div>
             </div>
@@ -135,6 +142,7 @@
     </div>
 
     <script>
+
       Animation();
       function delResult(result) {
         result_time = document.getElementById(result);
@@ -145,6 +153,26 @@
           return false;
         });
       }
+      function setColor() {
+        let status = document.getElementsByClassName("request_status");
+        for (let i = 0; i < status.length; i++) {
+          console.log(status.length);
+          if (status[i].innerHTML === 'Сonsideration') {
+            status[i].style.color = "#ed9d24";
+            status[i].innerHTML === '<b>Сonsideration</b>'
+          };
+          if (status[i].innerHTML === 'Accepted') {
+            status[i].style.color = "#40ff76";
+            status[i].innerHTML === '<b>Accepted</b>'
+          };
+          if (status[i].innerHTML === 'Cancelled') {
+            status[i].style.color = "#ff4040";
+            status[i].innerHTML === '<b>Cancelled</b>'
+          }
+        }
+      }
+      var interval = setInterval(setColor,100);
+      setTimeout(function( ) { clearInterval( interval ); console.log('interval') }, 3000);
 
       function openResult(date, proteins_val, peptides_val){
           res_date = document.getElementById("res_date");

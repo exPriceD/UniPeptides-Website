@@ -243,6 +243,17 @@ input:focus {
   height: 18px;
   flex-direction: column;
 }
+
+.rememberMe {
+    position: relative;
+    left: 33%;
+    display: flex;
+    padding: 0px 5px;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+}
 .button {
   cursor: pointer;
   align-self: stretch;

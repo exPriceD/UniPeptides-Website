@@ -326,6 +326,18 @@
   text-align: left;
   width: 360px;
 }
+.request_status {
+  align-self: stretch;
+  position: relative;
+  font-size: 25px;
+  line-height: 24px;
+  font-weight: 500;
+  font-family: var(--font-inter);
+  color: var(--color-black);
+  width: 168px;
+  text-align: center;
+  line-height: 43px;
+}
 .settings-btn3,
 .small-btn-red {
   cursor: pointer;
@@ -366,6 +378,7 @@
   box-sizing: border-box;
   justify-content: flex-start;
   gap: var(--gap-2xs);
+  cursor: pointer;
 }
 .result-wrapper {
   flex-direction: column;
@@ -583,16 +596,20 @@
     align-self: stretch;
     width: auto;
     height: 24px;
+    font-size: 25px;
   }
   .checkbox {
     width: 30px;
     height: 30px;
   }
   .date {
-    width: 248px;
+    width: 270px;
     align-self: stretch;
     height: auto;
     font-size: 25px;
+  }
+  .request_status {
+    font-size: 20px;
   }
   .settings-btn3,
   .small-btn-red {
@@ -813,6 +830,7 @@
     width: 248px;
     align-self: stretch;
     height: auto;
+    font-size: 23px;
   }
   .action-btns,
   .settings-btn3,
@@ -1125,7 +1143,7 @@
 }
 .modal-search {
   position: relative;
-  border-radius: var(--br-11xl);
+  border-radius: 15px;
   background-color: var(--gray-10);
   align-items: center;
   opacity: 0;

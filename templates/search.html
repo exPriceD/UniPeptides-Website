@@ -5,9 +5,9 @@
     <title>Search for peptides</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600;700;800&display=swap"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link id="global-theme" rel="stylesheet" href="./static/css/search/global-light.css"/>
+    <link id="global-theme" rel="stylesheet" href="./static/css/global.css"/>
     <link id="index-theme" rel="stylesheet" href="./static/css/search/index-light.css"/>
-    <link id="popup" rel="stylesheet" href="{{url_for('static', filename='css/modal/popup-light.css')}}"/>
+    <link rel="stylesheet" href="./static/css/modal/modal.css"/>
     <link id="popupGlobal" rel="stylesheet" href="{{url_for('static', filename='css/modal/global.css')}}"/>
     <link id="popup-ok-msg" rel="stylesheet" href="{{url_for('static', filename='css/modal/ok-message.css')}}" />
     <link id="popup-error-msg" rel="stylesheet" href="{{url_for('static', filename='css/modal/error-message.css')}}" />
@@ -35,7 +35,7 @@
             </button>
           </div>
         </header>
-        <form class="content" action="/value" method="post" id="post-form">
+        <form class="content" method="post" id="post-form">
           <div class="handler">
             <div class="inputs">
               <div class="step-1">
@@ -214,20 +214,63 @@
         </div>
       </div>
     </div>
-    <div id="modalContentPopup" class="popup-overlay" style="display: none">
-      <div class="modal-content" data-animate-on-scroll>
-        <h1 id="popupText" class="files-will-be" style="display:{{loading_atr}};">Files will be created soon</h1>
-        <img id="popupPreloader" class="spiner-with-bg" style="display:{{loading_atr}};" alt="" src="{{url_for('static', filename='images/modal/rolling-1.4s-300px-light.gif')}}"/>
-        <button id="downloadBtn" class="download-btn" style="display:{{end_atr}};">
-          <a id="downloadLink" href="#"><h1 class="download">Download</h1></a>
-        </button>
-        <button class="close-btn" id="popupcloseBtn" onclick=closePopup("modalContentPopup") data-animate-on-scroll>
-          <label class="x">X</label>
-        </button>
+    <div id="modalPopup" class="popup-overlay" style="display: none">
+      <div class="modal">
+        <div class="modal-header2">
+          <img class="feather-icons-info" alt="" src="./static/images/modal/feather-icons--info.svg"/>
+          <div id="popupText" class="file-was-created">Creating a file</div>
+          <label onclick="closePopup('modalPopup')">
+            <img class="phosphor-icons-x" alt="" src="./static/images/modal/phosphor-icons--x.svg" id="popupcloseBtn"/>
+          </label>
+        </div>
+        <img id="popupPreloader" class="spiner-with-bg" alt="" src="./static/images/modal/rolling-1.4s-300px-light.gif"/>
+        <div class="button" id="downloadBtn">
+          <button class="button1">
+              <a id="downloadLink" class="download" href="#" style="text-decoration: none; color: #fff">Download</a>
+          </button>
+        </div>
       </div>
     </div>
     <script>
       Animation()
+
+      var popupphosphorIconsX = document.getElementById("popupphosphorIconsX");
+      if (popupphosphorIconsX) {
+        popupphosphorIconsX.addEventListener("click", function (e) {
+          var popup = e.currentTarget.parentNode;
+          function isOverlay(node) {
+            return !!(
+              node &&
+              node.classList &&
+              node.classList.contains("popup-overlay")
+            );
+          }
+          while (popup && !isOverlay(popup)) {
+            popup = popup.parentNode;
+          }
+          if (isOverlay(popup)) {
+            popup.style.display = "none";
+          }
+        });
+      }
+
+      let params = (new URL(document.location)).searchParams;
+      let peptides = params.get("peptides");
+      if (peptides) {
+        for (let i = 0; i < peptides.length; i++) {
+          if (peptides[i] === '?') {
+            console.log('312132123');
+            peptides = peptides.replace('?', ',');
+          }
+        }
+        input = document.getElementById("peptides-input");
+        input.value = peptides;
+      };
+
+      $('#peptides-input').focus(function(){
+        var that = this;
+        setTimeout(function(){ that.selectionStart = that.selectionEnd = 10000; }, 0);
+      });
 
       $('#userProteinsFile').on('click touchstart' , function(){
           $(this).val('');
@@ -299,7 +342,7 @@
               popupPreloaderStyle.display = "none";
             }
             if (popupText) {
-              popupText.innerHTML = "The files are created";
+              popupText.innerHTML = "File was created";
             }
 
           }

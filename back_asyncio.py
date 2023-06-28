@@ -112,7 +112,10 @@ class Writer:
             if (i > 9 and i < 16) and not(self.excelFilters[key]):
                 self.columns_peptides[i - 10] = ' '
             elif i >= 16 and not(self.excelFilters[key]):
-                self.columns_aminos[i - 16] = ' '
+                try:
+                    self.columns_aminos[i - 16] = ' '
+                except:
+                    pass
 
         wb = load_workbook(f'{self.save_path}/{self.uniprot_result["proteinName"]}.xlsx')
         result = wb.active

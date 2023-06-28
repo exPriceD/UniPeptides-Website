@@ -14,6 +14,9 @@
     opacity: 1;
   }
 }
+a:visited {
+    color: #1592ff;
+}
 .logo-icon {
   position: relative;
   border-radius: var(--br-xl);
@@ -173,6 +176,7 @@
 .step-1-step-2-step-3-step-4 {
   margin: 0;
   font-family: var(--font-inherit);
+  font-weight: 400;
   font-size: var(--font-inherit);
   padding-left: var(--padding-10xl);
 }
@@ -235,6 +239,7 @@
   flex-direction: row;
   padding: var(--padding-7xs) var(--padding-xs);
   align-items: center;
+  font-size: 25px;
 }
 .input {
   flex-direction: column;
@@ -312,6 +317,7 @@
   height: 168px;
   overflow: hidden;
   flex-shrink: 0;
+  font-size: 25px;
 }
 .inputs2,
 .text-area {
@@ -527,6 +533,10 @@
     display: flex;
     align-self: stretch;
     width: auto;
+    height: 260px;
+  }
+  .step-1 {
+    width: 540px;
   }
   .instructions {
     width: auto;
@@ -583,7 +593,7 @@
     padding-left: var(--padding-21xl);
     padding-right: var(--padding-21xl);
     box-sizing: border-box;
-    max-height: 1475px;
+    height: auto;
   }
   .container {
     width: 715px;

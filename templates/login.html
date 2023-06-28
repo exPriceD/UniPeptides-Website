@@ -5,7 +5,7 @@
     <title>Log in</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"/>
     <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <link id="global-theme" rel="stylesheet" href="./static/css/account/authorization/global-light.css" />
+    <link id="global-theme" rel="stylesheet" href="./static/css/global.css" />
     <link id="index-theme" rel="stylesheet" href="./static/css/account/authorization/index-light.css" />
     <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
@@ -44,6 +44,10 @@
                 <div class="password">Password</div>
                 <input class="input-inner" type="password" id="password-input" name="password"/>
                 <div class="helper-text-input" id="password-helper-text"></div>
+              </div>
+              <div class="rememberMe">
+                <input class="remember" type="checkbox" id="rememberme" name="rememberme" checked/>
+                <span class="checkbox-text">Remember me</span>
               </div>
               <div class="button-parent">
                 <button class="button" type="submit">
@@ -94,6 +98,7 @@
             var form_data = new FormData();
             form_data.append('login', $('#login-input').val());
             form_data.append('password', $('#password-input').val());
+            form_data.append('rememberme', $('#rememberme').is(':checked'));
             $.ajax({
                 type:'POST',
                 dataType:'json',

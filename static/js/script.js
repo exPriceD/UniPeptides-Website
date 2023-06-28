@@ -3,16 +3,15 @@ function themeChange(page) {
     let indexTheme = document.getElementById("index-theme");
     let logo = document.getElementById("logoIconId");
     console.log(globalTheme.getAttribute("href"));
-    if (globalTheme.getAttribute("href") === `./static/css/${page}/global-light.css`) {
-            globalTheme.href = `./static/css/${page}/global-dark.css`;
-            indexTheme.href = `./static/css/${page}/index-dark.css`;
-            logo.src = "./static/images/header/dark/logo-greentransformed-1@2x.png";
-        } else {
-            globalTheme.href = `./static/css/${page}/global-light.css`;
-            indexTheme.href = `./static/css/${page}/index-light.css`;
-            logo.src = "./static/images/header/light/logo-blue-1@2x.png";
+    if (indexTheme.getAttribute("href") === `./static/css/${page}/index-light.css`) {
+        indexTheme.href = `./static/css/${page}/index-dark.css`;
+        logo.src = "./static/images/header/dark/logo-greentransformed-1@2x.png";
+    } else {
+        indexTheme.href = `./static/css/${page}/index-light.css`;
+        logo.src = "./static/images/header/light/logo-blue-1@2x.png";
     }
 }
+
 
 
 function Animation() {
@@ -37,7 +36,7 @@ function Animation() {
 }
 
 function closePopup(elementsId) {
-    if (elementsId === "modalContentPopup") {
+    if (elementsId === "modalPopup") {
         let downloadLink = document.getElementById("downloadLink");
         let downloadButton = document.getElementById("downloadBtn");
         let downloadButtonStyle = downloadButton.style;
@@ -82,7 +81,7 @@ function startPopup(popupName) {
             openMessage("errorMessagePopup");
             return;
         }
-        let popup = document.getElementById("modalContentPopup");
+        let popup = document.getElementById("modalPopup");
         if (!popup) return;
         let popupStyle = popup.style;
         if (popupStyle) {

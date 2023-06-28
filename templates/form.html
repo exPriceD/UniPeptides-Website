@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
-    <link rel="stylesheet" href="./static/css/form/global.css" />
+    <link rel="stylesheet" href="./static/css/global.css" />
     <link rel="stylesheet" href="./static/css/form/index.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="db-form" data-animate-on-scroll>
@@ -27,7 +28,7 @@
             </button>
           </div>
         </header>
-        <form class="content">
+        <form class="content" id="post-form" method="post">
           <div class="instructions">
             <div class="accordion">
               <h1 class="title">Instructions for filling out the form for adding a peptide to the database</h1>
@@ -41,7 +42,7 @@
                   <li class="step-1">Fill out the form</li>
                   <li class="step-1">Some fields can be left blank</li>
                   <li class="step-1">The status of the application can be viewed in your personal account</li>
-                  <li>If there is enough information, then the peptide will be added</li>
+                  <li class="step-1">If there is enough information, then the peptide will be added</li>
                 </ul>
               </div>
             </div>
@@ -52,50 +53,50 @@
                 <span class="organism-scientific-name">Peptide sequence </span>
                 <span class="span">*</span>
               </div>
-              <input class="input-inner" type="text" maxlength minlength />
+              <input class="input-inner" type="text" id="sequence" />
             </div>
             <div class="input">
               <span class="organism-scientific-name">Organism (scientific name)</span>
-              <input class="input-inner" type="text" maxlength minlength />
+              <input class="input-inner" type="text" id="scientific_name" />
             </div>
             <div class="input">
               <span class="organism-scientific-name">Organism (common name)</span>
-              <input class="input-inner" type="text" maxlength minlength />
+              <input class="input-inner" type="text" id="common_name" />
             </div>
             <div class="input">
               <span class="organism-scientific-name">Activity</span>
-              <input class="input-inner" type="text" maxlength minlength />
+              <input class="input-inner" type="text" id="activity" />
             </div>
             <div class="input">
               <span class="organism-scientific-name">Protein source</span>
-              <input class="input-inner" type="text" maxlength minlength />
+              <input class="input-inner" type="text" id="protein_source" />
             </div>
           </div>
           <div class="inputs2">
             <div class="input">
               <span class="organism-scientific-name">Mass (Da)</span>
-              <input class="input-inner5" type="text" maxlength minlength />
+              <input class="input-inner5" type="text" id="massDa" />
             </div>
             <div class="input">
               <span class="organism-scientific-name">Tissue source or synthetic</span>
-              <input class="input-inner" type="text" maxlength minlength />
+              <input class="input-inner" type="text" id="tissue_source" />
             </div>
             <div class="input">
               <span class="organism-scientific-name">PMID</span>
-              <input class="input-inner" type="text" maxlength minlength />
+              <input class="input-inner" type="text" id="pmid" />
             </div>
             <div class="text-area">
               <div class="peptide-sequence-container">
                 <span class="peptide-sequence">Reference </span>
                 <span class="span">*</span>
               </div>
-              <div class="textarea-default"></div>
+              <textarea class="textarea-default" id="reference"></textarea>
             </div>
           </div>
           <div class="send-form">
-            <div class="button">
-              <div class="send">Send</div>
-            </div>
+            <button type="submit" class="button" id="send">
+              <label class="send">Send</label>
+            </button>
           </div>
         </form>
       </div>
@@ -133,6 +134,51 @@
           instructionFlag = "closed";
         }
       }
+      $(document).on('click','#send',function(e) {
+          let flag = true;
+          sequenceInput = document.getElementById("sequence");
+          referenceInput = document.getElementById("reference");
+          if (!sequenceInput.value) {
+            sequenceInput.style.border = "2px solid var(--color-red)";
+            flag = false;
+            sequenceInput.onfocus = function() {
+                  sequenceInput.style.border = "2px solid var(--gray-40)";
+            }
+          };
+          if (!referenceInput.value) {
+            referenceInput.style.border = "2px solid var(--color-red)";
+            flag = false;
+            referenceInput.onfocus = function() {
+                  referenceInput.style.border = "2px solid var(--gray-40)";
+            }
+          }
+          if (flag) {
+            var form_data = new FormData();
+            form_data.append('sequence', $('#sequence').val());
+            form_data.append('scientific_name', $('#scientific_name').val());
+            form_data.append('common_name', $("#common_name").val());
+            form_data.append('activity', $("#activity").val());
+            form_data.append('protein_source', $("#protein_source").val());
+            form_data.append('massDa', $("#massDa").val());
+            form_data.append('tissue_source', $("#tissue_source").val());
+            form_data.append('pmid', $("#pmid").val());
+            form_data.append('reference', $("#reference").val());
+
+            $.ajax({
+              type:'POST',
+              dataType:'json',
+              url:'/databaseForm',
+              data: form_data,
+              contentType: false,
+              cache: false,
+              processData: false,
+              success: function(data) {
+                  console.log('Success!');
+              }
+            })
+          }
+      });
+
       </script>
   </body>
 </html>
