@@ -216,6 +216,7 @@
 	 padding: var(--padding-3xs) var(--padding-3xs) var(--padding-11xl);
 	 align-items: flex-start;
 	 justify-content: center;
+	 box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
  .enter-one-or1, .step-21 {
 	 margin: 0;
@@ -285,6 +286,7 @@
 	 padding: var(--padding-3xs) var(--padding-3xs) var(--padding-11xl);
 	 align-items: flex-start;
 	 justify-content: center;
+	 box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
  .filters, .inputs, .step-3 {
 	 display: flex;
@@ -379,6 +381,7 @@
 	 flex-direction: column;
 	 padding: 0 9px;
 	 justify-content: flex-start;
+	 box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
  .handler {
 	 width: 899px;
@@ -471,6 +474,7 @@
 	 box-sizing: border-box;
 	 align-items: center;
 	 justify-content: flex-start;
+	 box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
  .content {
 	 width: 1440px;

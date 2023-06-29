@@ -3,13 +3,13 @@ from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
-from admin.admin import admin_panel
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 import run_script
 import completion
 import os
 import json
 import datetime
-
 
 ALLOWED_EXTENSIONS = {'txt'}
 SECRET_KEY = '2K4idssi39#skqcmxm1121sak149a9'
@@ -21,8 +21,6 @@ socketio = SocketIO(app=app)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-app.register_blueprint(admin_panel, url_prefix='/admin')
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
@@ -55,8 +53,10 @@ class SearchResults(db.Model):
 
 class DatabaseReqests(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    status = db.Column(db.String)
     date = db.Column(db.String)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    username = db.Column(db.String)
     email = db.Column(db.String)
     sequence = db.Column(db.String)
     scientific_name = db.Column(db.String)
@@ -70,6 +70,10 @@ class DatabaseReqests(db.Model):
 
     def __repr__(self):
         return f"<request {self.id}>"
+
+
+admin = Admin(app, name="Admin panel", template_mode="bootstrap4")
+admin.add_view(ModelView(Users, db.session, name="Users"))
 
 
 @login_manager.user_loader
@@ -87,6 +91,54 @@ def get_db_json():
     with open('templates/peptides_database.json', "r") as f:
         data = json.load(f)
     return jsonify(data)
+
+
+@app.route('/panel', methods=["POST", "GET"])
+def panel():
+    user_requests = DatabaseReqests.query.order_by(DatabaseReqests.status).all()
+    user_requests = reversed(user_requests)
+    return render_template('panel.html', user_requests=user_requests)
+
+
+@app.route('/panel/accept', methods=["POST", "GET"])
+def accept_panel():
+    if request.method == "POST":
+        form = request.form.to_dict()
+        if form:
+            user_request = DatabaseReqests.query.filter_by(id=int(form["id"])).first()
+            user_request.status = "Accepted"
+            user_request.sequence = form["sequence"]
+            user_request.scientific_name = form["scientific_name"]
+            user_request.common_name = form["common_name"]
+            user_request.activity = form["activity"]
+            user_request.protein_source = form["protein_source"]
+            user_request.massDa = form["massDa"]
+            user_request.tissue_source = form["tissue_source"]
+            user_request.pmid = form["pmid"]
+            user_request.reference = form["reference"]
+            db.session.commit()
+            with open("templates/peptides_database.json", "r", encoding="utf-8") as f:
+                json_data = json.load(f)
+            peptides_info = {
+                "id": len(json_data["data"]) + 1,
+                "sequence": form["sequence"],
+                "length": len(form["sequence"]),
+                "massDa": form["massDa"],
+                "scientificName": form["scientific_name"],
+                "commonName": form["common_name"],
+                "tissueSource": form["tissue_source"],
+                "proteinSource": form["protein_source"],
+                "antioxidant": "Yes",
+                "antihypertension": "No",
+                "antidiabetic": "No",
+                "pmid": form["pmid"],
+                "reference": form["reference"]
+            }
+            json_data["data"].append(peptides_info)
+
+            with open("templates/peptides_database.json", "w", encoding="utf-8") as f:
+                json.dump(json_data, f, indent=4)
+    return ''
 
 
 @app.route('/databaseForm', methods=['POST', 'GET'])
@@ -107,10 +159,13 @@ def database_form():
             reference = form["reference"]
             user_email = current_user.email
             user_id = current_user.id
+            username = current_user.username
             date = str(datetime.datetime.now()).split('.')[0]
             user_request = DatabaseReqests(
+                status="Сonsideration",
                 date=date,
                 user_id=user_id,
+                username=username,
                 email=user_email,
                 sequence=sequence,
                 scientific_name=scientific_name,
@@ -342,6 +397,9 @@ def check_users(email, username):
         return "username"
     return "ok"
 
+
 if __name__ == "__main__":
     app.debug = True
     socketio.run(app, allow_unsafe_werkzeug=True)
+    with app.app_context():
+        db.create_all()

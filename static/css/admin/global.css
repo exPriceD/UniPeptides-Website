@@ -1,0 +1,70 @@
+html {
+  height: 100%;
+  overflow-y: overlay;
+}
+body {
+  height: 100%;
+  margin: 0;
+  line-height: normal;
+}
+
+.popup-overlay {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  inset: 0;
+}
+
+:root {
+  /* fonts */
+  --body-text-inter-14-medium: Inter;
+
+  /* font sizes */
+  --font-size-3xl: 22px;
+  --heading-inter-20-regular-size: 20px;
+  --body-text-inter-14-medium-size: 14px;
+  --body-text-inter-16-regular-size: 16px;
+  --font-size-6xl: 25px;
+
+  /* Colors */
+  --gray-10: #fff;
+  --color-darkolivegreen: #115424;
+  --gray-70: #757575;
+  --info-secondary: #d3d6ee;
+  --info-main: #2532a9;
+  --color-dodgerblue: #1592ff;
+  --gray-90: #424242;
+  --color-gainsboro: rgba(230, 230, 230, 0.31);
+  --color-darkgray-100: #a0a0a0;
+  --color-red: rgba(228, 12, 12, 0.71);
+  --color-lime-100: #14ff00;
+  --color-silver: #c9c9c9;
+  --color-darkred: rgba(154, 9, 9, 0.65);
+
+  /* Gaps */
+  --gap-base: 16px;
+  --gap-5xs: 8px;
+  --gap-3xs: 10px;
+  --gap-mini: 15px;
+
+  /* Paddings */
+  --padding-5xl: 24px;
+  --padding-5xs: 8px;
+  --padding-base: 16px;
+  --padding-21xl: 40px;
+  --padding-xl: 20px;
+  --padding-mini: 15px;
+  --padding-6xl: 25px;
+  --padding-xs: 12px;
+  --padding-7xs: 6px;
+  --padding-4xl: 23px;
+  --padding-16xl: 35px;
+
+  /* border radiuses */
+  --br-9xs: 4px;
+  --br-5xs: 8px;
+  --br-6xs: 7px;
+
+  /* Effects */
+  --shadow-6: 0px 6px 12px rgba(0, 0, 0, 0.1);
+}

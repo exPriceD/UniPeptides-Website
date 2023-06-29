@@ -87,17 +87,10 @@
                 {% for request in requests %}
                 <div class="result" id="{{ request.id }}">
                   <span class="date">{{ request.date }}</span>
-                  <span class="request_status">Сonsideration</span>
+                  <span class="request_status">{{request.status}}</span>
                 </div>
                 {% endfor %}
                 {% endif %}
-                <div class="result" id="">
-                  <span class="date">{{ request.date }}</span>
-                  <span class="request_status">Accepted</span>
-                </div>
-                <div class="result" id="">
-                  <span class="date">{{ request.date }}</span>
-                  <span class="request_status">Cancelled</span>
                 </div>
               </div>
             </div>

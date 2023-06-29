@@ -206,6 +206,7 @@ a:visited {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 .peptide-sequence {
   color: var(--gray-90);
@@ -400,6 +401,103 @@ a:visited {
 .db-form.animate {
   animation: 1s ease 0s 1 normal forwards fade-in;
 }
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.phosphor-icons-checkcircle {
+  position: relative;
+  width: 36px;
+  height: 36px;
+}
+.the-application-has {
+  flex: 1;
+  position: relative;
+  line-height: 28px;
+}
+.modal-header {
+  width: 436px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-base);
+}
+.you-can-track {
+  position: relative;
+  line-height: 28px;
+  display: inline-block;
+  width: 436px;
+  flex-shrink: 0;
+}
+.modal-text {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  padding: 0 0 0 var(--padding-5xs);
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xl);
+  color: var(--gray-70);
+}
+.button2 {
+  position: relative;
+  line-height: 20px;
+  font-weight: 500;
+}
+.button1 {
+  border-radius: var(--br-9xs);
+  background-color: var(--color-darkolivegreen);
+  width: 130px;
+  height: 52px;
+  display: flex;
+  flex-direction: row;
+  padding: var(--padding-5xs) var(--padding-base);
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.ok-btn,
+.modal-ok {
+  display: flex;
+  align-items: flex-end;
+}
+.ok-btn {
+  width: 436px;
+  height: 52px;
+  flex-direction: row;
+  justify-content: flex-end;
+  font-size: var(--font-size-3xl);
+  color: var(--gray-10);
+}
+.modal-ok {
+  position: relative;
+  border-radius: var(--br-9xs);
+  background-color: var(--gray-10);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25), 0 6px 12px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  padding: var(--padding-5xl);
+  box-sizing: border-box;
+  justify-content: flex-start;
+  gap: 15px;
+  opacity: 0;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: auto;
+  text-align: left;
+  font-size: var(--font-size-5xl);
+  color: var(--color-darkolivegreen);
+  font-family: var(--font-inter);
+}
+.modal-ok.animate {
+  animation: 0.5s ease 0s 1 normal forwards fade-in;
+}
+
 @media screen and (max-width: 1360px) {
   .logo-icon {
     width: 116px;

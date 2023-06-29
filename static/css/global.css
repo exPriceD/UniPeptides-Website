@@ -1,5 +1,6 @@
 html {
   height: 100%;
+  overflow-y: overlay;
 }
 body {
   margin: 0;
@@ -60,6 +61,7 @@ body {
   --color-red: rgba(228, 12, 12, 0.71);
   --color-mediumaquamarine: #30b58e;
   --color-teal: #20766d;
+  --color-darkolivegreen: #115424;
 
   /* Gaps */
   --gap-3xs: 10px;
@@ -104,6 +106,7 @@ body {
   --padding-26xl: 45px;
   --padding-23xl: 42px;
   --padding-6xs: 7px;
+  --padding-5xl: 24px;
 
   /* border radiuses */
   --br-9xs: 4px;

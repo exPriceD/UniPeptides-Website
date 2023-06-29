@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link rel="stylesheet" href="../static/css/admin/global.css" />
+    <link rel="stylesheet" href="../static/css/admin/index.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
+    <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="admin-panel">
+      <div class="container">
+        <header class="header">
+          <div class="logo" data-animate-on-scroll>
+            <img class="logo-icon" alt="" src="../static/images/admin/logo-blue-1@2x.png" />
+
+            <h1 class="site-name">Editor panel</h1>
+          </div>
+          <div class="setting-btns">
+            <button class="small-btn">
+              <span class="log-out">Log out</span>
+            </button>
+          </div>
+        </header>
+        <div class="content">
+          <div class="menu">
+            <button class="small-btn1" onclick="selectDatabase()" id="database_btn">
+              <div class="database">Database</div>
+            </button>
+            <button class="small-btn2" onclick="selectRequests()" id="requests_btn">
+              <div class="database">Requests</div>
+            </button>
+          </div>
+          <div class="database-content" id="database_container">
+            <div class="add-form">
+              <div class="form-header">
+                <div class="add-a-new">Add a new entry to the database</div>
+                <button class="show-btn" onclick="openCard('addPeptides')">
+                  <img class="vector-icon" alt="" src="../static/images/admin/vector.svg"/>
+                </button>
+              </div>
+              <form class="form-body" id="addPeptides">
+                <div class="input">
+                  <div class="peptide-sequence-container">
+                    <span class="peptide-sequence">Peptide sequence </span>
+                    <span class="span">*</span>
+                  </div>
+                  <input class="input-inner" type="text"/>
+                </div>
+                <div class="input1">
+                  <div class="organism-scientific-name">
+                    Organism (scientific name)
+                  </div>
+                  <input class="input-inner" type="text"/>
+                </div>
+                <div class="input1">
+                  <div class="organism-scientific-name">
+                    Organism (common name)
+                  </div>
+                  <input class="input-inner" type="text"/>
+                </div>
+                <div class="input1">
+                  <div class="organism-scientific-name">Activity</div>
+                  <input class="input-inner" type="text"/>
+                </div>
+                <div class="input1">
+                  <div class="organism-scientific-name">Protein source</div>
+                  <input class="input-inner" type="text"/>
+                </div>
+                <div class="input1">
+                  <div class="organism-scientific-name">Mass (Da)</div>
+                  <input class="input-inner" type="text"/>
+                </div>
+                <div class="input1">
+                  <div class="organism-scientific-name">
+                    Tissue source or synthetic
+                  </div>
+                  <input class="input-inner" type="text"/>
+                </div>
+                <div class="input1">
+                  <div class="organism-scientific-name">PMID</div>
+                  <input class="input-inner" type="text"/>
+                </div>
+                <div class="text-area">
+                  <div class="peptide-sequence-container">
+                    <span class="peptide-sequence">Reference </span>
+                    <span class="span">*</span>
+                  </div>
+                  <input class="textarea-default" type="text"/>
+                </div>
+                <div class="buttons">
+                  <div class="the-peptide-has">The peptide has been added</div>
+                  <button class="button13" id="button">
+                    <div class="add">Add</div>
+                  </button>
+                  <button class="button-red" id="buttonRed">
+                    <div class="clear">Clear</div>
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div class="add-form">
+              <div class="form-header">
+                <div class="add-a-new">Edit information about the peptide</div>
+                <button class="show-btn" onclick="openCard('editPeptides')">
+                  <img class="vector-icon" alt="" src="../static/images/admin/vector.svg" />
+                </button>
+              </div>
+              <form class="form-body" id="editPeptides">
+                <div class="search">
+                  <div class="input8">
+                    <div class="peptide-sequence-container">
+                      <span class="peptide-sequence">Peptide sequence </span>
+                      <span class="span">*</span>
+                    </div>
+                    <input class="input-inner" type="text"/>
+                  </div>
+                  <div class="input9">
+                    <div class="peptide-sequence-container">
+                      <span class="peptide-sequence">Activity </span>
+                      <span class="span">*</span>
+                    </div>
+                    <input class="input-inner" type="text"/>
+                  </div>
+                  <div class="button14">
+                    <div class="button15">Button</div>
+                    <img class="phosphor-icons-caretcircleri" alt="" src="../static/images/admin/phosphor-icons--caretcircleright.svg"/>
+                  </div>
+                </div>
+                <div class="peptide-info">
+                  <div class="input1">
+                    <div class="organism-scientific-name">
+                      Organism (scientific name)
+                    </div>
+                    <input class="input-inner" type="text"/>
+                  </div>
+                  <div class="input1">
+                    <div class="organism-scientific-name">
+                      Organism (common name)
+                    </div>
+                    <input class="input-inner" type="text"/>
+                  </div>
+                  <div class="input1">
+                    <div class="organism-scientific-name">Protein source</div>
+                    <input class="input-inner" type="text"/>
+                  </div>
+                  <div class="input1">
+                    <div class="organism-scientific-name">Mass (Da)</div>
+                    <input class="input-inner" type="text"/>
+                  </div>
+                  <div class="input1">
+                    <div class="organism-scientific-name">
+                      Tissue source or synthetic
+                    </div>
+                    <input class="input-inner" type="text"/>
+                  </div>
+                  <div class="input1">
+                    <div class="organism-scientific-name">PMID</div>
+                    <input class="input-inner" type="text"/>
+                  </div>
+                  <div class="text-area1">
+                    <div class="organism-scientific-name">Reference</div>
+                    <input class="textarea-default1" type="text"/>
+                  </div>
+                </div>
+                <div class="buttons1">
+                  <div class="the-peptide-has1">
+                    The peptide has been edited
+                  </div>
+                  <button class="button13" id="button1">
+                    <div class="add">Edit</div>
+                  </button>
+                  <button class="button-red" id="buttonRed1">
+                    <div class="clear">Clear</div>
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div class="add-form">
+              <div class="form-header">
+                <div class="add-a-new">
+                  Remove the peptide from the database
+                </div>
+                <button class="show-btn" onclick="openCard('removePeptides')">
+                  <img class="vector-icon" alt="" src="../static/images/admin/vector.svg" />
+                </button>
+              </div>
+              <form class="form-body" id="removePeptides">
+                <div class="input16">
+                  <div class="peptide-sequence-container">
+                    <span class="peptide-sequence">Peptide sequence </span>
+                    <span class="span">*</span>
+                  </div>
+                  <input class="input-inner16" type="text"/>
+                </div>
+                <div class="buttons2">
+                  <div class="the-peptide-has2">
+                    The peptide has been removed
+                  </div>
+                  <button class="button13" id="button2">
+                    <div class="add">Remove</div>
+                  </button>
+                  <button class="button-red" id="buttonRed2">
+                    <div class="clear">Clear</div>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="requests-content" id="requests_container">
+            {% for request in user_requests %}
+            <div class="add-form">
+              <div class="form-header">
+                <div class="accepted-request-from-container">
+                  <span class="accepted-request-from-container1">
+                    <b>
+                      {% if "Сonsideration" == request.status %}
+                      <span id="status_{{ request.id }}" style="color: #FFA115">{{ request.status }} </span>
+                      {% elif "Canceled" == request.status %}
+                      <span style="color: #FF4141">{{ request.status }} </span>
+                      {% else %}
+                      <span style="color: #15FF1E">{{ request.status }} </span>
+                      {% endif %}
+                    </b>
+                    <span class="request-from-29062023-1223">
+                      <span class="request-from">Request from </span>
+                      <b>{{ request.date }}</b>
+                    </span>
+                  </span>
+                </div>
+                <button class="show-btn" onclick="openCard('{{ request.id }}')">
+                  <img class="vector-icon3" alt="" src="../static/images/admin/vector.svg" />
+                </button>
+              </div>
+              <form method="post" class="form-body3" id="{{ request.id }}" style="display: none;">
+                <div class="user-info">
+                  <div class="input17">
+                    <div class="username">Username</div>
+                    <input class="input-inner" type="text" value="{{ request.username }}" disabled />
+                  </div>
+                  <div class="input17">
+                    <div class="username">Email</div>
+                    <input class="input-inner" type="text" value="{{ request.email }}" disabled />
+                  </div>
+                  <div class="input17">
+                    <div class="username">Request status</div>
+                    <input class="input-inner" type="text" value="{{ request.status }}" disabled />
+                  </div>
+                </div>
+                <div class="peptide-info1">
+                  <div class="input">
+                    <div class="username">Peptide sequence</div>
+                    <input class="input-inner" id="sequence_{{ request.id }}" type="text" value="{{ request.sequence }}"/>
+                  </div>
+                  <div class="input">
+                    <div class="username">Organism (scientific name)</div>
+                    <input class="input-inner" id="scientific_name_{{ request.id }}" type="text" value="{{ request.scientific_name }}"/>
+                  </div>
+                  <div class="input">
+                    <div class="username">Organism (common name)</div>
+                    <input class="input-inner" id="common_name_{{ request.id }}"  type="text" value="{{ request.common_name }}"/>
+                  </div>
+                  <div class="input">
+                    <div class="username">Activity</div>
+                    <input class="input-inner" id="activity_{{ request.id }}" type="text" value="{{ request.activity }}"/>
+                  </div>
+                  <div class="input">
+                    <div class="username">Protein source</div>
+                    <input class="input-inner" id="protein_source_{{ request.id }}" type="text" value="{{ request.protein_source }}"/>
+                  </div>
+                  <div class="input">
+                    <div class="username">Mass (Da)</div>
+                    <input class="input-inner" id="massDa_{{ request.id }}" type="text" value="{{ request.massDa }}"/>
+                  </div>
+                  <div class="input">
+                    <div class="username">Tissue source or synthetic</div>
+                    <input class="input-inner" id="tissue_source_{{ request.id }}" type="text" value="{{ request.tissue_source }}"/>
+                  </div>
+                  <div class="input">
+                    <div class="username">PMID</div>
+                    <input class="input-inner" id="pmid_{{ request.id }}" type="text" value="{{ request.pmid }}"/>
+                  </div>
+                  <div class="text-area">
+                    <div class="username">Reference</div>
+                    <textarea id="reference_{{ request.id }}" class="textarea-default2">{{ request.reference }}</textarea>
+                  </div>
+                  {% if request.status == "Сonsideration" %}
+                  <div class="buttons3">
+                    <div class="the-peptide-has3" style="opacity: 0" id="message_{{ request.id }}">
+                      The peptide has been added
+                    </div>
+                    <div class="button18" id="buttonContainer1" onclick="openPopup('modalAcceptPopup', '{{ request.id }}')">
+                      <div class="accept">Accept</div>
+                    </div>
+                    <div class="button-red3" id="buttonRedContainer" onclick="openPopup('modalCancelPopup', '{{ request.id }}')">
+                      <div class="cancel">Cancel</div>
+                    </div>
+                  </div>
+                  {% endif %}
+                </div>
+              </form>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modalOkPopup" class="popup-overlay" style="display: none">
+      <div class="modal-ok" data-animate-on-scroll>
+        <div class="modal-header">
+          <img class="phosphor-icons-checkcircle" alt="" src="../admin/static/images/phosphor-icons--checkcircle.svg"/>
+          <div class="the-application-has">The application has been sent</div>
+        </div>
+        <div class="text">
+          <div class="you-can-track">
+            You can track the status of the application in your personal
+            account. In some cases, you may be contacted through the email
+            specified in your account
+          </div>
+        </div>
+        <div class="button">
+          <div class="button1" id="popupbuttonContainer">
+            <div class="button2">Okey</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modalAcceptPopup" class="popup-overlay" style="display: none">
+      <div class="modal-accept">
+        <div class="modal-header1">
+          <img class="feather-icons-info" alt="" src="../static/images/admin/feather-icons--info.svg"/>
+
+          <div class="accept-the-request">Accept the request to add?</div>
+        </div>
+        <div class="text1">
+          <div class="after-taking-the">
+            After taking the peptide, it will be added to the database. You can
+            edit and delete peptides from the database
+          </div>
+        </div>
+        <div class="button3">
+          <div class="button4" onclick="sendAcceptForm()">
+            <div class="button5">Yes</div>
+          </div>
+          <div class="button6" onclick="closePopup('modalAcceptPopup');">
+            <div class="button5">Back</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="modalCancelPopup" class="popup-overlay" style="display: none">
+      <div class="modal-cancel">
+        <div class="modal-header2">
+          <img class="feather-icons-info1" alt="" src="../static/images/admin/feather-icons--info.svg"/>
+
+          <div class="modal-window">Cancel the request?</div>
+        </div>
+        <div class="text2">
+          <div class="the-greatest-glory">
+            Are you sure you want to cancel the request? The user will receive
+            information that the request has been canceled.
+          </div>
+        </div>
+        <div class="button8">
+          <div class="button9">
+            <div class="button10">Yes</div>
+          </div>
+          <div class="button11" onclick="closePopup('modalCancelPopup');">
+            <div class="button10">Back</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+
+      function openPopup(popupName, requestId) {
+          var popup = document.getElementById(popupName);
+          popup.classList.add(requestId);
+          if (!popup) return;
+          var popupStyle = popup.style;
+          if (popupStyle) {
+            popupStyle.display = "flex";
+            popupStyle.zIndex = 100;
+            popupStyle.backgroundColor = "rgba(113, 113, 113, 0.3)";
+            popupStyle.alignItems = "center";
+            popupStyle.justifyContent = "center";
+          }
+          popup.removeAttribute("closable");
+
+          var onClick =
+            popup.onClick ||
+            function (e) {
+              if (e.target === popup && popup.hasAttribute("closable")) {
+                popupStyle.display = "none";
+              }
+            };
+          popup.addEventListener("click", onClick);
+      }
+
+      database_container = document.getElementById("database_container");
+      requests_container = document.getElementById("requests_container");
+      database_btn = document.getElementById("database_btn");
+      requests_btn = document.getElementById("requests_btn");
+
+      function selectDatabase() {
+        database_container.style.display = "flex";
+        requests_container.style.display = "none";
+        database_btn.classList.add("small-btn1");
+        database_btn.classList.remove("small-btn2");
+        requests_btn.classList.remove("small-btn1");
+        requests_btn.classList.add("small-btn2");
+
+      };
+      function selectRequests() {
+        database_container.style.display = "none";
+        requests_container.style.display = "flex";
+        requests_btn.classList.add("small-btn1");
+        requests_btn.classList.remove("small-btn2");
+        database_btn.classList.remove("small-btn1");
+        database_btn.classList.add("small-btn2");
+
+      };
+
+      function sendAcceptForm() {
+        modal = document.getElementById("modalAcceptPopup");
+        let request_id = modal.classList[1];
+        modal.classList.remove(request_id);
+        closePopup('modalAcceptPopup');
+        var form_data = new FormData();
+        form_data.append('id', request_id);
+        form_data.append('sequence', $(`#sequence_${request_id}`).val());
+        form_data.append('scientific_name', $(`#scientific_name_${request_id}`).val());
+        form_data.append('common_name', $(`#common_name_${request_id}`).val());
+        form_data.append('activity', $(`#activity_${request_id}`).val());
+        form_data.append('protein_source', $(`#protein_source_${request_id}`).val());
+        form_data.append('massDa', $(`#massDa_${request_id}`).val());
+        form_data.append('tissue_source', $(`#tissue_source_${request_id}`).val());
+        form_data.append('pmid', $(`#pmid_${request_id}`).val());
+        form_data.append('reference', $(`#reference_${request_id}`).val());
+        $.ajax({
+            type:'POST',
+            dataType:'json',
+            url:'/panel/accept',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                console.log("success");
+            }
+        });
+        let status = document.getElementById(`status_${request_id}`);
+        status.innerHTML = 'Accepted';
+        status.style.color = "#15FF1E";
+
+        let message = document.getElementById(`message_${request_id}`);
+        message.style.opacity = '1';
+
+      }
+
+      function openCard(elements) {
+        card = document.getElementById(elements);
+        if (card.style.display === "none") {
+          card.style.display = "flex";
+        } else {
+          card.style.display = "none";
+        }
+      }
+
+      var scrollAnimElements = document.querySelectorAll("[data-animate-on-scroll]");
+      var observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting || entry.intersectionRatio > 0) {
+              const targetElement = entry.target;
+              targetElement.classList.add("animate");
+              observer.unobserve(targetElement);
+            }
+          }
+        },
+        {
+          threshold: 0.15,
+        }
+      );
+      
+      for (let i = 0; i < scrollAnimElements.length; i++) {
+        observer.observe(scrollAnimElements[i]);
+      }
+      </script>
+  </body>
+</html>

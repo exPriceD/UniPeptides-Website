@@ -101,7 +101,29 @@ function startPopup(popupName) {
                     }
                 };
         popup.addEventListener("click", onClick);
-    }
+    } else {
+          var popup = document.getElementById(popupName);
+          if (!popup) return;
+          var popupStyle = popup.style;
+          if (popupStyle) {
+            popupStyle.display = "flex";
+            popupStyle.zIndex = 100;
+            popupStyle.backgroundColor = "rgba(113, 113, 113, 0.3)";
+            popupStyle.alignItems = "center";
+            popupStyle.justifyContent = "center";
+          }
+          popup.removeAttribute("closable");
+
+          var onClick =
+            popup.onClick ||
+            function (e) {
+              if (e.target === popup && popup.hasAttribute("closable")) {
+                popupStyle.display = "none";
+              }
+            };
+          popup.addEventListener("click", onClick);
+      }
+
 }
 
 function openMessage(elementsId) {
