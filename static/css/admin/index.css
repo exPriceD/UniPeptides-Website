@@ -514,7 +514,7 @@
   font-weight: 600;
   font-family: var(--body-text-inter-14-medium);
   color: var(--color-lime-100);
-  text-align: right;
+  text-align: center;
   display: inline-block;
   width: 692px;
   height: 26px;
@@ -524,7 +524,7 @@
   flex: 1;
   height: 106px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
@@ -851,6 +851,11 @@
 }
 .modal-ok.animate {
   animation: 0.5s ease 0s 1 normal forwards fade-in;
+}
+.del_peptide_btn {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 .feather-icons-info {
   position: relative;

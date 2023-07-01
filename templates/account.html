@@ -87,7 +87,13 @@
                 {% for request in requests %}
                 <div class="result" id="{{ request.id }}">
                   <span class="date">{{ request.date }}</span>
-                  <span class="request_status">{{request.status}}</span>
+                  {% if "Сonsideration" == request.status %}
+                  <span id="status_{{ request.id }}" class="request_status" style="color: #FFA115">{{request.status}}</span>
+                  {% elif "Canceled" == request.status %}
+                  <span id="status_{{ request.id }}" class="request_status" style="color: #FF4141">{{request.status}}</span>
+                  {% else %}
+                  <span id="status_{{ request.id }}" class="request_status" style="color: #15FF1E">{{request.status}}</span>
+                  {% endif %}
                 </div>
                 {% endfor %}
                 {% endif %}
@@ -146,26 +152,6 @@
           return false;
         });
       }
-      function setColor() {
-        let status = document.getElementsByClassName("request_status");
-        for (let i = 0; i < status.length; i++) {
-          console.log(status.length);
-          if (status[i].innerHTML === 'Сonsideration') {
-            status[i].style.color = "#ed9d24";
-            status[i].innerHTML === '<b>Сonsideration</b>'
-          };
-          if (status[i].innerHTML === 'Accepted') {
-            status[i].style.color = "#40ff76";
-            status[i].innerHTML === '<b>Accepted</b>'
-          };
-          if (status[i].innerHTML === 'Cancelled') {
-            status[i].style.color = "#ff4040";
-            status[i].innerHTML === '<b>Cancelled</b>'
-          }
-        }
-      }
-      var interval = setInterval(setColor,100);
-      setTimeout(function( ) { clearInterval( interval ); console.log('interval') }, 3000);
 
       function openResult(date, proteins_val, peptides_val){
           res_date = document.getElementById("res_date");

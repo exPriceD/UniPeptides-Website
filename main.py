@@ -93,15 +93,33 @@ def get_db_json():
     return jsonify(data)
 
 
-@app.route('/panel', methods=["POST", "GET"])
+@app.route('/panel')
 def panel():
     user_requests = DatabaseReqests.query.order_by(DatabaseReqests.status).all()
     user_requests = reversed(user_requests)
     return render_template('panel.html', user_requests=user_requests)
 
 
+@app.route('/panel/add_peptide', methods=["POST", "GET"])
+def add_peptide():
+    if request.method == "POST":
+        form = request.form.to_dict()
+        if form:
+            update_database(form=form, action="add")
+    return ''
+
+
+@app.route('/panel/remove_peptide', methods=["POST", "GET"])
+def remove_peptide():
+    if request.method == "POST":
+        form = request.form.to_dict()
+        if form:
+            update_database(form=form, action="remove")
+    return ''
+
+
 @app.route('/panel/accept', methods=["POST", "GET"])
-def accept_panel():
+def accept_request():
     if request.method == "POST":
         form = request.form.to_dict()
         if form:
@@ -117,27 +135,20 @@ def accept_panel():
             user_request.pmid = form["pmid"]
             user_request.reference = form["reference"]
             db.session.commit()
-            with open("templates/peptides_database.json", "r", encoding="utf-8") as f:
-                json_data = json.load(f)
-            peptides_info = {
-                "id": len(json_data["data"]) + 1,
-                "sequence": form["sequence"],
-                "length": len(form["sequence"]),
-                "massDa": form["massDa"],
-                "scientificName": form["scientific_name"],
-                "commonName": form["common_name"],
-                "tissueSource": form["tissue_source"],
-                "proteinSource": form["protein_source"],
-                "antioxidant": "Yes",
-                "antihypertension": "No",
-                "antidiabetic": "No",
-                "pmid": form["pmid"],
-                "reference": form["reference"]
-            }
-            json_data["data"].append(peptides_info)
+            update_database(form=form, action="add")
+            print(f'Request id={int(form["id"])} ACCEPTED')
+    return ''
 
-            with open("templates/peptides_database.json", "w", encoding="utf-8") as f:
-                json.dump(json_data, f, indent=4)
+
+@app.route('/panel/cancel', methods=["POST", "GET"])
+def cancel_request():
+    if request.method == "POST":
+        form = request.form.to_dict()
+        if form:
+            user_request = DatabaseReqests.query.filter_by(id=int(form["id"])).first()
+            user_request.status = "Canceled"
+            db.session.commit()
+            print(f'Request id={int(form["id"])} CANCELED')
     return ''
 
 
@@ -396,6 +407,39 @@ def check_users(email, username):
     if Users.query.filter_by(username=username).all():
         return "username"
     return "ok"
+
+
+def update_database(form: dict, action: str):
+    with open("templates/peptides_database.json", "r", encoding="utf-8") as f:
+        json_data = json.load(f)
+    if action == "add":
+        peptides_info = {
+            "id": len(json_data["data"]) + 1,
+            "sequence": form["sequence"],
+            "length": len(form["sequence"]),
+            "massDa": form["massDa"] if form["massDa"] else "Not data",
+            "scientificName": form["scientific_name"] if form["scientific_name"] else "Not data",
+            "commonName": form["common_name"] if form["common_name"] else "Not data",
+            "tissueSource": form["tissue_source"] if form["tissue_source"] else "Not data",
+            "proteinSource": form["protein_source"] if form["protein_source"] else "Not data",
+            "antioxidant": "Yes",
+            "antihypertension": "No",
+            "antidiabetic": "No",
+            "pmid": form["pmid"] if form["pmid"] else "Not data",
+            "reference": form["reference"]
+        }
+        json_data["data"].append(peptides_info)
+    else:
+        sequence = form["sequence"]
+        activity = form["activity"]
+        for peptide in json_data["data"]:
+            if peptide["sequence"] == sequence and peptide["antioxidant"] == "Yes":
+            #if peptide["sequence"] == sequence and peptide["activity"] == activity:
+                json_data["data"].remove(peptide)
+
+    with open("templates/peptides_database.json", "w", encoding="utf-8") as f:
+        json.dump(json_data, f, indent=4)
+    print("Database was updated")
 
 
 if __name__ == "__main__":

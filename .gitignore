@@ -1,5 +1,7 @@
-/users.db
+/database.db
 /uploads/
 /venv/
 /todo
 /for test.py
+/parser.py
+/pep.xlsx

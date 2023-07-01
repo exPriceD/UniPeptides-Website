@@ -380,11 +380,13 @@
   justify-content: flex-start;
   gap: var(--gap-2xs);
   cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
 }
 .result-wrapper {
   flex-direction: column;
   padding: 0 var(--padding-xl) 0 var(--padding-mini);
   overflow-y: scroll;
+  padding-bottom: 5px
 }
 .search-block,
 .checkbox1,
@@ -401,7 +403,7 @@
   overflow: hidden;
   flex-shrink: 0;
   flex-direction: column;
-  padding: var(--padding-mini) 0 0;
+  padding: 17px 0 0;
   box-sizing: border-box;
   align-items: center;
   gap: var(--gap-xl);
