@@ -33,22 +33,22 @@
             </button>
           </div>
         </header>
-        <div class="content">
+        <form class="content" method="post">
           <div class="user">
             <b class="user-name">Hi, {{ username }}!</b>
             <div class="frame-parent">
               <div class="button-parent">
-                <button class="btn-select">
+                <label class="btn-select" onclick="selectAll()">
                   <span class="btn-text">Select all</span>
-                </button>
-                <button class="btn-download">
+                </label>
+                <label class="btn-download" onclick="downloadSelected()">
                   <span class="btn-text">Download selected</span>
-                </button>
+                </label>
               </div>
               <div class="button-group">
-                <button class="btn-deleate">
+                <label class="btn-deleate">
                   <span class="btn-text">Deleate selected</span>
-                </button>
+                </label>
                 <a href="{{ url_for('logout')}}" class="btn-logout" style="text-decoration: none;">
                   <span class="btn-text">Log out</span>
                 </a>
@@ -100,7 +100,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -143,69 +143,45 @@
     <script>
 
       Animation();
-      function delResult(result) {
-        result_time = document.getElementById(result);
-        $(document).ready(function(){
-          var socket = io();
-          socket.emit('delete result', {data: result});
-          result_time.remove();
-          return false;
-        });
+      var selectedFlag = false;
+      function selectAll() {
+        checkbox = document.getElementsByClassName('checkbox');
+        if (!selectedFlag) {
+          for (let i = 0; i < checkbox.length; i++) {
+            checkbox[i].checked = true;
+          }
+          selectedFlag = true;
+        } else {
+          for (let i = 0; i < checkbox.length; i++) {
+            checkbox[i].checked = false;
+          }
+          selectedFlag = false;
+        }
       }
 
-      function openResult(date, proteins_val, peptides_val){
-          res_date = document.getElementById("res_date");
-          peptides = document.getElementById("peptides_value");
-          proteins = document.getElementById("proteins_value");
-          peptides.innerHTML = peptides_val;
-          proteins.innerHTML = proteins_val;
-          res_date.innerHTML = date;
-          var popup = document.getElementById("modalSearchPopup");
-          if (!popup) return;
-          var popupStyle = popup.style;
-          if (popupStyle) {
-            popupStyle.display = "flex";
-            popupStyle.zIndex = 100;
-            popupStyle.backgroundColor = "rgba(113, 113, 113, 0.3)";
-            popupStyle.alignItems = "center";
-            popupStyle.justifyContent = "center";
+      function downloadSelected() {
+        var form_data = new FormData();
+        checkbox = document.getElementsByClassName('checkbox');
+        for (let i = 0; i < checkbox.length; i++) {
+          if (checkbox[i].checked) {
+            parent_id = checkbox[i].parentElement.id;
+            form_data.append(parent_id, 'true');
           }
-          popup.setAttribute("closable", "");
-
-          var onClick =
-            popup.onClick ||
-            function (e) {
-              if (e.target === popup && popup.hasAttribute("closable")) {
-                popupStyle.display = "none";
-              }
-            };
-          popup.addEventListener("click", onClick);
-      }
-
-      var result1 = document.getElementById("result1");
-      if (result1) {
-        result1.addEventListener("click", function () {
-          var popup = document.getElementById("modalDatabasePopup");
-          if (!popup) return;
-          var popupStyle = popup.style;
-          if (popupStyle) {
-            popupStyle.display = "flex";
-            popupStyle.zIndex = 100;
-            popupStyle.backgroundColor = "rgba(113, 113, 113, 0.3)";
-            popupStyle.alignItems = "center";
-            popupStyle.justifyContent = "center";
-          }
-          popup.setAttribute("closable", "");
-
-          var onClick =
-            popup.onClick ||
-            function (e) {
-              if (e.target === popup && popup.hasAttribute("closable")) {
-                popupStyle.display = "none";
-              }
-            };
-          popup.addEventListener("click", onClick);
-        });
+        if (form_data) {
+          $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: '/account/download',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                console.log("success");
+            }
+          });
+        }
+        }
       }
       </script>
   </body>

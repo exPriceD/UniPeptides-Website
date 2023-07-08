@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, send_from_directory, g, redirect, jsonify, session
+from flask import Flask, render_template, request, send_from_directory, redirect, jsonify
 from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -10,23 +10,25 @@ import completion
 import os
 import json
 import datetime
+import shutil
+
 
 ALLOWED_EXTENSIONS = {'txt'}
 SECRET_KEY = '2K4idssi39#skqcmxm1121sak149a9'
 
-app = Flask(__name__)
-app.config.from_object(__name__)
-socketio = SocketIO(app=app)
+application = Flask(__name__)
+application.config.from_object(__name__)
+socketio = SocketIO(app=application)
 
-app.config['UPLOAD_FOLDER'] = 'uploads'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+application.config['UPLOAD_FOLDER'] = 'uploads'
+application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-login_manager = LoginManager(app)
+login_manager = LoginManager(application)
 login_manager.login_view = 'login'
 
 dbase = None
-db = SQLAlchemy(app)
+db = SQLAlchemy(application)
 
 
 class Users(db.Model, UserMixin):
@@ -34,6 +36,16 @@ class Users(db.Model, UserMixin):
     email = db.Column(db.String, unique=True)
     username = db.Column(db.String(16), unique=True)
     password = db.Column(db.String, nullable=True)
+    role = db.Column(db.String)
+
+    def __init__(self, username, email, password, role):
+        self.username = username
+        self.password = password
+        self.email = email
+        self.role = role
+
+    def get_role(self):
+        return self.role
 
     def __repr__(self):
         return f"<users {self.id}>"
@@ -72,35 +84,43 @@ class DatabaseReqests(db.Model):
         return f"<request {self.id}>"
 
 
-admin = Admin(app, name="Admin panel", template_mode="bootstrap4")
-admin.add_view(ModelView(Users, db.session, name="Users"))
-
-
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.filter_by(id=user_id).first()
 
 
-@app.route('/database', methods=['GET', 'POST'])
+admin = Admin(application, name="Admin panel", template_mode="bootstrap4")
+admin.add_view(ModelView(Users, db.session, name="Users"))
+
+
+@application.route('/admin/')
+def admin():
+    if current_user.role != "Editor":
+        return 'You dont have enough rights to view this page'
+
+
+@application.route('/database', methods=['GET', 'POST'])
 def database():
     return render_template("db.html")
 
 
-@app.route('/api/database')
+@application.route('/api/database')
 def get_db_json():
-    with open('templates/peptides_database.json', "r") as f:
+    with open('peptides_database/peptides.json', "r") as f:
         data = json.load(f)
     return jsonify(data)
 
 
-@app.route('/panel')
+@application.route('/panel')
 def panel():
+    if current_user.role == "User":
+        return 'You dont have enough rights to view this page'
     user_requests = DatabaseReqests.query.order_by(DatabaseReqests.status).all()
     user_requests = reversed(user_requests)
     return render_template('panel.html', user_requests=user_requests)
 
 
-@app.route('/panel/add_peptide', methods=["POST", "GET"])
+@application.route('/panel/add_peptide', methods=["POST", "GET"])
 def add_peptide():
     if request.method == "POST":
         form = request.form.to_dict()
@@ -109,7 +129,7 @@ def add_peptide():
     return ''
 
 
-@app.route('/panel/remove_peptide', methods=["POST", "GET"])
+@application.route('/panel/remove_peptide', methods=["POST", "GET"])
 def remove_peptide():
     if request.method == "POST":
         form = request.form.to_dict()
@@ -118,7 +138,7 @@ def remove_peptide():
     return ''
 
 
-@app.route('/panel/accept', methods=["POST", "GET"])
+@application.route('/panel/accept', methods=["POST", "GET"])
 def accept_request():
     if request.method == "POST":
         form = request.form.to_dict()
@@ -140,7 +160,7 @@ def accept_request():
     return ''
 
 
-@app.route('/panel/cancel', methods=["POST", "GET"])
+@application.route('/panel/cancel', methods=["POST", "GET"])
 def cancel_request():
     if request.method == "POST":
         form = request.form.to_dict()
@@ -152,7 +172,16 @@ def cancel_request():
     return ''
 
 
-@app.route('/databaseForm', methods=['POST', 'GET'])
+@application.route('/panel/edit_peptide', methods=["POST", "GET"])
+def edit_peptide():
+    if request.method == "POST":
+        form = request.form.to_dict()
+        if form:
+            update_database(form=form, action="edit")
+    return ''
+
+
+@application.route('/databaseForm', methods=['POST', 'GET'])
 @login_required
 def database_form():
     if request.method == "POST":
@@ -195,12 +224,12 @@ def database_form():
     return render_template('form.html')
 
 
-@app.route('/')
+@application.route('/')
 def menu():
     return render_template("menu.html")
 
 
-@app.route('/account')
+@application.route('/account')
 @login_required
 def account():
     result = SearchResults.query.filter_by(user_id=current_user.id).all()
@@ -212,7 +241,7 @@ def account():
     return render_template("account.html", username=current_user.username, results=result, requests=requests)
 
 
-@app.route('/account/<result_id>')
+@application.route('/account/<result_id>')
 @login_required
 def get_result(result_id):
     result = SearchResults.query.filter_by(id=result_id).first()
@@ -223,8 +252,17 @@ def get_result(result_id):
         _file = open(f"uploads/outputs/{result_date}.zip", 'wb')
         _file.write(file)
         _file.close()
-    full_path = f"{os.path.join(app.root_path, app.config['UPLOAD_FOLDER'])}\outputs"
+    full_path = f"{os.path.join(application.root_path, application.config['UPLOAD_FOLDER'])}\outputs"
     return send_from_directory(full_path, f"{result_date}.zip")
+
+
+@application.route('/account/download', methods=["POST", "GET"])
+def download_selected():
+    if request.method == "POST":
+        form = request.form.to_dict()
+        if form:
+            get_blob(form=form)
+    return send_from_directory('uploads\outputs', f"selectedResults.zip")
 
 
 @socketio.on('delete result')
@@ -233,7 +271,7 @@ def remove_result(result_id):
     db.session.commit()
 
 
-@app.route('/login', methods=["POST", "GET"])
+@application.route('/login', methods=["POST", "GET"])
 def login():
     if current_user.is_authenticated:
         return redirect("/account")
@@ -256,14 +294,14 @@ def login():
     return render_template("login.html")
 
 
-@app.route("/logout")
+@application.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect("/login")
 
 
-@app.route('/register', methods=["POST", "GET"])
+@application.route('/register', methods=["POST", "GET"])
 def registration():
     if current_user.is_authenticated:
         return redirect("/account")
@@ -272,7 +310,7 @@ def registration():
         print(form_data)
         if form_data['username'] and form_data["email"] and form_data["password"]:
             hash = generate_password_hash(password=form_data["password"])
-            user = Users(username=request.form["username"], email=request.form["email"], password=hash)
+            user = Users(username=request.form["username"], email=request.form["email"], password=hash, role="User")
             check_status = check_users(username=request.form["username"],email=request.form["email"])
             if check_status == 'ok':
                 print(f"{form_data['username']} зарегистрирован!")
@@ -288,16 +326,16 @@ def registration():
     return render_template("register.html")
 
 
-@app.route('/search', methods=['POST', 'GET'])
+@application.route('/search', methods=['POST', 'GET'])
 def get_value():
     if request.method == 'POST':
         form_data = request.form.to_dict()
         if 'userProteins' in request.files:
             file = request.files['userProteins']
-            file.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/inputs", "userProteins.txt"))
+            file.save(os.path.join(f"{application.config['UPLOAD_FOLDER']}/inputs", "userProteins.txt"))
         if 'userPeptides' in request.files:
             file = request.files['userPeptides']
-            file.save(os.path.join(f"{app.config['UPLOAD_FOLDER']}/inputs", "userPeptides.txt"))
+            file.save(os.path.join(f"{application.config['UPLOAD_FOLDER']}/inputs", "userPeptides.txt"))
         print(form_data)
         if not("userProteins" in form_data.keys()) or len(form_data["proteins_value"]) > 0:
             if not("userPeptides" in form_data.keys()) or len(form_data["peptides_value"]) > 0:
@@ -326,10 +364,10 @@ def get_value():
     return render_template("search.html", loading_atr="flex", end_atr="none")
 
 
-@app.route('/uploads/outputs/<path:filename>', methods=['GET', 'POST'])
+@application.route('/uploads/outputs/<path:filename>', methods=['GET', 'POST'])
 def download(filename):
     filename = filename.replace('.zip', '')
-    full_path = f"{os.path.join(app.root_path, app.config['UPLOAD_FOLDER'])}\outputs"
+    full_path = f"{os.path.join(application.root_path, application.config['UPLOAD_FOLDER'])}\outputs"
 
     return send_from_directory(full_path, f"{filename}.zip")
 
@@ -410,7 +448,7 @@ def check_users(email, username):
 
 
 def update_database(form: dict, action: str):
-    with open("templates/peptides_database.json", "r", encoding="utf-8") as f:
+    with open("peptides_database/peptides.json", "r", encoding="utf-8") as f:
         json_data = json.load(f)
     if action == "add":
         peptides_info = {
@@ -422,28 +460,61 @@ def update_database(form: dict, action: str):
             "commonName": form["common_name"] if form["common_name"] else "Not data",
             "tissueSource": form["tissue_source"] if form["tissue_source"] else "Not data",
             "proteinSource": form["protein_source"] if form["protein_source"] else "Not data",
-            "antioxidant": "Yes",
-            "antihypertension": "No",
-            "antidiabetic": "No",
+            "activity": form["activity"],
             "pmid": form["pmid"] if form["pmid"] else "Not data",
             "reference": form["reference"]
         }
         json_data["data"].append(peptides_info)
+    elif action == "edit":
+        for peptide in json_data["data"]:
+            if peptide["sequence"] == form["sequence"] and peptide["activity"] == form["activity"]:
+                peptide["massDa"] = form["massDa"]
+                peptide["scientificName"] = form["scientific_name"]
+                peptide["commonName"] = form["common_name"]
+                peptide["tissueSource"] = form["tissue_source"]
+                peptide["proteinSource"] = form["protein_source"]
+                peptide["pmid"] = form["pmid"]
+                peptide["reference"] = form["reference"]
     else:
         sequence = form["sequence"]
         activity = form["activity"]
         for peptide in json_data["data"]:
-            if peptide["sequence"] == sequence and peptide["antioxidant"] == "Yes":
-            #if peptide["sequence"] == sequence and peptide["activity"] == activity:
+            if peptide["sequence"] == sequence and peptide["activity"] == activity:
                 json_data["data"].remove(peptide)
 
-    with open("templates/peptides_database.json", "w", encoding="utf-8") as f:
+    with open("peptides_database/peptides.json", "w", encoding="utf-8") as f:
         json.dump(json_data, f, indent=4)
     print("Database was updated")
 
 
+def get_blob(form: dict):
+        blobs = {}
+        if not os.path.exists("uploads/outputs/selectedResults"):
+            try:
+                os.mkdir("uploads/outputs/selectedResults")
+            except: '?????????'
+        for id in form.keys():
+            result = SearchResults.query.filter_by(id=id).first()
+            result_date = result.date
+            result_date = result_date.replace(' ', '').replace(':', '')
+            blobs[result_date] = result.file
+        while len(blobs) != len(form):
+            pass
+        for date in blobs.keys():
+            _file = open(f"uploads/outputs/selectedResults/{date}.zip", 'wb')
+            _file.write(blobs[date])
+            _file.close()
+        shutil.make_archive(
+            'selectedResults',
+            'zip',
+            f"uploads/outputs/selectedResults"
+        )
+        shutil.move(f"selectedResults.zip", "uploads/outputs\\")
+
+
+
 if __name__ == "__main__":
-    app.debug = True
-    socketio.run(app, allow_unsafe_werkzeug=True)
-    with app.app_context():
+    application.debug = True
+    socketio.run(application, allow_unsafe_werkzeug=True)
+    with application.app_context():
         db.create_all()

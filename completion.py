@@ -1,7 +1,6 @@
 import os
 import shutil
 import json
-import time
 
 
 def creating_zip():

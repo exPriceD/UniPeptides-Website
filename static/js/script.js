@@ -25,8 +25,7 @@ function Animation() {
                     observer.unobserve(targetElement);
                 }
             }
-        },
-        {
+        }, {
             threshold: 0.15,
         }
     );
@@ -43,17 +42,18 @@ function closePopup(elementsId) {
         let popupPreloaderStyle = document.getElementById("popupPreloader").style;
         let popupText = document.getElementById("popupText");
         if (downloadButtonStyle) {
-          downloadLink.href = "#";
-          downloadButtonStyle.display = "none";
+            downloadLink.href = "#";
+            downloadButtonStyle.display = "none";
         }
         if (popupPreloaderStyle) {
-          popupPreloaderStyle.display = "flex";
+            popupPreloaderStyle.display = "flex";
         }
         if (popupText) {
-          popupText.innerHTML = "Files will be created soon";
+            popupText.innerHTML = "Files will be created soon";
         }
     }
     let popup = document.getElementById(elementsId);
+
     function isOverlay(node) {
         return !!(
             node &&
@@ -95,34 +95,34 @@ function startPopup(popupName) {
 
         let onClick =
             popup.onClick ||
-                function (e) {
-                    if (e.target === popup && popup.hasAttribute("closable")) {
-                        popupStyle.display = "none";
-                    }
-                };
+            function(e) {
+                if (e.target === popup && popup.hasAttribute("closable")) {
+                    popupStyle.display = "none";
+                }
+            };
         popup.addEventListener("click", onClick);
     } else {
-          var popup = document.getElementById(popupName);
-          if (!popup) return;
-          var popupStyle = popup.style;
-          if (popupStyle) {
+        var popup = document.getElementById(popupName);
+        if (!popup) return;
+        var popupStyle = popup.style;
+        if (popupStyle) {
             popupStyle.display = "flex";
             popupStyle.zIndex = 100;
             popupStyle.backgroundColor = "rgba(113, 113, 113, 0.3)";
             popupStyle.alignItems = "center";
             popupStyle.justifyContent = "center";
-          }
-          popup.removeAttribute("closable");
+        }
+        popup.removeAttribute("closable");
 
-          var onClick =
+        var onClick =
             popup.onClick ||
-            function (e) {
-              if (e.target === popup && popup.hasAttribute("closable")) {
-                popupStyle.display = "none";
-              }
+            function(e) {
+                if (e.target === popup && popup.hasAttribute("closable")) {
+                    popupStyle.display = "none";
+                }
             };
-          popup.addEventListener("click", onClick);
-      }
+        popup.addEventListener("click", onClick);
+    }
 
 }
 
@@ -141,15 +141,16 @@ function openMessage(elementsId) {
 
     let onClick =
         popup.onClick ||
-        function (e) {
-        if (e.target === popup && popup.hasAttribute("closable")) {
-            popupStyle.display = "none";
-        }
-    };
+        function(e) {
+            if (e.target === popup && popup.hasAttribute("closable")) {
+                popupStyle.display = "none";
+            }
+        };
     popup.addEventListener("click", onClick);
 }
 
 var lang = "ENG";
+
 function changeLang() {
     hStep1 = document.getElementById("h-step1");
     hStep2 = document.getElementById("h-step2");
@@ -178,8 +179,8 @@ function changeLang() {
         selectBtns[0].innerHTML = "Выбрать";
         selectBtns[1].innerHTML = "Выбрать";
         startBtn.innerHTML = "Создать";
-        imports[0].style.width='185px';
-        imports[1].style.width='185px';
+        imports[0].style.width = '185px';
+        imports[1].style.width = '185px';
         selectBtns[0].style.fontSize = "18px";
         selectBtns[1].style.fontSize = "18px";
         text.innerHTML = "Процесс поиска пептидов и создания Excel таблиц требует времени, в зависимости от количества белков,пептидов, качества интернет-соединения, работоспособности uniprot.org";
@@ -215,8 +216,8 @@ function changeLang() {
         imports[1].innerHTML = "import TXT file";
         selectBtns[0].innerHTML = "Select";
         selectBtns[1].innerHTML = "Select";
-        imports[0].style.width='130px';
-        imports[1].style.width='130px';
+        imports[0].style.width = '130px';
+        imports[1].style.width = '130px';
         selectBtns[0].style.fontSize = "20px";
         selectBtns[1].style.fontSize = "20px";
         startBtn.innerHTML = "Create";
@@ -240,4 +241,45 @@ function changeLang() {
         filters[16].innerHTML = "Amino acid from the N-terminus";
         filters[17].innerHTML = "Relative (per 1000)";
     }
+};
+
+function delResult(result) {
+    result_time = document.getElementById(result);
+    $(document).ready(function() {
+        var socket = io();
+        socket.emit('delete result', {
+            data: result
+        });
+        result_time.remove();
+        return false;
+    });
+}
+
+function openResult(date, proteins_val, peptides_val) {
+    res_date = document.getElementById("res_date");
+    peptides = document.getElementById("peptides_value");
+    proteins = document.getElementById("proteins_value");
+    peptides.innerHTML = peptides_val;
+    proteins.innerHTML = proteins_val;
+    res_date.innerHTML = date;
+    var popup = document.getElementById("modalSearchPopup");
+    if (!popup) return;
+    var popupStyle = popup.style;
+    if (popupStyle) {
+        popupStyle.display = "flex";
+        popupStyle.zIndex = 100;
+        popupStyle.backgroundColor = "rgba(113, 113, 113, 0.3)";
+        popupStyle.alignItems = "center";
+        popupStyle.justifyContent = "center";
+    }
+    popup.setAttribute("closable", "");
+
+    var onClick =
+        popup.onClick ||
+        function(e) {
+            if (e.target === popup && popup.hasAttribute("closable")) {
+                popupStyle.display = "none";
+            }
+        };
+    popup.addEventListener("click", onClick);
 }

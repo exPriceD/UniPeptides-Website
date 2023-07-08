@@ -227,6 +227,7 @@ thead, tbody tr {
 }
 .db_table {
     width: 100%;
+    table-layout: fixed;
 }
 .db_table tbody {
   display: block;
@@ -241,7 +242,11 @@ thead, tbody tr {
   height: 500px;
 }
 .checkbox-control {
+    padding: 10px;
     width: 20px;
+}
+tbody td {
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
 }
 .checkbox {
   cursor: pointer;
@@ -251,10 +256,21 @@ thead, tbody tr {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  margin: 0
 }
-
+thead th {
+    padding-right: 1px;
+}
+table.dataTable thead>tr>th.sorting,table.dataTable thead>tr>th.sorting_asc,table.dataTable thead>tr>th.sorting_desc,table.dataTable thead>tr>th.sorting_asc_disabled,table.dataTable thead>tr>th.sorting_desc_disabled,table.dataTable thead>tr>td.sorting,table.dataTable thead>tr>td.sorting_asc,table.dataTable thead>tr>td.sorting_desc,table.dataTable thead>tr>td.sorting_asc_disabled,table.dataTable thead>tr>td.sorting_desc_disabled {
+    cursor: pointer;
+    position: relative;
+    padding-right: 0px
+}
 tbody td {
     border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+td {
+    height: auto;
 }
 .width32 {
     width: 32px;
