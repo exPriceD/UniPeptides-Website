@@ -138,6 +138,7 @@
   line-height: 24px;
 }
 .user-name {
+  display: block;
   font-size: var(--font-size-21xl);
   color: var(--color-dodgerblue);
   text-align: left;
@@ -1157,4 +1158,50 @@
   font-size: var(--font-size-16xl);
   color: var(--color-dodgerblue);
   font-family: var(--font-inter);
+}
+@media screen and (max-width: 490px) {
+  .container,
+  .content {
+      width: 320px;
+  }
+  .logo {
+    width: auto;
+    height: 186px;
+    flex-direction: column;
+  }
+  .site-name {
+    font-size: 40px;
+    text-align: center;
+    width: auto;
+  }
+  .setting-btns {
+    height: 80px;
+  }
+  .header {
+    width: 320px;
+    height: 308px;
+    gap: var(--gap-0);
+  }
+  .user-name {
+    font-size: 33px;
+  }
+  .user, .frame-parent, .button-parent, .button-group {
+    width: 100%;
+  }
+  .button-parent {
+    gap: 10px;
+  }
+  .btn-text {
+    font-size: 20px;
+    width: 100%;
+  }
+  .btn-select {
+     width: 100px;
+  }
+  .btn-download {
+    width: 200px;
+  }
+  .btn-deleate {
+    width: 200px;
+  }
 }

@@ -512,7 +512,6 @@ def get_blob(form: dict):
         shutil.move(f"selectedResults.zip", "uploads/outputs\\")
 
 
-
 if __name__ == "__main__":
     application.debug = True
     socketio.run(application, allow_unsafe_werkzeug=True)
