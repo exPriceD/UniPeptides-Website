@@ -113,8 +113,11 @@ def get_db_json():
 
 @application.route('/panel')
 def panel():
-    if current_user.role == "User":
-        return 'You dont have enough rights to view this page'
+    try:
+        if current_user.role == "User":
+            return 'You dont have enough rights to view this page'
+    except AttributeError:
+        return redirect('/login')
     user_requests = DatabaseReqests.query.order_by(DatabaseReqests.status).all()
     user_requests = reversed(user_requests)
     return render_template('panel.html', user_requests=user_requests)
@@ -181,7 +184,7 @@ def edit_peptide():
     return ''
 
 
-@application.route('/databaseForm', methods=['POST', 'GET'])
+@application.route('/database/form', methods=['POST', 'GET'])
 @login_required
 def database_form():
     if request.method == "POST":

@@ -110,3 +110,27 @@
   color: var(--color-dodgerblue);
   font-family: var(--font-inter);
 }
+
+@media screen and (max-width: 490px) {
+  .h1 {
+    margin: 0;
+    position: relative;
+    font-size: inherit;
+    line-height: 33px;
+    font-weight: 800;
+    font-family: inherit;
+    width: 100%;
+    font-size: 27px;
+    text-align: center;
+    padding-top: 10px;
+  }
+
+  b {
+    font-size: 25px;
+  }
+
+  .text_span {
+    width: 290px;
+    font-size: 25px;
+  }
+}

@@ -14,6 +14,10 @@
     opacity: 1;
   }
 }
+.account {
+    width: 100%;
+    align-items: center;
+}
 .logo-icon {
   position: relative;
   border-radius: var(--br-xl);
@@ -144,6 +148,7 @@
   text-align: left;
   width: 478px;
   height: 57px;
+  line-height: 57px;
 }
 .select-all {
   align-self: stretch;
@@ -157,7 +162,6 @@
 .btn-select {
   cursor: pointer;
   border: 0;
-  padding: var(--padding-5xs) var(--padding-base);
   background-color: var(--color-dodgerblue);
   position: absolute;
   top: 0;
@@ -171,9 +175,11 @@
 .btn-select,
 .btn-download,
 .btn-text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-shrink: 0;
+    align-self: stretch;
 }
 .btn-text {
   align-self: stretch;
@@ -184,7 +190,6 @@
   font-family: var(--font-inter);
   color: var(--gray-10);
   text-align: center;
-  width: 231px;
   flex-shrink: 0;
 }
 .btn-download {
@@ -358,7 +363,7 @@
 .action-btns {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   gap: var(--gap-3xs);
 }
@@ -556,6 +561,7 @@
     text-align: center;
     flex: 1;
     height: 57px;
+    width: 100%;
   }
   .btn-select,
   .btn-download {
@@ -575,19 +581,18 @@
     height: 57px;
   }
   .btn-logout {
-    width: 124px;
+    width: 144px;
   }
   .button-group {
     width: 377px;
     height: 57px;
   }
   .frame-parent {
-    width: 749px;
-    height: 57px;
-    flex-direction: row;
-    gap: 35px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
     align-items: flex-start;
-    justify-content: flex-end;
+    gap: 15px;
   }
   .user {
     width: auto;
@@ -769,7 +774,6 @@
     width: 124px;
   }
   .btn-text {
-    width: 231px;
     align-self: stretch;
     height: auto;
   }
@@ -795,14 +799,20 @@
     height: auto;
   }
   .btn-logout {
-    width: 124px;
     height: 57px;
+    position: relative;
   }
   .button-group {
     width: 357px;
     height: 57px;
   }
-  .frame-parent,
+  .frame-parent {
+    display: flex;
+    width: 746px;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
   .user {
     width: 715px;
     height: auto;
@@ -980,7 +990,6 @@
     height: 297px;
     flex-direction: column;
     gap: var(--gap-0);
-    justify-content: flex-start;
   }
   .account,
   .container,
@@ -995,6 +1004,7 @@
     min-height: 2200px;
   }
   .account {
+    width: 100%;
     height: 1800px;
     flex-direction: column;
   }
@@ -1188,7 +1198,17 @@
   .user, .frame-parent, .button-parent, .button-group {
     width: 100%;
   }
+  .frame-parent {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
   .button-parent {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     gap: 10px;
   }
   .btn-text {
@@ -1196,12 +1216,48 @@
     width: 100%;
   }
   .btn-select {
-     width: 100px;
+     width: 130px;
   }
   .btn-download {
-    width: 200px;
+    display: flex;
+    width: 180px;
+    height: 57px;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+  }
+  .btn-logout {
+    width: 124px;
+    height: 57px;
+    position: relative;
+    left: 196px;
   }
   .btn-deleate {
-    width: 200px;
+    width: 180px;
   }
+  .search-block {
+    width: 320px;
+  }
+  .block-name {
+    height: auto;
+  }
+  .checkbox {
+    width: 20px;
+    height: 20px;
+  }
+  .date {
+   width: 110px;
+   font-size: 18px;
+  }
+  .small-btn, .small-btn-red {
+    width: 35px;
+    height: 35px;
+  }
+  .small-icon-btn {
+    width: 30px;
+    height: 30px;
+  }
+
 }

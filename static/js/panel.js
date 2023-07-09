@@ -90,9 +90,9 @@ function acceptRequest() {
     let acceptButton = document.getElementById(`acceptButton_${request_id}`);
     let cancelButton = document.getElementById(`cancelButton_${request_id}`);
 
-    acceptButton.setAttribute("disabled", "disabled");
+    acceptButton.disabled = true;;
     acceptButton.style.opacity = '0.7';
-    cancelButton.setAttribute("disabled", "disabled");
+    cancelButton.disabled = true;;
     cancelButton.style.opacity = '0.7';
 
 };
@@ -127,9 +127,9 @@ function cancelRequest() {
     let acceptButton = document.getElementById(`acceptButton_${request_id}`);
     let cancelButton = document.getElementById(`cancelButton_${request_id}`);
 
-    acceptButton.setAttribute("disabled", "disabled");
+    acceptButton.disabled = true;
     acceptButton.style.opacity = '0.7';
-    cancelButton.setAttribute("disabled", "disabled");
+    cancelButton.disabled = true;
     cancelButton.style.opacity = '0.7';
 };
 

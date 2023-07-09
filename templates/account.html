@@ -38,17 +38,17 @@
             <b class="user-name">Hi, {{ username }}!</b>
             <div class="frame-parent">
               <div class="button-parent">
-                <label class="btn-select" onclick="selectAll()">
+                <div class="btn-select" onclick="selectAll()">
                   <span class="btn-text">Select all</span>
-                </label>
-                <label class="btn-download" onclick="downloadSelected()">
+                </div>
+                <div class="btn-download" onclick="downloadSelected()">
                   <span class="btn-text">Download selected</span>
-                </label>
+                </div>
               </div>
-              <div class="button-group">
-                <label class="btn-deleate">
+              <div class="button-parent">
+                <div class="btn-deleate">
                   <span class="btn-text">Deleate selected</span>
-                </label>
+                </div>
                 <a href="{{ url_for('logout')}}" class="btn-logout" style="text-decoration: none;">
                   <span class="btn-text">Log out</span>
                 </a>

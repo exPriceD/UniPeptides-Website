@@ -1,3 +1,8 @@
+body {
+    overflow-x: hidden;
+    width: 100%;
+}
+
 @keyframes scale-up {
   0% {
     transform: scale(0.5);
@@ -16,6 +21,11 @@
 }
 a:visited {
     color: #1592ff;
+}
+.db-form {
+    width: auto;
+    align-items: center;
+    justify-content: flex-start;
 }
 .logo-icon {
   position: relative;
@@ -361,10 +371,12 @@ a:visited {
   justify-content: center;
 }
 .send-form {
-  overflow: hidden;
-  flex-direction: column;
-  padding: 0 11px;
-  justify-content: flex-start;
+    display: flex;
+    padding: 0px 11px;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    flex: 1 0 0;
 }
 .container,
 .content,
@@ -767,4 +779,65 @@ a:visited {
     height: 1800px;
     flex-direction: column;
   }
+}
+
+@media screen and (max-width: 670px) {
+    .container, .content {
+        width: 500px;
+        align-items: center;
+    }
+    .input, .textarea-default {
+        width: 425px;
+    }
+    .send-form {
+        flex-direction: row;
+        width: 425px;
+    }
+}
+@media screen and (max-width: 460px) {
+    .db-form {
+        width: 100%;
+        align-items: center;
+    }
+    .logo {
+        width: auto;
+        height: 186px;
+        flex-direction: column;
+      }
+      .site-name {
+        font-size: 40px;
+        text-align: center;
+        width: auto;
+      }
+      .setting-btns {
+        height: 80px;
+      }
+      .header {
+        width: 320px;
+        height: 308px;
+        gap: var(--gap-0);
+      }
+    .content {
+        padding: 0 0 0;
+        gap: 0px;
+    }
+    .container, .content {
+        width: 320px;
+        align-items: center;
+    }
+    .input, .textarea-default {
+        width: 320px;
+    }
+    .send-form {
+        position: relative;
+        flex-direction: row;
+        width: 320px;
+        right: 110px;
+    }
+    .organism-scientific-name, .peptide-sequence {
+        font-size: 22px;
+    }
+    .input-inner {
+        height: 46px;
+    }
 }
