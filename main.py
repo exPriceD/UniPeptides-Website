@@ -232,7 +232,7 @@ def menu():
     return render_template("menu.html")
 
 
-@application.route('/account')
+@application.route('/account', methods=['POST', 'GET'])
 @login_required
 def account():
     result = SearchResults.query.filter_by(user_id=current_user.id).all()
@@ -359,55 +359,20 @@ def get_value():
     return render_template("search.html", loading_atr="flex", end_atr="none")
 
 
+@application.route('/account/remove', methods=['POST', 'GET'])
+def remove_result():
+    if request.method == "POST":
+        form = request.form.to_dict()
+        if form:
+            SearchResults.query.filter_by(id=int(form["id"])).delete()
+            db.session.commit()
+    return ''
+
+
 @application.route('/uploads/outputs/<path:filename>', methods=['GET', 'POST'])
 def download(filename):
     full_path = f"{os.path.join(application.root_path, application.config['UPLOAD_FOLDER'])}\outputs"
     return send_from_directory(full_path, filename)
-
-
-'''@socketio.on('delete result')
-def remove_result(result_id):
-    SearchResults.query.filter_by(id=int(result_id['data'])).delete()
-    db.session.commit()
-
-@socketio.event
-def change_css(filename):
-    emit('my response', filename, namespace='/', broadcast=True)
-
-
-@socketio.event
-def send_peptides(peptides):
-    emit("peptides form db", peptides, namespace='/', broadcast=True)
-
-
-@socketio.event
-def username_already_exist():
-    emit('username already exist', namespace='/', broadcast=True)
-
-
-@socketio.event
-def email_already_exist():
-    emit('email already exist', namespace='/', broadcast=True)
-
-
-@socketio.event
-def session_was_created():
-    emit('session was created', namespace='/', broadcast=True)
-
-
-@socketio.event
-def result_was_deleted():
-    emit('result was deleted', namespace='/', broadcast=True)
-
-
-@socketio.event
-def not_user():
-    emit('user not found', namespace='/', broadcast=True)
-
-
-@socketio.event
-def not_password():
-    emit('incorrect password', namespace='/', broadcast=True)'''
 
 
 def allowed_file(filename):

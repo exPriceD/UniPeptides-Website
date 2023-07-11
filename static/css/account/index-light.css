@@ -286,7 +286,7 @@
   align-items: flex-start;
 }
 .frame-parent {
-  width: 746px;
+  width: auto;
   flex-shrink: 0;
   justify-content: center;
   gap: var(--gap-xl);

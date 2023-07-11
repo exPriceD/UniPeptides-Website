@@ -9,9 +9,7 @@
     <link id="index-theme" rel="stylesheet" href="./static/css/account/index-light.css" />
     <link id="popupSearch" rel="stylesheet" href="{{url_for('static', filename='css/modal/modal-search.css')}}"/>
     <link id="popupDatabase" rel="stylesheet" href="{{url_for('static', filename='css/modal/modal-database.css')}}"/>
-    <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="account" data-animate-on-scroll>
@@ -71,7 +69,7 @@
                     <a href="{{ url_for('get_result', result_id=result.id)}}" class="small-btn">
                       <img class="small-icon-btn" alt="" src="{{url_for('static', filename='images/download.svg')}}"/>
                     </a>
-                    <button class="small-btn-red" onclick="delResult('{{ result.id }}')">
+                    <button class="small-btn-red" onclick="removeResult('{{ result.id }}')">
                       <img class="small-icon-btn" alt="" src="{{url_for('static', filename='images/basket.svg')}}"/>
                     </button>
                   </div>
@@ -139,7 +137,7 @@
         </div>
       </div>
     </div>
-
+    <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
     <script>
 
       Animation();
@@ -181,6 +179,27 @@
             }
           });
         }
+        }
+      }
+      function removeResult(result_id) {
+        result = document.getElementById(result_id);
+        result.remove();
+        var form_data = new FormData();
+        form_data.append('id', result_id);
+        if (form_data) {
+          console.log(result_id);
+          $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: '/account/remove',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                console.log("success");
+            }
+          });
         }
       }
       </script>
