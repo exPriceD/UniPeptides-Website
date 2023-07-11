@@ -11,9 +11,7 @@
     <link id="popupGlobal" rel="stylesheet" href="{{url_for('static', filename='css/modal/global.css')}}"/>
     <link id="popup-ok-msg" rel="stylesheet" href="{{url_for('static', filename='css/modal/ok-message.css')}}" />
     <link id="popup-error-msg" rel="stylesheet" href="{{url_for('static', filename='css/modal/error-message.css')}}" />
-    <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="window">
@@ -90,6 +88,16 @@
                   <input name="scientificName" id="scientific_name" class="filters" type="checkbox" checked="">
                   <h1 class="text-filters">Organism (scientific name)</h1>
                 </div>
+                {% with messages = get_flashed_messages() %}
+                  {% if messages %}
+                      {% for message in messages %}
+                        <div class="filter-div">
+                          <input name="commonName" class="filters" type="checkbox" checked=""/>
+                          <h1 class="text-filters">{{ message }}</h1>
+                        </div>
+                      {% endfor %}
+                  {% endif %}
+                {% endwith %}
                 <div class="filter-div">
                   <input name="commonName" id="common_name" class="filters" type="checkbox" checked=""/>
                   <h1 class="text-filters">Organism (common name)</h1>
@@ -219,7 +227,7 @@
         <div class="modal-header2">
           <img class="feather-icons-info" alt="" src="./static/images/modal/feather-icons--info.svg"/>
           <div id="popupText" class="file-was-created">Creating a file</div>
-          <label onclick="closePopup('modalPopup')">
+          <label onclick="closePopup('modalPopup');" id="close_modal">
             <img class="phosphor-icons-x" alt="" src="./static/images/modal/phosphor-icons--x.svg" id="popupcloseBtn"/>
           </label>
         </div>
@@ -231,104 +239,7 @@
         </div>
       </div>
     </div>
-    <script>
-      Animation()
-
-      let params = (new URL(document.location)).searchParams;
-      let peptides = params.get("peptides");
-      if (peptides) {
-        for (let i = 0; i < peptides.length; i++) {
-          if (peptides[i] === '?') {
-            console.log('312132123');
-            peptides = peptides.replace('?', ',');
-          }
-        }
-        input = document.getElementById("peptides-input");
-        input.value = peptides;
-      };
-
-      $('#peptides-input').focus(function(){
-        var that = this;
-        setTimeout(function(){ that.selectionStart = that.selectionEnd = 10000; }, 0);
-      });
-
-      $('#userProteinsFile').on('click touchstart' , function(){
-          $(this).val('');
-      });
-      $("#userProteinsFile").change(function(e){
-         openMessage("okMessagePopup");
-      });
-
-      $('#userPeptidesFile').on('click touchstart' , function(){
-          $(this).val('');
-      });
-      $("#userPeptidesFile").change(function(e){
-         openMessage("okMessagePopup");
-      });
-
-        $(document).on('submit','#post-form',function(e) {
-          e.preventDefault();
-          var form_data = new FormData();
-          form_data.append('userProteins', $('#userProteinsFile').prop('files')[0]);
-          form_data.append('userPeptides', $('#userPeptidesFile').prop('files')[0]);
-          form_data.append('proteins_value', $("#proteins-input").val());
-          form_data.append('peptides_value', $("#peptides-input").val());
-          form_data.append('entryName', $("#entry_name").is(':checked'));
-          form_data.append('entryType', $("#status").is(':checked'));
-          form_data.append('fullName', $("#protein_name").is(':checked'));
-          form_data.append('scientificName', $("#scientific_name").is(':checked'));
-          form_data.append('commonName', $("#common_name").is(':checked'));
-          form_data.append('genes', $("#gene").is(':checked'));
-          form_data.append('proteinExistence', $("#protein_existence").is(':checked'));
-          form_data.append('length', $("#sequence_length").is(':checked'));
-          form_data.append('massDa', $("#mass_da").is(':checked'));
-          form_data.append('category', $("#category").is(':checked'));
-          form_data.append('id', $("#peptide_id").is(':checked'));
-          form_data.append('sequence', $("#sequence").is(':checked'));
-          form_data.append('sequence_length', $("#peptide_length").is(':checked'));
-          form_data.append('occurrence', $("#occurrence").is(':checked'));
-          form_data.append('position', $("#position").is(':checked'));
-          form_data.append('cter', $("#cterm").is(':checked'));
-          form_data.append('nter', $("#nterm").is(':checked'));
-          form_data.append('relative', $("#relative").is(':checked'));
-
-          $.ajax({
-            type:'POST',
-            dataType:'json',
-            url:'/search',
-            data: form_data,
-            contentType: false,
-            cache: false,
-            processData: false,
-            success: function(data) {
-                console.log('Success!');}})
-        });
-
-    $(document).ready(function(){
-      var socket = io();
-      socket.on('my response', function(msg) {
-          if (msg) {
-            console.log(msg);
-            let downloadLink = document.getElementById("downloadLink");
-            let downloadButton = document.getElementById("downloadBtn");
-            let downloadButtonStyle = downloadButton.style;
-            let popupPreloaderStyle = document.getElementById("popupPreloader").style;
-            let popupText = document.getElementById("popupText");
-            if (downloadButtonStyle) {
-              downloadLink.href = "{{ url_for('download', filename='FILENAME') }}".replace("FILENAME", `${msg}.zip`);
-              downloadButtonStyle.display = "flex";
-            }
-            if (popupPreloaderStyle) {
-              popupPreloaderStyle.display = "none";
-            }
-            if (popupText) {
-              popupText.innerHTML = "File was created";
-            }
-
-          }
-      });
-    });
-
-    </script>
   </body>
+  <script type="text/javascript" src="{{url_for('static', filename='js/script.js')}}"></script>
+  <script type="text/javascript" src="{{url_for('static', filename='js/search.js')}}"></script>
 </html>

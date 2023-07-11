@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, send_from_directory, redirect, jsonify
-from flask_socketio import SocketIO, emit
+from flask import Flask, render_template, request, send_from_directory, redirect, jsonify, flash
+#from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
@@ -14,11 +14,11 @@ import shutil
 
 
 ALLOWED_EXTENSIONS = {'txt'}
-SECRET_KEY = '2K4idssi39#skqcmxm1121sak149a9'
+SECRET_KEY = os.urandom(24)
 
 application = Flask(__name__)
 application.config.from_object(__name__)
-socketio = SocketIO(app=application)
+#socketio = SocketIO(app=application)
 
 application.config['UPLOAD_FOLDER'] = 'uploads'
 application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -93,9 +93,9 @@ admin = Admin(application, name="Admin panel", template_mode="bootstrap4")
 admin.add_view(ModelView(Users, db.session, name="Users"))
 
 
-@application.route('/admin/')
+@application.route('/admin')
 def admin():
-    if current_user.role != "Editor":
+    if current_user.role != "Admin":
         return 'You dont have enough rights to view this page'
 
 
@@ -268,12 +268,6 @@ def download_selected():
     return send_from_directory('uploads\outputs', f"selectedResults.zip")
 
 
-@socketio.on('delete result')
-def remove_result(result_id):
-    SearchResults.query.filter_by(id=int(result_id['data'])).delete()
-    db.session.commit()
-
-
 @application.route('/login', methods=["POST", "GET"])
 def login():
     if current_user.is_authenticated:
@@ -283,17 +277,15 @@ def login():
             user = Users.query.filter_by(email=request.form["login"]).first()
         else:
             user = Users.query.filter_by(username=request.form["login"]).first()
-            print(user)
         if not user:
-            not_user()
+            return jsonify({'status': 'User not found!'})
         else:
             remember = True if request.form.get('rememberme') else False
             if check_password_hash(pwhash=user.password, password=request.form["password"]):
                 login_user(user, remember=remember)
-                session_was_created()
-                return redirect(request.args.get("next") or "/account")
+                return jsonify({'status': 'Success!'})
             else:
-                not_password()
+                return jsonify({'status': 'Incorrect password!'})
     return render_template("login.html")
 
 
@@ -321,11 +313,11 @@ def registration():
                 db.session.flush()
                 db.session.commit()
                 login_user(Users.query.filter_by(email=request.form["email"]).first())
-                session_was_created()
+                return jsonify({'status': 'Success!'})
             elif check_status == 'username':
-                username_already_exist()
+                return jsonify({'status': 'Username already exist!'})
             else:
-                email_already_exist()
+                return jsonify({'status': 'Email already exist!'})
     return render_template("register.html")
 
 
@@ -345,7 +337,6 @@ def get_value():
                 dt_now = str(datetime.datetime.now()).split('.')[0]
                 run_script.run_processing(form_data)
                 filename = completion.creating_zip()
-                change_css(filename)
                 if current_user.is_authenticated:
                     blob_file = convert_to_binary_data(f"uploads/outputs/{filename}.zip")
                     proteins = ','.join(get_proteins())
@@ -363,17 +354,21 @@ def get_value():
                     if result:
                         print('Файл добавлен')
                 completion.remove_config()
+                return jsonify({"filename": f"{filename}.zip"})
 
     return render_template("search.html", loading_atr="flex", end_atr="none")
 
 
 @application.route('/uploads/outputs/<path:filename>', methods=['GET', 'POST'])
 def download(filename):
-    filename = filename.replace('.zip', '')
     full_path = f"{os.path.join(application.root_path, application.config['UPLOAD_FOLDER'])}\outputs"
+    return send_from_directory(full_path, filename)
 
-    return send_from_directory(full_path, f"{filename}.zip")
 
+'''@socketio.on('delete result')
+def remove_result(result_id):
+    SearchResults.query.filter_by(id=int(result_id['data'])).delete()
+    db.session.commit()
 
 @socketio.event
 def change_css(filename):
@@ -412,7 +407,7 @@ def not_user():
 
 @socketio.event
 def not_password():
-    emit('incorrect password', namespace='/', broadcast=True)
+    emit('incorrect password', namespace='/', broadcast=True)'''
 
 
 def allowed_file(filename):
@@ -517,6 +512,7 @@ def get_blob(form: dict):
 
 if __name__ == "__main__":
     application.debug = True
-    socketio.run(application, allow_unsafe_werkzeug=True)
+    #socketio.run(application, allow_unsafe_werkzeug=True, host='0.0.0.0')
+    application.run()
     with application.app_context():
         db.create_all()

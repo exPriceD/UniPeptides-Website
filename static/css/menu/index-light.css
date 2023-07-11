@@ -764,6 +764,9 @@
   }
 }
 @media screen and (max-width: 500px) {
+  .main-menu {
+    height: 1900px;
+  }
   .logo {
     width: auto;
     height: 186px;

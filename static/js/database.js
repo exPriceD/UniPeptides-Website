@@ -114,6 +114,10 @@ $(document).ready(function() {
                 data: 'activity'
             },
         ],
+        autoWidth: false,
+        fixedHeader: true,
+        fixedColumns: true,
+        responsive: true,
         paging: false,
         order: [
             [1, 'asc']
