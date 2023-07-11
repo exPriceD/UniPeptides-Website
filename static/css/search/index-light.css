@@ -21,88 +21,8 @@
 .window.animate {
   animation: 1s ease 0s 1 normal forwards fade-in;
 }
-.logo-icon {
-	 position: relative;
-	 border-radius: var(--br-xl);
-	 width: 116px;
-	 height: 116px;
-	 object-fit: cover;
-}
- .logo, .site-name {
-	 display: flex;
-	 align-items: center;
-}
- .site-name {
-	 margin: 0;
-	 position: relative;
-	 font-size: inherit;
-	 line-height: 24px;
-	 font-weight: 700;
-	 font-family: inherit;
-	 width: 381px;
-	 height: 24px;
-	 flex-shrink: 0;
-}
- .logo {
-	 width: 575px;
-	 height: 186px;
-	 flex-direction: row;
-	 padding: 35px 0;
-	 box-sizing: border-box;
-	 justify-content: flex-start;
-	 gap: var(--gap-mini);
-	 opacity: 1;
-}
- .logo:visited {
-	 color: var(--color-dodgerblue);
-}
-
- .small-btn {
-	 cursor: pointer;
-	 border: 0;
-	 padding: 0;
-	 background-color: var(--color-dodgerblue);
-	 position: relative;
-	 border-radius: var(--br-9xs);
-	 width: 43px;
-	 height: 43px;
-	 overflow: hidden;
-	 flex-shrink: 0;
-}
- .small-btn-icon {
-	 position: absolute;
-	 width: calc(100% - 9px);
-	 top: 5px;
-	 right: 4.5px;
-	 left: 4.5px;
-	 max-width: 100%;
-	 overflow: hidden;
-	 height: 33px;
-}
- .setting-btns, .header {
-	 display: flex;
-	 flex-direction: row;
-	 align-items: center;
-	 justify-content: center;
-}
  .js-fileName {
 	 font-size: 20px;
-}
- .setting-btns {
-	 width: 149px;
-	 height: 144px;
-	 gap: var(--gap-3xs);
-}
- .header {
-	 width: 1360px;
-	 height: 185px;
-	 overflow: hidden;
-	 flex-shrink: 0;
-	 gap: 633px;
-	 text-align: left;
-	 font-size: 64px;
-	 color: var(--color-dodgerblue);
-	 font-family: var(--font-inter);
 }
  .enter-one-or, .step-11 {
 	 margin: 0;
@@ -464,6 +384,9 @@
 	 flex-shrink: 0;
 	 display: flex;
 }
+.content {
+    padding-top: 20px;
+}
  .strat {
 	 border-radius: var(--br-xl);
 	 background-color: var(--color-lightgray);
@@ -505,33 +428,6 @@
 	 font-family: var(--font-inter);
 }
  @media screen and (max-width: 1360px) {
-	 .logo-icon {
-		 width: 116px;
-		 height: 116px;
-	}
-	 .site-name {
-		 text-align: left;
-		 width: 381px;
-		 height: 24px;
-	}
-	 .setting-btns, .header, .logo {
-		 height: 174px;
-		 flex-direction: row;
-		 align-items: center;
-	}
-	 .logo {
-		 width: 632px;
-		 gap: var(--gap-mini);
-		 justify-content: flex-start;
-	}
-	 .setting-btns, .header {
-		 width: 149px;
-		 justify-content: center;
-	}
-	 .header {
-		 width: 1000px;
-		 gap: 200px;
-	}
 	 .enter-one-or, .step-11 {
 		 text-align: center;
 		 width: 400px;
@@ -649,37 +545,6 @@
 	}
 }
  @media screen and (max-width: 940px) {
-	 .site-name {
-		 width: 381px;
-		 height: 24px;
-	}
-	 .setting-btns, .header, .logo {
-		 flex-direction: row;
-		 align-items: center;
-	}
-	 .logo {
-		 width: 425px;
-		 align-self: stretch;
-		 height: auto;
-		 gap: var(--gap-mini);
-		 justify-content: flex-start;
-	}
-	 .setting-btns, .header {
-		 justify-content: center;
-	}
-	 .setting-btns {
-		 width: 149px;
-		 height: 144px;
-		 gap: var(--gap-3xs);
-	}
-	 .header {
-		 width: 715px;
-		 height: 185px;
-		 gap: 100px;
-		 padding-left: var(--padding-21xl);
-		 padding-right: var(--padding-21xl);
-		 box-sizing: border-box;
-	}
 	 .step-1, .step-2 {
 		 width: 419px;
 		 flex-direction: column;
@@ -768,21 +633,6 @@
 	}
 }
  @media screen and (max-width: 715px) {
-	 .logo {
-		 height: 200px;
-		 flex-direction: column;
-		 gap: var(--gap-mini);
-	}
-	 .setting-btns, .header, .logo {
-		 align-items: center;
-		 justify-content: center;
-	}
-	 .header {
-		 width: 500px;
-		 height: 297px;
-		 flex-direction: column;
-		 gap: var(--gap-0);
-	}
 	 .container, .content, .window {
 		 align-items: center;
 		 justify-content: flex-start;
@@ -888,28 +738,13 @@
 	 font-family: var(--font-inter);
 }
 
-@media screen and (max-width: 420px) {
+@media screen and (max-width: 500px) {
   .container,
   .content {
       width: 320px;
   }
-  .logo {
-    width: auto;
-    height: 186px;
-    flex-direction: column;
-  }
-  .site-name {
-    font-size: 40px;
-    text-align: center;
-    width: auto;
-  }
-  .setting-btns {
-    height: 80px;
-  }
-  .header {
-    width: 320px;
-    height: 308px;
-    gap: var(--gap-0);
+  .content {
+    padding-top: 20px;
   }
   .step-1, .step-2, .step3, .strat {
     width: 320px;

@@ -1,3 +1,15 @@
+var is_menu_open = false;
+
+function openMenu() {
+    nav = document.getElementById('secretNavigation');
+    if (is_menu_open) {
+        nav.style.display = "none";
+        is_menu_open = false;
+    } else {
+        nav.style.display = "flex";
+        is_menu_open = true;
+    }
+}
 function themeChange(page) {
     let globalTheme = document.getElementById("global-theme");
     let indexTheme = document.getElementById("index-theme");

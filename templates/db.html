@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="./static/css/global.css" />
     <link rel="stylesheet" href="./static/css/db/index.css" />
     <link rel="stylesheet" href="./static/css/db/jquery.css" />
+    <link rel="stylesheet" href="./static/css/header/index.css"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -15,23 +16,41 @@
   <body>
     <div class="database-table" data-animate-on-scroll>
       <div class="container" data-animate-on-scroll>
-        <header class="header">
-          <a href="/" class="logo" data-animate-on-scroll style="text-decoration: none">
-            <img class="logo-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}" />
-            <h1 class="site-name">UniPeptides</h1>
-          </a>
-          <div class="setting-btns">
-            <button class="small-btn">
-              <img class="night-icon" alt="" src="{{url_for('static', filename='images/header/light/night.svg')}}" />
-            </button>
-            <button class="small-btn1">
-              <img class="night-icon" alt="" src="{{url_for('static', filename='images/header/light/help.svg')}}" />
-            </button>
-            <button class="small-btn2">
-              <img class="united-kingdom-icon" alt="" src="{{url_for('static', filename='images/header/light/united-kingdom.svg')}}"/>
-            </button>
-          </div>
-        </header>
+          <header class="header">
+            <div class=main_selector>
+              <a href="/" class="logo" data-animate-on-scroll> <img class="logo-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}" />
+                <h1 class="site-name">UniPeptides</h1>
+              </a>
+              <div class="navigation"><img class="feather-icons-menu" onclick="openMenu();" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu.svg')}}" />
+                <a class="nav-btn main" href="/search"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--search.svg')}}" />
+                  <label class="search">Search</label>
+                </a>
+                <a class="nav-btn main" href="/database"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--database.svg')}}" />
+                  <label class="search">Database</label>
+                </a>
+                <a class="nav-btn main" href="/account"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--user.svg')}}" />
+                  <label class="search">Account</label>
+                </a>
+                <a class="nav-btn main" href="#"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
+                  <label class="search">Menu</label>
+                </a>
+              </div>
+            </div>
+            <div class="secret-navigation" id="secretNavigation">
+              <a class="nav-btn" href="/search" style="text-decoration: none; color: #fff;"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--search.svg')}}" />
+                <label class="search">Search</label>
+              </a>
+              <a class="nav-btn" href="/database"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--database.svg')}}" />
+                <label class="search">Database</label>
+              </a>
+              <a class="nav-btn" href="/account"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--user.svg')}}" />
+                <label class="search">Account</label>
+              </a>
+              <a class="nav-btn" href="#"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
+                <label class="search">Menu</label>
+              </a>
+            </div>
+          </header>
           <div class="content">
             <hr class="mtb-3">
             <table id="table" class="db_table" style="width: 100%;">

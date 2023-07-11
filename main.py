@@ -280,7 +280,7 @@ def login():
         if not user:
             return jsonify({'status': 'User not found!'})
         else:
-            remember = True if request.form.get('rememberme') else False
+            remember = True if request.form["rememberme"] == 'true' else False
             if check_password_hash(pwhash=user.password, password=request.form["password"]):
                 login_user(user, remember=remember)
                 return jsonify({'status': 'Success!'})
