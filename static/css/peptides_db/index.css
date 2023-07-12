@@ -52,7 +52,7 @@ table.dataTable.nowrap th, table.dataTable.nowrap td {
   margin: 0
 }
 .checkbox-control, .sorting_disabled {
-    width: 0px;
+    width: 40px;
 }
 tr {
     height: 40px;
@@ -84,7 +84,7 @@ tr {
 .table-btn {
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     gap: 15px;
 }
 .btn-text {
@@ -105,6 +105,16 @@ tr {
     .secret-navigation {
         width: 100%;
     }
+}
+@media screen and (max-width: 730px) {
+    .table-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        flex-direction: column
+    }
+}
 }
 @media screen and (max-width: 500px) {
     .navigation {
