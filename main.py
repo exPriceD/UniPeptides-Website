@@ -101,7 +101,7 @@ def admin():
 
 @application.route('/database', methods=['GET', 'POST'])
 def database():
-    return render_template("db.html")
+    return render_template("peptides_db.html")
 
 
 @application.route('/api/database')
@@ -229,7 +229,10 @@ def database_form():
 
 @application.route('/')
 def menu():
-    return render_template("menu.html")
+    auth = False
+    if current_user.is_authenticated and current_user.role != 'User':
+        auth = True
+    return render_template("menu.html", is_auth=auth)
 
 
 @application.route('/account', methods=['POST', 'GET'])
@@ -283,6 +286,7 @@ def login():
             remember = True if request.form["rememberme"] == 'true' else False
             if check_password_hash(pwhash=user.password, password=request.form["password"]):
                 login_user(user, remember=remember)
+                print(remember)
                 return jsonify({'status': 'Success!'})
             else:
                 return jsonify({'status': 'Incorrect password!'})
@@ -328,6 +332,7 @@ def get_value():
         if 'userProteins' in request.files:
             file = request.files['userProteins']
             file.save(os.path.join(f"{application.config['UPLOAD_FOLDER']}/inputs", "userProteins.txt"))
+            print(file)
         if 'userPeptides' in request.files:
             file = request.files['userPeptides']
             file.save(os.path.join(f"{application.config['UPLOAD_FOLDER']}/inputs", "userPeptides.txt"))
@@ -337,6 +342,8 @@ def get_value():
                 dt_now = str(datetime.datetime.now()).split('.')[0]
                 run_script.run_processing(form_data)
                 filename = completion.creating_zip()
+                while not (os.path.exists(f"{os.getcwd()}/uploads/outputs/{filename}.zip")):
+                    filename = completion.creating_zip()
                 if current_user.is_authenticated:
                     blob_file = convert_to_binary_data(f"uploads/outputs/{filename}.zip")
                     proteins = ','.join(get_proteins())
@@ -477,7 +484,10 @@ def get_blob(form: dict):
 
 if __name__ == "__main__":
     application.debug = True
-    #socketio.run(application, allow_unsafe_werkzeug=True, host='0.0.0.0')
+    import logging
+    handler = logging.FileHandler('app.log')  # errors logged to this file
+    handler.setLevel(logging.ERROR)  # only log errors and above
+    application.logger.addHandler(handler)  # attach the handler to the app's logger
     application.run()
     with application.app_context():
         db.create_all()

@@ -346,14 +346,13 @@ input:focus {
     width: 320px;
     left: 25%;
   }
-  .already {
-    line-height: 30px;
-  }
   .login-form {
     padding: 0 0 0;
   }
   .already {
+    line-height: 30px;
     font-size: 19px;
+    height: 60px;
   }
   .button {
     width: 100%;

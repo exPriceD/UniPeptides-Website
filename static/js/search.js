@@ -36,6 +36,7 @@ $("#userPeptidesFile").change(function(e) {
 $(document).on('submit', '#post-form', function(e) {
     e.preventDefault();
     var form_data = new FormData();
+    console.log($('#userProteinsFile').prop('files')[0]);
     form_data.append('userProteins', $('#userProteinsFile').prop('files')[0]);
     form_data.append('userPeptides', $('#userPeptidesFile').prop('files')[0]);
     form_data.append('proteins_value', $("#proteins-input").val());

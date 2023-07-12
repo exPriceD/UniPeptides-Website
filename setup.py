@@ -33,7 +33,7 @@ def setupConfig():
             "value": []
         },
         "savePath": {
-            "value": f"{os.getcwd()}\\uploads\\outputs\\{mk_name}"
+            "value": f"{os.getcwd()}/uploads/outputs/{mk_name}"
         },
         "databasePath": {
             "value": ''
@@ -81,12 +81,12 @@ def filling_config(user_data: dict):
             continue
         if key != "userPeptides" and key != "userProteins":
             config["excelFilters"][key] = True if user_data[key] == "true" else False
-    if os.path.exists(os.path.join(os.getcwd(), "uploads\\inputs\\userProteins.txt")):
-        with open(os.path.join(os.getcwd(), "uploads\\inputs\\userProteins.txt"), encoding="UTF8") as user_file:
+    if os.path.exists(os.path.join(os.getcwd(), "uploads/inputs/userProteins.txt")):
+        with open(os.path.join(os.getcwd(), "uploads/inputs/userProteins.txt"), encoding="UTF8") as user_file:
             user_proteins = user_file.readline()
             config["proteins"]["value"].extend(filter(None, re.split('[;, .]+', user_proteins)))
-    if os.path.exists(os.path.join(os.getcwd(), "uploads\\inputs\\userPeptides.txt")):
-        with open(os.path.join(os.getcwd(), "uploads\\inputs\\userPeptides.txt"), encoding="UTF8") as user_file:
+    if os.path.exists(os.path.join(os.getcwd(), "uploads/inputs/userPeptides.txt")):
+        with open(os.path.join(os.getcwd(), "uploads/inputs/userPeptides.txt"), encoding="UTF8") as user_file:
             user_peptides = user_file.readline()
             config["peptides"]["value"].extend(filter(None, re.split('[;, .]+', user_peptides)))
 

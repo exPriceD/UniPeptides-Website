@@ -1,0 +1,123 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.content {
+  position: relative;
+  width: 100%;
+  font-family: var(--font-inter);
+}
+.database-table {
+    width: 90%;
+}
+.header {
+    margin: 0;
+    width: 100%;
+}
+table,
+.dataTables_info,
+.dataTables_filter,
+.dataTables_filter.label.search {
+    font-family: var(--font-inter);
+}
+.dataTables_scroll {
+    padding-top: 20px;
+}
+.dataTables_filter {
+    padding-top: 10px;
+}
+.dataTables_wrapper .dataTables_filter input {
+    font-size: 20px;
+    height: 40px;
+    width: 230px;
+}
+tr {
+    background-color: var(--color-dodgerblue);
+}
+th {
+    color: #fff;
+}
+table.dataTable.nowrap th, table.dataTable.nowrap td {
+    white-space: unset;
+}
+.checkbox {
+  cursor: pointer;
+  width: 17px;
+  height: 17px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin: 0
+}
+.checkbox-control, .sorting_disabled {
+    width: 0px;
+}
+tr {
+    height: 40px;
+}
+.display_none {
+    display: none;
+}
+.dataTables_wrapper {
+    padding-bottom: 20px;
+}
+.ahref {
+    cursor: pointer;
+    border: 0;
+    padding: var(--padding-5xs) var(--padding-base);
+    background-color: var(--color-dodgerblue);
+    border-radius: var(--br-3xs);
+    width: 300px;
+    height: 65px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-9xs);
+    display: flex;
+    box-sizing: border-box;
+}
+.ahref:disabled {
+   background-color: #A1A8B0;
+}
+.table-btn {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 15px;
+}
+.btn-text {
+    position: relative;
+    font-family: var(--font-inter);
+    text-align: left;
+    width: 330px;
+    height: 20px;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 500;
+    color: var(--gray-10);
+}
+@media screen and (max-width: 730px) {
+    .navigation {
+        width: 75px;
+    }
+    .secret-navigation {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 500px) {
+    .navigation {
+        width: 30px;
+    }
+    .nav-btn {
+        width: 100%;
+    }
+    .database-table {
+        width: 100%;
+    }
+    .secret-navigation {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+}

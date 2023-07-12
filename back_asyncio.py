@@ -4,8 +4,6 @@ from openpyxl import load_workbook
 from openpyxl.styles import PatternFill
 from openpyxl.styles import Alignment
 
-from numba import prange
-
 import asyncio
 import aiohttp
 import threading
@@ -24,8 +22,7 @@ class Creater:
             save_path = config_data["savePath"]["value"]
         filepath = f'{save_path}/{self.filename}.xlsx'
         wb = openpyxl.Workbook()
-        sheet = wb['Sheet']
-        sheet.title = 'Result'
+        print(filepath)
         wb.save(filepath)
 
 
@@ -62,7 +59,7 @@ class Writer:
         result = wb.active
 
         is_checked = 0
-        for i in prange(len(self.columns)):
+        for i in range(len(self.columns)):
             if self.columns[i] == ' ':
                 is_checked += 1
             else:
@@ -122,13 +119,13 @@ class Writer:
 
         r = 5
         pep_flag = False
-        for i in prange(len(self.peptides)):
+        for i in range(len(self.peptides)):
             count_peptide = 0
             if self.peptides[i] in self.sequence:
                 pep_flag = True
                 first_r = r
                 not_checked = 0
-                for col in prange(len(self.columns_peptides)):
+                for col in range(len(self.columns_peptides)):
                     if self.columns_peptides[col] == ' ':
                         not_checked += 1
                     else:
@@ -145,7 +142,7 @@ class Writer:
                 sdvig = not_checked
                 not_checked = 0
                 position_col = []
-                for col in prange(len(self.columns_aminos)):
+                for col in range(len(self.columns_aminos)):
                     if self.columns_aminos[col] == ' ':
                         not_checked += 1
                         position_col.append(-1)
@@ -167,7 +164,7 @@ class Writer:
                     end_color="DAEEF3",
                     fill_type="solid")
 
-                for j in prange(len(self.sequence)):
+                for j in range(len(self.sequence)):
                     if self.sequence[j: j + len(self.peptides[i])] == self.peptides[i]:
                         count_peptide += 1
                         leftpos = j + 1
@@ -222,7 +219,7 @@ class Writer:
                         value_list[i - 10] = ' '
 
                 is_checked = 0
-                for val in prange(len(value_list)):
+                for val in range(len(value_list)):
                     if value_list[val] == ' ':
                         is_checked += 1
                     else:
@@ -371,16 +368,13 @@ class AsyncParser:
 
 
 def async_creater(proteinName):
-    createrThread = threading.Thread(target=Creater(proteinName).creating_excel())
-    createrThread.start()
+    Creater(proteinName).creating_excel()
 
 
 def async_writer(uniprot_result, sequence):
     writer = Writer(uniprot_result=uniprot_result, sequence=sequence)
-    writerThread_main = threading.Thread(target=writer.filling_main_info())
-    writerThread_main_peptides = threading.Thread(target=writer.filling_peptides_info())
-    writerThread_main.start()
-    writerThread_main_peptides.start()
+    writer.filling_main_info()
+    writer.filling_peptides_info()
 
 
 def main():
@@ -397,4 +391,3 @@ def main():
         sequence = sequences[i]
         async_creater(proteinName=uniprot_result["proteinName"])
         async_writer(uniprot_result=uniprot_result, sequence=sequence)
-

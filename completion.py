@@ -11,9 +11,9 @@ def creating_zip():
     shutil.make_archive(
         filename,
         'zip',
-        f"uploads/outputs//{filename}"
+        f"uploads/outputs/{filename}"
     )
-    shutil.move(f"{filename}.zip", "uploads/outputs\\")
+    shutil.move(f"{filename}.zip", "uploads/outputs/")
     return filename
 
 

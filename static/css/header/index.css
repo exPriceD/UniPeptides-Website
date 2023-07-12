@@ -280,7 +280,7 @@ a {
   }
   .navigation {
     display: flex;
-    width: 85px;
+    width: 52px;
     height: 130px;
     padding: 15px 0px;
     justify-content: flex-end;
@@ -312,7 +312,7 @@ a {
   .logo {
     height: 130px;
     flex-direction: row;
-    gap: var(--gap-mini);
+    gap: 5px;
     align-items: center;
     justify-content: center;
   }
@@ -393,4 +393,20 @@ a {
     width: 40px;
     height: 40px;
   }
+}
+@media screen and (max-width: 730px) {
+    .navigation {
+        width: 75px;
+    }
+    .secret-navigation {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 500px) {
+    .navigation {
+        width: 30px;
+    }
+    .nav-btn {
+        width: 100%;
+    }
 }
