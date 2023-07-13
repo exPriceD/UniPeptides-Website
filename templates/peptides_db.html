@@ -48,13 +48,13 @@
               </a>
             </div>
           </header>
-          <div class="content">
+          <div class="content" data-animate-on-scroll>
             <hr class="mtb-3">
             <table id="table" class="display nowrap collapsed" style="width:100%">
               <thead>
                 <tr>
                   <th></th>
-                  <th><input class="checkbox" type="checkbox" id="mainCheck"/></th>
+                  <th><input class="checkbox" type="checkbox" id="mainCheck" onclick="selectAll()"/></th>
                   <th>ID</th>
                   <th>Sequence</th>
                   <th>Length</th>
@@ -69,7 +69,7 @@
               </thead>
             </table>
             <div class="table-btn">
-            <button type="submit" class="ahref" id="usePeptides" onclick="func()" disabled>
+            <button type="submit" class="ahref" id="usePeptides" onclick="pepInSearch()" disabled>
               <span class="btn-text">Use peptides to search</span>
               <img class="phosphor-icons-caretcircleri" alt="" src="{{url_for('static', filename='images/phosphor-icons--caretcircleright.svg')}}"/>
             </button>

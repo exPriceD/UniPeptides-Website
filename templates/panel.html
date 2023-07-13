@@ -2,26 +2,62 @@
 <html>
   <head>
     <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
     <link rel="stylesheet" href="../static/css/admin/global.css" />
     <link rel="stylesheet" href="../static/css/admin/index.css" />
+    <link rel="stylesheet" href="../static/css/header/index.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="admin-panel">
       <div class="container">
-        <header class="header">
-          <div class="logo" data-animate-on-scroll>
-            <img class="logo-icon" alt="" src="../static/images/admin/logo-blue-1@2x.png" />
-
-            <h1 class="site-name">Editor panel</h1>
-          </div>
-          <div class="setting-btns">
-            <button class="small-btn">
-              <span class="log-out">Log out</span>
-            </button>
-          </div>
-        </header>
+          <header class="header">
+            <div class=main_selector>
+              <a href="/" class="logo" data-animate-on-scroll> <img class="logo-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}" />
+                <h1 class="site-name">UniPeptides</h1>
+              </a>
+              <div class="navigation">
+                <button class="small-menu" onclick="openMenu();"><img class="feather-icons-menu" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu.svg')}}" /></button>
+                <a class="nav-btn main" href="/search"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--search.svg')}}" />
+                  <label class="search">Search</label>
+                </a>
+                <a class="nav-btn main" href="/database"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--database.svg')}}" />
+                  <label class="search">Database</label>
+                </a>
+                <a class="nav-btn main" href="/account"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--user.svg')}}" />
+                  <label class="search">Account</label>
+                </a>
+                {% if is_auth %}
+                <a class="nav-btn main" href="/panel">
+                  <label class="search">Edit panel</label>
+                </a>
+                {% endif %}
+                <a class="nav-btn main" href="#"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
+                  <label class="search">Menu</label>
+                </a>
+              </div>
+            </div>
+            <div class="secret-navigation" id="secretNavigation">
+              <a class="nav-btn" href="/search" style="text-decoration: none; color: #fff;"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--search.svg')}}" />
+                <label class="search">Search</label>
+              </a>
+              <a class="nav-btn" href="/database"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--database.svg')}}" />
+                <label class="search">Database</label>
+              </a>
+              <a class="nav-btn" href="/account"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--user.svg')}}" />
+                <label class="search">Account</label>
+              </a>
+              {% if is_auth %}
+              <a class="nav-btn" href="/panel">
+                <label class="search">Edit panel</label>
+              </a>
+              {% endif %}
+              <a class="nav-btn" href="#"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
+                <label class="search">Menu</label>
+              </a>
+            </div>
+          </header>
         <div class="content">
           <div class="menu">
             <button class="small-btn1" onclick="selectDatabase()" id="database_btn">
@@ -40,7 +76,7 @@
                 </button>
               </div>
               <form class="form-body" id="addPeptide">
-                <div class="input">
+                <div class="input1">
                   <div class="peptide-sequence-container">
                     <span class="peptide-sequence">Peptide sequence </span>
                     <span class="span">*</span>
@@ -88,14 +124,18 @@
                   </div>
                   <textarea class="textarea-default" id="reference_addPeptide"></textarea>
                 </div>
-                <div class="buttons">
-                  <div class="the-peptide-has" id="addMsg" style="opacity: 0;">The peptide has been added</div>
-                  <button class="button13" type="submit" id="addPeptidesBtn">
-                    <div class="add">Add</div>
-                  </button>
-                  <button class="button-red" id="addPeptideClear">
-                    <div class="clear">Clear</div>
-                  </button>
+                <div class="buttons2">
+                  <div class="the-peptide-has2" style="opacity: 0;" id="addMsg">
+                    The peptide has been added
+                  </div>
+                  <div class="del_peptide_btn">
+                    <button class="button13" id="addPeptidesBtn" type="submit">
+                      <div class="add">Add</div>
+                    </button>
+                    <button class="button-red" id="addPeptideClear">
+                      <div class="clear">Clear</div>
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>
@@ -107,24 +147,26 @@
                 </button>
               </div>
               <form class="form-body" id="editPeptide">
-                <div class="search">
-                  <div class="input8">
+                <div class="find">
+                  <div class="input-find">
                     <div class="peptide-sequence-container">
                       <span class="peptide-sequence">Peptide sequence </span>
                       <span class="span">*</span>
                     </div>
                     <input class="input-inner" type="text" id="sequence_editPeptide" />
                   </div>
-                  <div class="input9">
+                  <div class="input-find">
                     <div class="peptide-sequence-container">
                       <span class="peptide-sequence">Activity </span>
                       <span class="span">*</span>
                     </div>
                     <input class="input-inner" type="text" id="activity_editPeptide"/>
                   </div>
-                  <label class="button14" onclick="findPeptide()">
-                    <img class="phosphor-icons-caretcircleri" alt="" src="../static/images/admin/phosphor-icons--caretcircleright.svg"/>
-                  </label>
+                  <div class="search_btn">
+                    <label class="button-peptide-search" onclick="findPeptide()">
+                      <img class="phosphor-icons-caretcircleri" alt="" src="../static/images/admin/phosphor-icons--caretcircleright.svg"/>
+                    </label>
+                  </div>
                 </div>
                 <div class="peptide-info">
                   <div class="input1">
@@ -162,16 +204,18 @@
                     <input class="textarea-default1" type="text" id="reference_editPeptide"/>
                   </div>
                 </div>
-                <div class="buttons1">
-                  <div class="the-peptide-has1" id="editMsg" style="opacity: 0;">
-                    The peptide has been edited
+                <div class="buttons2">
+                  <div class="the-peptide-has2" style="opacity: 0;" id="editMsg">
+                    The peptide has been added
                   </div>
-                  <button class="button13" id="editPeptidesBtn">
-                    <div class="add">Edit</div>
-                  </button>
-                  <button class="button-red" id="editPeptideClear">
-                    <div class="clear">Clear</div>
-                  </button>
+                  <div class="del_peptide_btn">
+                    <button class="button13" id="editPeptidesBtn" type="submit">
+                      <div class="add">Edit</div>
+                    </button>
+                    <button class="button-red" id="editPeptideClear">
+                      <div class="clear">Clear</div>
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>
@@ -200,7 +244,7 @@
                   <input class="input-inner" type="text" style="width: 650px;" id="activity_remove"/>
                 </div>
                 <div class="buttons2">
-                  <div class="the-peptide-has2" style="opacity: 0;" id="removeMsg">
+                  <div class="the-peptide-has2" style="opacity: 0; width: 600px;" id="removeMsg">
                     The peptide has been removed
                   </div>
                   <div class="del_peptide_btn">
@@ -240,17 +284,17 @@
                   <img class="vector-icon3" alt="" src="../static/images/admin/vector.svg" />
                 </button>
               </div>
-              <form method="post" class="form-body3" id="{{ request.id }}" style="display: none;">
+              <form method="post" class="form-body-requests" id="{{ request.id }}" style="display: none;">
                 <div class="user-info">
-                  <div class="input17">
+                  <div class="user_info">
                     <div class="username">Username</div>
                     <input class="input-inner" type="text" value="{{ request.username }}" disabled />
                   </div>
-                  <div class="input17">
+                  <div class="user_info">
                     <div class="username">Email</div>
                     <input class="input-inner" type="text" value="{{ request.email }}" disabled />
                   </div>
-                  <div class="input17">
+                  <div class="user_info">
                     <div class="username">Request status</div>
                     <input class="input-inner" type="text" value="{{ request.status }}" disabled />
                   </div>
@@ -293,15 +337,17 @@
                     <textarea id="reference_{{ request.id }}" class="textarea-default2">{{ request.reference }}</textarea>
                   </div>
                   {% if request.status == "Сonsideration" %}
-                  <div class="buttons3">
-                    <div class="the-peptide-has3" style="opacity: 0" id="message_{{ request.id }}">
+                  <div class="buttons2">
+                   <div class="the-peptide-has2" style="opacity: 0; width: 300px;" id="message_{{ request.id }}">
                       The peptide has been added
                     </div>
-                    <div class="button18" id="acceptButton_{{ request.id }}" onclick="openPopup('modalAcceptPopup', '{{ request.id }}')">
-                      <div class="accept">Accept</div>
-                    </div>
-                    <div class="button-red3" id="cancelButton_{{ request.id }}" onclick="openPopup('modalCancelPopup', '{{ request.id }}')">
-                      <div class="cancel">Cancel</div>
+                    <div class="del_peptide_btn">
+                      <div class="button13" id="acceptButton_{{ request.id }}" onclick="openPopup('modalAcceptPopup', '{{ request.id }}')">
+                        <div class="add">Accept</div>
+                      </div>
+                      <div class="button-red" id="cancelButton_{{ request.id }}" onclick="openPopup('modalCancelPopup', '{{ request.id }}')">
+                        <div class="clear">Cancel</div>
+                      </div>
                     </div>
                   </div>
                   {% endif %}

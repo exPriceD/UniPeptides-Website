@@ -90,7 +90,7 @@ a {
   padding: var(--padding-5xs) var(--padding-base);
   align-items: center;
   justify-content: center;
-  gap: var(--gap-9xs);
+  gap: 4px;
 }
 .nav-btn,
 .navigation {
@@ -143,6 +143,10 @@ a {
   flex-wrap: wrap;
   text-align: left;
   justify-content: center
+}
+.small-menu {
+    background-color: #fff;
+    border: 0;
 }
 @media screen and (max-width: 1360px) {
   .logo-icon {

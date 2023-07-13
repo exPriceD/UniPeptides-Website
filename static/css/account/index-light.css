@@ -37,6 +37,23 @@
   height: 57px;
   line-height: 57px;
 }
+.small-btn {
+  cursor: pointer;
+  border: 0;
+  background-color: var(--color-dodgerblue);
+  border-radius: var(--br-9xs);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.small-btn {
+  padding: 0;
+  width: 43px;
+  height: 43px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
 .select-all {
   align-self: stretch;
   font-size: var(--font-size-6xl);

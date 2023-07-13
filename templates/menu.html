@@ -19,7 +19,8 @@
               <a href="/" class="logo" data-animate-on-scroll> <img class="logo-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}" />
                 <h1 class="site-name">UniPeptides</h1>
               </a>
-              <div class="navigation"><img class="feather-icons-menu" onclick="openMenu();" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu.svg')}}" />
+              <div class="navigation">
+                <button class="small-menu" onclick="openMenu();"><img class="feather-icons-menu" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu.svg')}}" /></button>
                 <a class="nav-btn main" href="/search"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--search.svg')}}" />
                   <label class="search">Search</label>
                 </a>

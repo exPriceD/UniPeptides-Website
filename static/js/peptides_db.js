@@ -1,3 +1,5 @@
+window.onload = Animation;
+
 new DataTable('#table', {
     ajax: '../api/database',
     paging: false,
@@ -25,7 +27,8 @@ new DataTable('#table', {
             data: 'id'
         },
         {
-            data: 'sequence',
+            className: "sequence-bold",
+            data: 'sequence'
         },
         {
             data: 'length'
@@ -87,3 +90,51 @@ var inter = setInterval(function() {
     let table = document.getElementById('table');
     table.classList.add("collapsed");
 }, 100);
+setTimeout(function() {
+    clearInterval(inter);
+}, 5000);
+
+setInterval(checkSelected, 100);
+
+function pepInSearch() {
+    const checkbox_list = document.getElementsByClassName("checkbox");
+    const sequence_list = document.getElementsByClassName("sequence-bold");
+    let checked_seq = [];
+    for (let i = 1; i < checkbox_list.length; i++) {
+        if (checkbox_list[i].checked) {
+            checked_seq.push(sequence_list[i].innerHTML);
+        }
+    }
+    let peptides = checked_seq.join("?");
+    console.log(peptides);
+    window.location.href = `/search?peptides=${peptides}`;
+}
+
+function selectAll() {
+    const el = document.getElementsByClassName("checkbox");
+    if (!mainCheck.checked) {
+        for (let i = 1; i < el.length; i++) {
+            el[i].checked = false;
+        }
+    } else {
+        for (let i = 1; i < el.length; i++) {
+            el[i].checked = true;
+        }
+    }
+}
+
+function checkSelected() {
+    const el = document.getElementsByClassName("checkbox");
+    let flag = false;
+    for (let i = 1; i < el.length; i++) {
+        if (el[i].checked === true) {
+            flag = true;
+            break;
+        }
+    }
+    if (flag) {
+        document.getElementById('usePeptides').disabled = false;
+    } else {
+        document.getElementById('usePeptides').disabled = true;
+    }
+}
