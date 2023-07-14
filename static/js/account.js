@@ -26,20 +26,20 @@ function downloadSelected() {
             parent_id = checkbox[i].parentElement.id;
             form_data.append(parent_id, 'true');
         }
-        if (form_data) {
-            $.ajax({
-                type: 'POST',
-                dataType: 'json',
-                url: '/account/download',
-                data: form_data,
-                contentType: false,
-                cache: false,
-                processData: false,
-                success: function(data) {
-                    console.log("success");
-                }
-            });
-        }
+    }
+    if (form_data) {
+       $.ajax({
+          type: 'POST',
+          dataType: 'json',
+          url: '/account/download',
+          data: form_data,
+          contentType: false,
+          cache: false,
+          processData: false,
+          success: function(data) {
+               console.log(data);
+          }
+       });
     }
 }
 

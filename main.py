@@ -31,6 +31,15 @@ dbase = None
 db = SQLAlchemy(application)
 
 
+@application.after_request
+def add_header(r):
+    r.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    r.headers["Pragma"] = "no-cache"
+    r.headers["Expires"] = "0"
+    r.headers['Cache-Control'] = 'public, max-age=0'
+    return r
+
+
 class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String, unique=True)
@@ -87,16 +96,6 @@ class DatabaseReqests(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.filter_by(id=user_id).first()
-
-
-admin = Admin(application, name="Admin panel", template_mode="bootstrap4")
-admin.add_view(ModelView(Users, db.session, name="Users"))
-
-
-@application.route('/admin')
-def admin():
-    if current_user.role != "Admin":
-        return 'You dont have enough rights to view this page'
 
 
 @application.route('/database', methods=['GET', 'POST'])
@@ -289,7 +288,14 @@ def account():
 @application.route('/account/<result_id>')
 @login_required
 def get_result(result_id):
-    result = SearchResults.query.filter_by(id=result_id).first()
+    try:
+        result = SearchResults.query.filter_by(id=result_id).first()
+        if not (result):
+            return "<h1>Result not found <b>support@unipeptides.ru</b></h1>"
+    except:
+        return '<h1>Unknown error </h1><b>support@unipeptides.ru</b>'
+    if int(result.user_id) != int(current_user.id):
+        return "<h1>You don't have enough rights to download this result <b>support@unipeptides.ru</b></h1>"
     file = result.file
     result_date = result.date
     result_date = result_date.replace(' ', '').replace(':', '')
@@ -297,8 +303,9 @@ def get_result(result_id):
         _file = open(f"uploads/outputs/{result_date}.zip", 'wb')
         _file.write(file)
         _file.close()
-    full_path = f"{os.path.join(application.root_path, application.config['UPLOAD_FOLDER'])}\outputs"
-    return send_from_directory(full_path, f"{result_date}.zip")
+        full_path = f"{os.path.join(application.root_path, application.config['UPLOAD_FOLDER'])}/outputs"
+        return send_from_directory(full_path, f"{result_date}.zip")
+    return f'<h1>Result from {result_date} not found. If you think this is a mistake, write to us by email <b>support@unipeptides.ru</b> </h1>'
 
 
 @application.route('/account/download', methods=["POST", "GET"])
@@ -307,7 +314,7 @@ def download_selected():
         form = request.form.to_dict()
         if form:
             get_blob(form=form)
-    return send_from_directory('uploads\outputs', f"selectedResults.zip")
+    return send_from_directory('uploads/outputs', f"selectedResults.zip")
 
 
 @application.route('/login', methods=["POST", "GET"])
@@ -521,7 +528,7 @@ def get_blob(form: dict):
             'zip',
             f"uploads/outputs/selectedResults"
         )
-        shutil.move(f"selectedResults.zip", "uploads/outputs\\")
+        shutil.move(f"selectedResults.zip", "uploads/outputs/")
 
 
 if __name__ == "__main__":

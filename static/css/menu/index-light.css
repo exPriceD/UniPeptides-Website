@@ -584,6 +584,9 @@
   .content {
     width: 320px;
   }
+  .row, .row1, .content {
+    gap: 20px;
+  }
   .search-block {
     min-height: 345px;
     display: flex;
@@ -596,7 +599,7 @@
   .text-about {
     min-height: 180px;
     width: auto;
-    height: auto;
+    height: 270px;
   }
   .a-program-for {
     font-size: 20px;
