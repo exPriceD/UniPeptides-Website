@@ -168,3 +168,28 @@ function func() {
     console.log(peptides);
     window.location.href = `/search?peptides=${peptides}`;
 }
+
+setInterval(checkSelected, 100);
+
+
+var interval = setInterval(stateColor, 100);
+setTimeout(function() {
+    clearInterval(interval);
+    console.log('interval')
+}, 5000);
+
+
+$(window).resize(function() {
+    if ($(window).width() < 1440) {
+        content = document.querySelector("body > div > div > div.content");
+        content.style.width = '80%';
+    }
+    if ($(window).width() > 1440) {
+        content = document.querySelector("body > div > div > div.content");
+        content.style.width = '100%';
+    }
+    if ($(window).width() < 1085) {
+        table = document.querySelector("#table");
+        content.style.width = '80 %';
+    }
+});

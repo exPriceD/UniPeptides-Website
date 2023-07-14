@@ -85,7 +85,7 @@ function acceptRequest() {
     status.style.color = "#15FF1E";
 
     let message = document.getElementById(`message_${request_id}`);
-    message.style.opacity = '1';
+    message.style.display = "flex";
 
     let acceptButton = document.getElementById(`acceptButton_${request_id}`);
     let cancelButton = document.getElementById(`cancelButton_${request_id}`);
@@ -122,7 +122,7 @@ function cancelRequest() {
 
     let message = document.getElementById(`message_${request_id}`);
     message.innerHTML = "The application was canceled"
-    message.style.opacity = '1';
+    message.style.display = "flex";
 
     let acceptButton = document.getElementById(`acceptButton_${request_id}`);
     let cancelButton = document.getElementById(`cancelButton_${request_id}`);
@@ -158,14 +158,22 @@ function addPeptide() {
     });
 
     let message = document.getElementById("addMsg");
-    message.style.opacity = "1";
+    message.style.display = "flex";
 
 }
 
 function removePeptide() {
     var form_data = new FormData();
+    sequence = document.getElementById('sequence_remove');
+    activity = document.getElementById('activity_remove');
     form_data.append('sequence', $(`#sequence_remove`).val());
     form_data.append('activity', $(`#activity_remove`).val());
+    sequence.onfocus = function() {
+        message.style.display = "none";
+    }
+    activity.onfocus = function() {
+        message.style.display = "none";
+    }
     $.ajax({
         type: 'POST',
         dataType: 'json',
@@ -179,7 +187,7 @@ function removePeptide() {
         }
     });
     let message = document.getElementById("removeMsg");
-    message.style.opacity = "1";
+    message.style.display = "flex";
 
 };
 
@@ -207,7 +215,7 @@ function editPeptide() {
         }
     });
     let message = document.getElementById("editMsg");
-    message.style.opacity = "1";
+    message.style.display = "flex";
 }
 
 function openCard(elements) {
