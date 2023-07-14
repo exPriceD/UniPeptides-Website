@@ -125,7 +125,7 @@
                   <textarea class="textarea-default" id="reference_addPeptide"></textarea>
                 </div>
                 <div class="buttons2">
-                  <div class="the-peptide-has2" style="opacity: 0;" id="addMsg">
+                  <div class="the-peptide-has2" style="display:none;" id="addMsg">
                     The peptide has been added
                   </div>
                   <div class="del_peptide_btn">
@@ -164,6 +164,7 @@
                   </div>
                   <div class="search_btn">
                     <label class="button-peptide-search" onclick="findPeptide()">
+                      <label class="secret-search">Search</label>
                       <img class="phosphor-icons-caretcircleri" alt="" src="../static/images/admin/phosphor-icons--caretcircleright.svg"/>
                     </label>
                   </div>
@@ -205,7 +206,7 @@
                   </div>
                 </div>
                 <div class="buttons2">
-                  <div class="the-peptide-has2" style="opacity: 0;" id="editMsg">
+                  <div class="the-peptide-has2" style="display:none;" id="editMsg">
                     The peptide has been added
                   </div>
                   <div class="del_peptide_btn">
@@ -228,23 +229,23 @@
                   <img class="vector-icon" alt="" src="../static/images/admin/vector.svg" />
                 </button>
               </div>
-              <form class="form-body" style="flex-wrap: row;" id="removePeptides">
-                <div class="input1" style="width: auto;">
+              <form class="form-body" id="removePeptides">
+                <div class="input1 remove">
                   <div class="peptide-sequence-container">
                     <span class="peptide-sequence">Peptide sequence </span>
                     <span class="span">*</span>
                   </div>
-                  <input class="input-inner" type="text" style="width: 650px;" id="sequence_remove"/>
+                  <input class="input-inner" type="text" id="sequence_remove"/>
                 </div>
-                <div class="input1" style="width: auto;">
+                <div class="input1 remove">
                   <div class="peptide-sequence-container">
                     <span class="peptide-sequence">Activity </span>
                     <span class="span">*</span>
                   </div>
-                  <input class="input-inner" type="text" style="width: 650px;" id="activity_remove"/>
+                  <input class="input-inner" type="text" id="activity_remove"/>
                 </div>
                 <div class="buttons2">
-                  <div class="the-peptide-has2" style="opacity: 0; width: 600px;" id="removeMsg">
+                  <div class="the-peptide-has2" style="display:none;" id="removeMsg">
                     The peptide has been removed
                   </div>
                   <div class="del_peptide_btn">
@@ -262,7 +263,7 @@
           <div class="requests-content" id="requests_container">
             {% for request in user_requests %}
             <div class="add-form">
-              <div class="form-header">
+              <div class="form-header requests-head">
                 <div class="accepted-request-from-container">
                   <span class="accepted-request-from-container1">
                     <b>
@@ -274,9 +275,9 @@
                       <span style="color: #15FF1E">{{ request.status }} </span>
                       {% endif %}
                     </b>
-                    <span class="request-from-29062023-1223">
+                    <span class="request-from-t">
                       <span class="request-from">Request from </span>
-                      <b>{{ request.date }}</b>
+                      <b class="request-date">{{ request.date }}</b>
                     </span>
                   </span>
                 </div>
@@ -338,7 +339,7 @@
                   </div>
                   {% if request.status == "Сonsideration" %}
                   <div class="buttons2">
-                   <div class="the-peptide-has2" style="opacity: 0; width: 300px;" id="message_{{ request.id }}">
+                   <div class="the-peptide-has2" style="display:none; width: 300px;" id="message_{{ request.id }}">
                       The peptide has been added
                     </div>
                     <div class="del_peptide_btn">

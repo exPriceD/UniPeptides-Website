@@ -1,3 +1,6 @@
+body {
+    height: auto;
+}
 @keyframes scale-up {
   0% {
     transform: scale(0.5);
@@ -217,6 +220,9 @@
   line-height: 20px;
   font-weight: 600;
   font-family: var(--body-text-inter-14-medium);
+}
+.secret-search {
+    display: none;
 }
 .the-peptide-has {
   font-size: var(--font-size-3xl);
@@ -484,11 +490,8 @@
   font-weight: 500;
   font-family: var(--body-text-inter-14-medium);
 }
-.request-from-29062023-1223 {
+.request-from-t {
   color: var(--color-dodgerblue);
-}
-.accepted-request-from-container1 {
-  line-break: anywhere;
 }
 .accepted-request-from-container {
   flex: 1;
@@ -658,6 +661,9 @@
   font-size: var(--font-size-6xl);
   color: var(--color-dodgerblue);
   font-family: var(--body-text-inter-14-medium);
+}
+.remove {
+    width: 100%
 }
 @media screen and (max-width: 1360px) {
   .setting-btns {
@@ -970,14 +976,11 @@
 }
 
 @media screen and (max-width: 1360px) {
-    .admin-panel {
-        width: 1360px;
-    }
     .container {
         width: 1000px;
     }
     .content {
-        width: 1080px;
+        width: 1000px;
         padding: 0 0 0;
         height: auto;
         display: flex;
@@ -987,10 +990,16 @@
         width: 100%;
     }
     .add-form, .form-header, .form-body, .user-info, .form-body-requests  {
-        width: 1000px;
+        width: 948px;
+    }
+    .input, .input1, .user_info {
+        width: 305px;
+    }
+    .text-area, .text-area1, .textarea-default {
+        width: 936px;
     }
     .menu {
-        width: 1052px;
+        width: 1000px;
     }
     .add-a-new {
         width: 900px;
@@ -998,36 +1007,40 @@
     .buttons {
         width: 400px;
     }
-    .user_info {
-        width: 330px;
-    }
     .peptide-info1 {
         display: flex;
         justify-content: center;
     }
+    .user-info, .find, .peptide-info {
+        padding-left: 7px;
+    }
+    .form-body {
+        padding-left: 5px;
+    }
+    .remove {
+        width: 100%
+    }
+    .buttons2 {
+        width: 100%;
+        height: auto;
+        padding-top: 10px;
+    }
 }
 @media screen and (max-width: 1000px) {
-    .admin-panel {
-        width: 1000px;
-    }
     .container {
-        width: 720px;
+        width: 730px;
     }
     .content {
-        width: 800px;
-        padding: 0 0 0;
-        height: auto;
-        display: flex;
-        flex-direction: column;
+        width: 730px;
     }
-    .requests-content {
-        width: 100%;
+    .requests-content, .database-content {
+        width: 730px;
     }
     .add-form, .form-header, .form-body, .user-info, .form-body-requests  {
-        width: 720px;
+        width: 678px;
     }
     .menu {
-        width: 772px;
+        width: 730px;
     }
     .add-a-new {
         width: 620px;
@@ -1045,13 +1058,196 @@
     .peptide-info1 {
         width: 100%;
     }
-    .input {
-        width: 350px;
-    }
-    .input1 {
-        width: 355px;
+    .input1, .input {
+        width: 330px;
     }
     .input-find {
+        width: 305px;
+    }
+    .text-area, .text-area1, .textarea-default {
+        width: 670px;
+    }
+    .remove {
+        width: 100%
+    }
+
+}
+@media screen and (max-width: 730px) {
+    .container {
+        width: 500px;
+    }
+    .admin-panel {
+        height: 2800px;
+    }
+    .content {
+        padding-top: 20px;
+        width: 500px;
+    }
+    .requests-content, .database-content {
+        width: 500px;
+    }
+    .add-form, .form-header, .form-body, .user-info, .form-body-requests  {
+        width: 448px;
+    }
+    .menu {
+        width: 500px;
+    }
+    .add-a-new {
+        width: 620px;
+    }
+    .buttons {
+        width: 400px;
+    }
+    .user_info {
         width: 330px;
+    }
+    .user-info {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .peptide-info1 {
+        width: 100%;
+    }
+    .find {
+        flex-direction: column;
+    }
+    .secret-search {
+        display: flex;
+    }
+    .button-peptide-search {
+        width: auto;
+    }
+    .text-area, .text-area1, .textarea-default {
+        width: 450px;
+    }
+    .add-a-new {
+        font-size: 22px;
+    }
+    .user-info, .find, .peptide-info {
+        padding-left: 0px;
+    }
+    .form-body {
+        padding-left: 0px;
+    }
+    .remove {
+        width: 100%
+    }
+    .accepted-request-from-container1 {
+        line-height: 35px;
+    }
+    .requests-head {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
+@media screen and (max-width: 500px) {
+    .container {
+        width: 320px;
+    }
+    .admin-panel {
+        height: 2800px;
+    }
+    .content {
+        width: 320px;
+    }
+    .requests-content, .database-content {
+        width: 320px;
+    }
+    .add-form, .form-header, .form-body, .user-info, .form-body-requests  {
+        width: 268px;
+    }
+    .menu {
+        width: 320px;
+    }
+    .add-a-new {
+        width: 620px;
+    }
+    .buttons {
+        width: 400px;
+    }
+    .user_info {
+        width: 330px;
+    }
+    .user-info {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .peptide-info1 {
+        width: 100%;
+    }
+    .form-body {
+        font-size: 17px;
+    }
+    .button-peptide-search {
+        width: auto;
+    }
+    .text-area, .text-area1, .textarea-default {
+        width: 268px;
+    }
+    .find, .input1, .input, .user_info, .input-find {
+        width: 100%;
+    }
+    .peptide-sequence, .organism-scientific-name {
+        font-size: 17px;
+    }
+    .input-inner {
+        height: 35px;
+    }
+    .add-a-new, .the-peptide-has2 {
+        font-size: 19px;
+    }
+    .user-info, .find, .peptide-info {
+        width: 100%;
+    }
+    .form-body {
+        padding-left: 0px;
+    }
+    .remove {
+        width: 100%
+    }
+    .accepted-request-from-container1 {
+        line-height: 30px;
+    }
+    .buttons2 {
+        width: 100%;
+        height: auto;
+        padding-top: 10px;
+    }
+    .add, .clear {
+        font-size: 19px;
+    }
+    .button13, .button-red {
+        width: 110px;
+        height: 37px;
+    }
+    .database {
+        font-size: 21px;
+    }
+    .small-btn1, .small-btn2 {
+        width: 160px;
+    }
+    .small-btn1 {
+        height: 55px;
+    }
+    .small-btn2 {
+        height: 47px;
+    }
+    .accepted-request-from-container1 {
+        font-size: 22px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: flex;
+        align-items: flex-start;
+        flex-wrap: wrap;
+
+    }
+    .request-from {
+        display: none
+    }
+    .request-date {
+        font-size: 19px;
+    }
+    .admin-panel {
+        padding: 0 0 0;
     }
 }
