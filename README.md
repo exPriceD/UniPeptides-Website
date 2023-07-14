@@ -1,5 +1,5 @@
 ![alt text](https://github.com/exPriceD/UniPeptides-PyQt-App/blob/master/static/images/logo_for_readme.png)
-# [a link](https://unipeptides.ru)UniPeptides
+# [UniPeptides](https://unipeptides.ru) <- link
 A service for searching for biologically active peptides in collagens, with a database of peptides
 
 # Installation
