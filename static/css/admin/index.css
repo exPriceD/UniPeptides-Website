@@ -1187,7 +1187,7 @@ body {
     .find, .input1, .input, .user_info, .input-find {
         width: 100%;
     }
-    .peptide-sequence, .organism-scientific-name {
+    .peptide-sequence, .organism-scientific-name, .username {
         font-size: 17px;
     }
     .input-inner {

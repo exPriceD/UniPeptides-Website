@@ -101,7 +101,10 @@ def admin():
 
 @application.route('/database', methods=['GET', 'POST'])
 def database():
-    return render_template("peptides_db.html")
+    auth = False
+    if current_user.is_authenticated and current_user.role != 'User':
+        auth = True
+    return render_template("peptides_db.html", is_auth=auth)
 
 
 @application.route('/api/database')
@@ -112,19 +115,29 @@ def get_db_json():
 
 
 @application.route('/panel')
+@login_required
 def panel():
     try:
         if current_user.role == "User":
             return 'You dont have enough rights to view this page'
     except AttributeError:
         return redirect('/login')
+    auth = False
+    if current_user.is_authenticated and current_user.role != 'User':
+        auth = True
     user_requests = DatabaseReqests.query.order_by(DatabaseReqests.status).all()
     user_requests = reversed(user_requests)
-    return render_template('panel.html', user_requests=user_requests)
+    return render_template('panel.html', user_requests=user_requests, is_auth=auth)
 
 
 @application.route('/panel/add_peptide', methods=["POST", "GET"])
+@login_required
 def add_peptide():
+    try:
+        if current_user.role == "User":
+            return 'You dont have enough rights to view this page'
+    except AttributeError:
+        return redirect('/login')
     if request.method == "POST":
         form = request.form.to_dict()
         if form:
@@ -134,6 +147,11 @@ def add_peptide():
 
 @application.route('/panel/remove_peptide', methods=["POST", "GET"])
 def remove_peptide():
+    try:
+        if current_user.role == "User":
+            return 'You dont have enough rights to view this page'
+    except AttributeError:
+        return redirect('/login')
     if request.method == "POST":
         form = request.form.to_dict()
         if form:
@@ -142,7 +160,13 @@ def remove_peptide():
 
 
 @application.route('/panel/accept', methods=["POST", "GET"])
+@login_required
 def accept_request():
+    try:
+        if current_user.role == "User":
+            return 'You dont have enough rights to view this page'
+    except AttributeError:
+        return redirect('/login')
     if request.method == "POST":
         form = request.form.to_dict()
         if form:
@@ -164,7 +188,13 @@ def accept_request():
 
 
 @application.route('/panel/cancel', methods=["POST", "GET"])
+@login_required
 def cancel_request():
+    try:
+        if current_user.role == "User":
+            return 'You dont have enough rights to view this page'
+    except AttributeError:
+        return redirect('/login')
     if request.method == "POST":
         form = request.form.to_dict()
         if form:
@@ -176,7 +206,13 @@ def cancel_request():
 
 
 @application.route('/panel/edit_peptide', methods=["POST", "GET"])
+@login_required
 def edit_peptide():
+    try:
+        if current_user.role == "User":
+            return 'You dont have enough rights to view this page'
+    except AttributeError:
+        return redirect('/login')
     if request.method == "POST":
         form = request.form.to_dict()
         if form:
@@ -238,13 +274,16 @@ def menu():
 @application.route('/account', methods=['POST', 'GET'])
 @login_required
 def account():
+    auth = False
+    if current_user.role != 'User':
+        auth = True
     result = SearchResults.query.filter_by(user_id=current_user.id).all()
     requests = DatabaseReqests.query.filter_by(user_id=current_user.id).all()
     if result:
         result = list(reversed(result))
     if requests:
         requests = list(reversed(requests))
-    return render_template("account.html", username=current_user.username, results=result, requests=requests)
+    return render_template("account.html", username=current_user.username, results=result, requests=requests, is_auth=auth)
 
 
 @application.route('/account/<result_id>')
@@ -327,6 +366,9 @@ def registration():
 
 @application.route('/search', methods=['POST', 'GET'])
 def get_value():
+    auth = False
+    if current_user.is_authenticated and current_user.role != 'User':
+        auth = True
     if request.method == 'POST':
         form_data = request.form.to_dict()
         if 'userProteins' in request.files:
@@ -363,7 +405,7 @@ def get_value():
                 completion.remove_config()
                 return jsonify({"filename": f"{filename}.zip"})
 
-    return render_template("search.html", loading_atr="flex", end_atr="none")
+    return render_template("search.html", loading_atr="flex", end_atr="none", is_auth=auth)
 
 
 @application.route('/account/remove', methods=['POST', 'GET'])

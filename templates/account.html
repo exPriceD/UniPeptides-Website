@@ -17,10 +17,14 @@
       <div class="container" data-animate-on-scroll>
           <header class="header">
             <div class=main_selector>
-              <a href="/" class="logo" data-animate-on-scroll> <img class="logo-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}" />
+              <a href="/" class="logo" data-animate-on-scroll>
+                <img class="logo-icon" alt="" src="{{url_for('static', filename='images/header/light/logo-blue-1@2x.png')}}" />
                 <h1 class="site-name">UniPeptides</h1>
               </a>
-              <div class="navigation"><img class="feather-icons-menu" onclick="openMenu();" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu.svg')}}" />
+              <div class="navigation">
+                <button class="small-menu">
+                  <img class="feather-icons-menu" onclick="openMenu();" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu.svg')}}" />
+                </button>
                 <a class="nav-btn main" href="/search"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--search.svg')}}" />
                   <label class="search">Search</label>
                 </a>
@@ -30,7 +34,12 @@
                 <a class="nav-btn main" href="/account"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--user.svg')}}" />
                   <label class="search">Account</label>
                 </a>
-                <a class="nav-btn main" href="#"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
+                {% if is_auth %}
+                <a class="nav-btn main" href="/panel">
+                  <label class="search">Edit panel</label>
+                </a>
+                {% endif %}
+                <a class="nav-btn main" href="/"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
                   <label class="search">Menu</label>
                 </a>
               </div>
@@ -45,7 +54,12 @@
               <a class="nav-btn" href="/account"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--user.svg')}}" />
                 <label class="search">Account</label>
               </a>
-              <a class="nav-btn" href="#"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
+              {% if is_auth %}
+              <a class="nav-btn" href="/panel">
+                <label class="search">Edit panel</label>
+              </a>
+              {% endif %}
+              <a class="nav-btn" href="/"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
                 <label class="search">Menu</label>
               </a>
             </div>

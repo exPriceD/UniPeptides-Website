@@ -90,7 +90,7 @@ a {
   padding: var(--padding-5xs) var(--padding-base);
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: var(--gap-9xs);
 }
 .nav-btn,
 .navigation {
@@ -147,6 +147,7 @@ a {
 .small-menu {
     background-color: #fff;
     border: 0;
+    display: none;
 }
 @media screen and (max-width: 1360px) {
   .logo-icon {
@@ -205,13 +206,14 @@ a {
     gap: var(--gap-0);
   }
 }
+
 @media screen and (max-width: 1000px) {
   .logo-icon {
     width: 116px;
     height: 116px;
   }
   .site-name {
-    font-size: var(--font-size-45xl);
+    font-size: 64px;
     width: 400px;
     height: 24px;
   }
@@ -276,6 +278,11 @@ a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+  .small-menu {
+    display: flex;
+    background-color: #fff;
+    border: 0;
   }
   .main_selector {
     display: flex;
@@ -344,6 +351,12 @@ a {
     align-items: center;
     justify-content: center;
   }
+  .navigation {
+    width: 75px;
+  }
+  .secret-navigation {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 500px) {
@@ -353,6 +366,16 @@ a {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+  .small-menu {
+    background-color: #fff;
+    border: 0;
+  }
+  .navigation {
+    width: 30px;
+  }
+  .nav-btn {
+    width: 100%;
   }
   .main_selector {
     height: 100px;
@@ -385,7 +408,7 @@ a {
     font-size: 30px;
   }
   .nav-btn {
-    width: 320px;
+    width: 100%;
     height: 45px;
     font-size: 15px;
   }
@@ -397,20 +420,8 @@ a {
     width: 40px;
     height: 40px;
   }
-}
-@media screen and (max-width: 730px) {
-    .navigation {
-        width: 75px;
-    }
-    .secret-navigation {
-        width: 100%;
-    }
-}
-@media screen and (max-width: 500px) {
-    .navigation {
-        width: 30px;
-    }
-    .nav-btn {
-        width: 100%;
-    }
+  .secret-navigation {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
 }

@@ -33,7 +33,7 @@
                   <label class="search">Edit panel</label>
                 </a>
                 {% endif %}
-                <a class="nav-btn main" href="#"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
+                <a class="nav-btn main" href="/"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
                   <label class="search">Menu</label>
                 </a>
               </div>
@@ -53,7 +53,7 @@
                 <label class="search">Edit panel</label>
               </a>
               {% endif %}
-              <a class="nav-btn" href="#"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
+              <a class="nav-btn" href="/"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
                 <label class="search">Menu</label>
               </a>
             </div>
@@ -71,7 +71,7 @@
             <div class="add-form">
               <div class="form-header">
                 <div class="add-a-new">Add a new entry to the database</div>
-                <button class="show-btn" onclick="openCard('addPeptides')">
+                <button class="show-btn" onclick="openCard('addPeptide')">
                   <img class="vector-icon" alt="" src="../static/images/admin/vector.svg"/>
                 </button>
               </div>
@@ -142,7 +142,7 @@
             <div class="add-form">
               <div class="form-header">
                 <div class="add-a-new">Edit information about the peptide</div>
-                <button class="show-btn" onclick="openCard('editPeptides')">
+                <button class="show-btn" onclick="openCard('editPeptide')">
                   <img class="vector-icon" alt="" src="../static/images/admin/vector.svg" />
                 </button>
               </div>

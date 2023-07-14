@@ -28,7 +28,12 @@
                 <a class="nav-btn main" href="/account"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--user.svg')}}" />
                   <label class="search">Account</label>
                 </a>
-                <a class="nav-btn main" href="#"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
+                {% if is_auth %}
+                <a class="nav-btn main" href="/panel">
+                  <label class="search">Edit panel</label>
+                </a>
+                {% endif %}
+                <a class="nav-btn main" href="/"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
                   <label class="search">Menu</label>
                 </a>
               </div>
@@ -43,7 +48,12 @@
               <a class="nav-btn" href="/account"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--user.svg')}}" />
                 <label class="search">Account</label>
               </a>
-              <a class="nav-btn" href="#"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
+              {% if is_auth %}
+              <a class="nav-btn" href="/panel">
+                <label class="search">Edit panel</label>
+              </a>
+              {% endif %}
+              <a class="nav-btn" href="/"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
                 <label class="search">Menu</label>
               </a>
             </div>
