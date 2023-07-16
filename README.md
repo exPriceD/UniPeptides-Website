@@ -17,8 +17,14 @@ The main function of the site is to search for peptides in proteins. It is carri
 - **Aiohttp**
 - **Openpyxl**
 
+# Database
+<p align="center">
+  <img src="https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/database.drawio.svg"/>
+</p>
+
 # Interface
 ![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/prew.png)
+
 ## Menu
 ![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/menu.png)
 
