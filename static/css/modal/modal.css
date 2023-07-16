@@ -54,7 +54,6 @@
   align-items: center;
 }
 .button {
-  width: 436px;
   height: 76px;
   display: none;
   flex-direction: row;
@@ -73,7 +72,7 @@
   padding: 24px;
   box-sizing: border-box;
   justify-content: flex-start;
-  gap: var(--gap-21xl);
+  gap: 20px;
   max-width: 90%;
   max-height: 90%;
   overflow: auto;

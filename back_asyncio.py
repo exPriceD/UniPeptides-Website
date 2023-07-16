@@ -383,11 +383,13 @@ def main():
     parser = AsyncParser(config_data["proteins"]["value"])
     parser.run_async_parsing()
     peptides_json, sequences, missing = parser.get_data()
-    if len(missing) > 0:
-        er_handler = ErrorsHandler(missing_peptides=missing)
-        er_handler.update_json()
+    #if len(missing) > 0:
+    #    er_handler = ErrorsHandler(missing_peptides=missing)
+    #    er_handler.update_json()
     for i in range(len(peptides_json)):
         uniprot_result = peptides_json[i]
         sequence = sequences[i]
         async_creater(proteinName=uniprot_result["proteinName"])
         async_writer(uniprot_result=uniprot_result, sequence=sequence)
+
+    return missing

@@ -615,4 +615,10 @@ body {
     .input-inner {
         height: 46px;
     }
+    .you-can-track {
+        width: 100%;
+    }
+    .modal-header {
+        width: auto
+    }
 }

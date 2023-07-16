@@ -1,10 +1,8 @@
-from flask import Flask, render_template, request, send_from_directory, redirect, jsonify, flash
+from flask import Flask, render_template, request, send_from_directory, redirect, jsonify
 #from flask_socketio import SocketIO, emit
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
-from flask_admin import Admin
-from flask_admin.contrib.sqla import ModelView
 import run_script
 import completion
 import os
@@ -96,6 +94,11 @@ class DatabaseReqests(db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return Users.query.filter_by(id=user_id).first()
+
+
+@application.route('/404')
+def error():
+    return render_template('errors.html')
 
 
 @application.route('/database', methods=['GET', 'POST'])
@@ -389,7 +392,7 @@ def get_value():
         if not("userProteins" in form_data.keys()) or len(form_data["proteins_value"]) > 0:
             if not("userPeptides" in form_data.keys()) or len(form_data["peptides_value"]) > 0:
                 dt_now = str(datetime.datetime.now()).split('.')[0]
-                run_script.run_processing(form_data)
+                missing = run_script.run_processing(form_data)
                 filename = completion.creating_zip()
                 while not (os.path.exists(f"{os.getcwd()}/uploads/outputs/{filename}.zip")):
                     filename = completion.creating_zip()
@@ -410,7 +413,18 @@ def get_value():
                     if result:
                         print('Файл добавлен')
                 completion.remove_config()
-                return jsonify({"filename": f"{filename}.zip"})
+                message_title = ''
+                message = ''
+                if missing:
+                    message_title = 'Proteins not found:'
+                    message = ', '.join(missing)
+                return jsonify(
+                    {
+                        'filename': f'{filename}.zip',
+                        'message_title': message_title,
+                        'message': message
+                    }
+                )
 
     return render_template("search.html", loading_atr="flex", end_atr="none", is_auth=auth)
 

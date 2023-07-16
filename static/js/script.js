@@ -63,6 +63,10 @@ function closePopup(elementsId) {
         if (popupText) {
             popupText.innerHTML = "Files will be created soon";
         }
+        title = document.getElementById('message_title');
+        msg = document.getElementById('message');
+        title.style.display = 'none';
+        msg.style.display = 'none';
     }
     let popup = document.getElementById(elementsId);
 

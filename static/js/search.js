@@ -77,7 +77,6 @@ $(document).on('submit', '#post-form', function(e) {
 
 function updateModal(data) {
     filename = data['filename']
-    console.log(filename);
     let downloadLink = document.getElementById("downloadLink");
     let downloadButton = document.getElementById("downloadBtn");
     let downloadButtonStyle = downloadButton.style;
@@ -92,5 +91,15 @@ function updateModal(data) {
     }
     if (popupText) {
         popupText.innerHTML = "File was created";
+    }
+    message_title = data['message_title'];
+    message = data['message'];
+    if (message_title) {
+        title = document.getElementById('message_title');
+        msg = document.getElementById('message');
+        title.innerHTML = message_title;
+        msg.innerHTML = message;
+        title.style.display = 'flex';
+        msg.style.display = 'flex';
     }
 }
