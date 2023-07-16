@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, send_from_directory, redirect, jsonify
-#from flask_socketio import SocketIO, emit
+from flask import render_template, request, send_from_directory, redirect, jsonify
+from flask_mail import Mail, Message
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
@@ -9,24 +9,12 @@ import os
 import json
 import datetime
 import shutil
+import secrets
 
+from config import application, mail, login_manager
+from models import db, Users, SearchResults, DatabaseReqests
 
 ALLOWED_EXTENSIONS = {'txt'}
-SECRET_KEY = os.urandom(24)
-
-application = Flask(__name__)
-application.config.from_object(__name__)
-#socketio = SocketIO(app=application)
-
-application.config['UPLOAD_FOLDER'] = 'uploads'
-application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-login_manager = LoginManager(application)
-login_manager.login_view = 'login'
-
-dbase = None
-db = SQLAlchemy(application)
 
 
 @application.after_request
@@ -36,59 +24,6 @@ def add_header(r):
     r.headers["Expires"] = "0"
     r.headers['Cache-Control'] = 'public, max-age=0'
     return r
-
-
-class Users(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String, unique=True)
-    username = db.Column(db.String(16), unique=True)
-    password = db.Column(db.String, nullable=True)
-    role = db.Column(db.String)
-
-    def __init__(self, username, email, password, role):
-        self.username = username
-        self.password = password
-        self.email = email
-        self.role = role
-
-    def get_role(self):
-        return self.role
-
-    def __repr__(self):
-        return f"<users {self.id}>"
-
-
-class SearchResults(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    date = db.Column(db.String)
-    file = db.Column(db.LargeBinary)
-    proteins = db.Column(db.String)
-    peptides = db.Column(db.String)
-
-    def __repr__(self):
-        return f"<search results {self.id}>"
-
-
-class DatabaseReqests(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.String)
-    date = db.Column(db.String)
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    username = db.Column(db.String)
-    email = db.Column(db.String)
-    sequence = db.Column(db.String)
-    scientific_name = db.Column(db.String)
-    common_name = db.Column(db.String)
-    activity = db.Column(db.String)
-    protein_source = db.Column(db.String)
-    massDa = db.Column(db.String)
-    tissue_source = db.Column(db.String)
-    pmid = db.Column(db.String)
-    reference = db.Column(db.String)
-
-    def __repr__(self):
-        return f"<request {self.id}>"
 
 
 @login_manager.user_loader
@@ -358,7 +293,7 @@ def registration():
         print(form_data)
         if form_data['username'] and form_data["email"] and form_data["password"]:
             hash = generate_password_hash(password=form_data["password"])
-            user = Users(username=request.form["username"], email=request.form["email"], password=hash, role="User")
+            user = Users(username=request.form["username"], email=request.form["email"], password=hash, role="User", token='')
             check_status = check_users(username=request.form["username"],email=request.form["email"])
             if check_status == 'ok':
                 print(f"{form_data['username']} зарегистрирован!")
@@ -372,6 +307,48 @@ def registration():
             else:
                 return jsonify({'status': 'Email already exist!'})
     return render_template("register.html")
+
+
+@application.route('/password_recovery', methods=['POST', 'GET'])
+def password_recovery():
+    if request.method == 'POST':
+        form = request.form.to_dict()
+        print(form)
+        if form:
+            token = secrets.token_hex(24)
+            print(token)
+            user = Users.query.filter_by(email=form["email"]).first()
+            if not(user):
+                return jsonify({'status': 'Failed'})
+            user.token = token
+            db.session.commit()
+            msg = Message("Reset password", recipients=[form["email"]])
+            #msg = Message("Reset password", recipients=['test-x65brmnoe@srv1.mail-tester.com'])
+            msg.body = f"Your token for reset password: http://127.0.0.1:5000/password_recovery/{token}"
+            mail.send(msg)
+            return jsonify({'status': 'Success'})
+    return render_template('password_recovery_email.html')
+
+
+@application.route('/password_recovery/<token>', methods=['POST', 'GET'])
+def reset_password(token):
+    if request.method == 'GET':
+        user = Users.query.filter_by(token=token).first()
+        if not(user):
+            return render_template('password_recovery_pass.html', token='error')
+    if request.method == 'POST':
+        form = request.form.to_dict()
+        user = Users.query.filter_by(token=token).first()
+        if form and user:
+            hash = generate_password_hash(password=form["pass1"])
+            user.password = hash
+            user.token = ''
+            db.session.commit()
+            print('Password changed')
+            return jsonify({'status': 'Success'})
+        print('Failed')
+        return jsonify({'status': 'Failed'})
+    return render_template('password_recovery_pass.html', token='success')
 
 
 @application.route('/search', methods=['POST', 'GET'])
@@ -547,10 +524,6 @@ def get_blob(form: dict):
 
 if __name__ == "__main__":
     application.debug = True
-    import logging
-    handler = logging.FileHandler('app.log')  # errors logged to this file
-    handler.setLevel(logging.ERROR)  # only log errors and above
-    application.logger.addHandler(handler)  # attach the handler to the app's logger
     application.run()
     with application.app_context():
         db.create_all()
