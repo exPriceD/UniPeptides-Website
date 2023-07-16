@@ -364,6 +364,17 @@ input:focus {
   .login4 {
     font-size: 25px;
   }
+  .already{
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+  }
+  .instruction {
+    width:100%;
+  }
+  .sent_on {
+    text-align: center;
+  }
 }
 
 .instruction {

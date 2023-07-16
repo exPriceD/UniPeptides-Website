@@ -1,13 +1,13 @@
 from flask import render_template, request, send_from_directory, redirect, jsonify
-from flask_mail import Mail, Message
-from flask_sqlalchemy import SQLAlchemy
+from flask_mail import Message
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, login_user, login_required, current_user, logout_user, UserMixin
+from flask_login import login_user, login_required, current_user, logout_user
 import run_script
 import completion
 import os
 import json
 import datetime
+from threading import Thread
 import shutil
 import secrets
 
@@ -293,7 +293,8 @@ def registration():
         print(form_data)
         if form_data['username'] and form_data["email"] and form_data["password"]:
             hash = generate_password_hash(password=form_data["password"])
-            user = Users(username=request.form["username"], email=request.form["email"], password=hash, role="User", token='')
+            user = Users(username=request.form["username"], email=request.form["email"], password=hash, role="User",
+                         token='', token_date=None)
             check_status = check_users(username=request.form["username"],email=request.form["email"])
             if check_status == 'ok':
                 print(f"{form_data['username']} зарегистрирован!")
@@ -321,11 +322,10 @@ def password_recovery():
             if not(user):
                 return jsonify({'status': 'Failed'})
             user.token = token
+            user.token_date = datetime.datetime.today()
             db.session.commit()
-            msg = Message("Reset password", recipients=[form["email"]])
-            #msg = Message("Reset password", recipients=['test-x65brmnoe@srv1.mail-tester.com'])
-            msg.body = f"Your token for reset password: http://127.0.0.1:5000/password_recovery/{token}"
-            mail.send(msg)
+            body = f"Your link for reset password: http://127.0.0.1:5000/password_recovery/{token}"
+            send_mail(subject="Reset password", recipient=form["email"], body=body)
             return jsonify({'status': 'Success'})
     return render_template('password_recovery_email.html')
 
@@ -336,13 +336,16 @@ def reset_password(token):
         user = Users.query.filter_by(token=token).first()
         if not(user):
             return render_template('password_recovery_pass.html', token='error')
+        if (datetime.datetime.today() - user.token_date).total_seconds() > 600:
+            return render_template('password_recovery_pass.html', token='error')
     if request.method == 'POST':
         form = request.form.to_dict()
         user = Users.query.filter_by(token=token).first()
         if form and user:
             hash = generate_password_hash(password=form["pass1"])
             user.password = hash
-            user.token = ''
+            user.token = None
+            user.token_date = None
             db.session.commit()
             print('Password changed')
             return jsonify({'status': 'Success'})
@@ -420,6 +423,20 @@ def remove_result():
 def download(filename):
     full_path = f"{os.path.join(application.root_path, application.config['UPLOAD_FOLDER'])}\outputs"
     return send_from_directory(full_path, filename)
+
+
+def async_send_mail(app, msg):
+    with app.app_context():
+        mail.send(msg)
+
+
+def send_mail(subject: str, recipient: str, body: str, **kwargs):
+    msg = Message(subject, sender=application.config['MAIL_DEFAULT_SENDER'], recipients=[recipient])
+    #msg.html = render_template(template,  **kwargs)
+    msg.body = body
+    thr = Thread(target=async_send_mail,  args=[application,  msg])
+    thr.start()
+    return thr
 
 
 def allowed_file(filename):

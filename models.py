@@ -8,13 +8,15 @@ class Users(db.Model, UserMixin):
     password = db.Column(db.String, nullable=True)
     role = db.Column(db.String)
     token = db.Column(db.String)
+    token_date = db.Column(db.DateTime)
 
-    def __init__(self, username, email, password, role, token):
+    def __init__(self, username, email, password, role, token, token_date):
         self.username = username
         self.password = password
         self.email = email
         self.role = role
         self.token = token
+        self.token_date = token_date
 
     def get_role(self):
         return self.role
