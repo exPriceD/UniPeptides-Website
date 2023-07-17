@@ -328,7 +328,7 @@ def password_recovery():
             user.token_date = datetime.datetime.today()
             db.session.commit()
             body = f"Your link for reset password: http://127.0.0.1:5000/password_recovery/{token}"
-            send_mail(subject="Reset password", recipient=form["email"], body=body)
+            send_mail(subject="Reset password", recipient=form["email"], body=body, token=token)
             return jsonify({'status': 'Success'})
     return render_template('password_recovery_email.html')
 
@@ -433,10 +433,10 @@ def async_send_mail(app, msg):
         mail.send(msg)
 
 
-def send_mail(subject: str, recipient: str, body: str, **kwargs):
+def send_mail(subject: str, recipient: str, body: str, token, **kwargs):
     msg = Message(subject, sender=application.config['MAIL_DEFAULT_SENDER'], recipients=[recipient])
     #msg.html = render_template(template,  **kwargs)
-    msg.body = body
+    msg.html = render_template('mail.html', token=token, **kwargs)
     thr = Thread(target=async_send_mail,  args=[application,  msg])
     thr.start()
     return thr

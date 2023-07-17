@@ -2,12 +2,17 @@ var is_menu_open = false;
 
 function openMenu() {
     nav = document.getElementById('secretNavigation');
+    menu_btn = document.getElementById('burgerMenu');
     if (is_menu_open) {
         nav.style.display = "none";
         is_menu_open = false;
+        setTimeout(function() {menu_btn.classList.remove("t-menuburger-opened")}, 50);
+        document.getElementById("main-body").setAttribute("style",`height:a`);
     } else {
         nav.style.display = "flex";
         is_menu_open = true;
+        setTimeout(function() {menu_btn.classList.add("t-menuburger-opened")}, 50)
+        document.getElementById("main-body").style.height = "100vh";
     }
 }
 function themeChange(page) {
