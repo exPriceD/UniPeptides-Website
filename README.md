@@ -14,15 +14,23 @@ Web service:
 \
 `pip install requirements.txt`
 
+`Setup config.py`
+
 # Stack
 - **Flask**
-- **HTML/CSS**
-- **JavaScript/jQuery**
-- **Asyncio**
-- **Aiohttp**
+- **MySQL (SQLite in repo)**
+- **HTML, CSS**
+- **JavaScript, jQuery**
+- **Asyncio, Aiohttp**
 - **Openpyxl**
 
 # Database
+
+**For SQLite** `application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"`
+
+**For SQLite** `application.config['SQLALCHEMY_DATABASE_URI'] = "mysql://user:pass!@host/database_name"`
+
+
 <p align="center">
   <img src="https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/database.drawio.svg"/>
 </p>
@@ -38,6 +46,7 @@ Web service:
 
 ## Peptides database
 ![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/database.png)
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/add_form.png)
 
 ## Account
 ![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/account.png)
