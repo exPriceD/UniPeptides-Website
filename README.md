@@ -9,6 +9,9 @@ Web service:
 + Includes a database of biologically active peptides found in collagens. With the ability to add information about new peptides by the user.
 + Allows the user to create a personal account to save all the results of the analysis of the search for peptides.
 
+**Prospects for the development of the web service.**\
+It is planned to add user information to the registration (full name, organization, identifiers WoS; Scopus; Research ID; ORCID, contacts); expansion of information about peptides in the database; creation of a forum for peptide researchers. The prospects of the software part of the site: improving the interface, mail messages; switching to React; site optimization; account confirmation during registration; mobile application.
+
 # Installation
 `git clone https://github.com/exPriceD/UniPeptides-Website.git`\
 \
@@ -61,3 +64,6 @@ Web service:
 
 ## Errors page
 ![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/errors.png)
+
+## Mail messages
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/mail.png)
