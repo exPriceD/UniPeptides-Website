@@ -291,22 +291,25 @@ def registration():
     if request.method == "POST":
         form_data = request.form.to_dict()
         print(form_data)
-        if form_data['username'] and form_data["email"] and form_data["password"]:
-            hash = generate_password_hash(password=form_data["password"])
-            user = Users(username=request.form["username"], email=request.form["email"], password=hash, role="User",
-                         token='', token_date=None)
-            check_status = check_users(username=request.form["username"],email=request.form["email"])
-            if check_status == 'ok':
-                print(f"{form_data['username']} зарегистрирован!")
-                db.session.add(user)
-                db.session.flush()
-                db.session.commit()
-                login_user(Users.query.filter_by(email=request.form["email"]).first())
-                return jsonify({'status': 'Success!'})
-            elif check_status == 'username':
-                return jsonify({'status': 'Username already exist!'})
-            else:
-                return jsonify({'status': 'Email already exist!'})
+        try:
+            if form_data['username'] and form_data["email"] and form_data["password"]:
+                hash = generate_password_hash(password=form_data["password"])
+                user = Users(username=request.form["username"], email=request.form["email"], password=hash, role="User",
+                             token=None, token_date=None)
+                check_status = check_users(username=request.form["username"],email=request.form["email"])
+                if check_status == 'ok':
+                    print(f"{form_data['username']} зарегистрирован!")
+                    db.session.add(user)
+                    db.session.flush()
+                    db.session.commit()
+                    login_user(Users.query.filter_by(email=request.form["email"]).first())
+                    return jsonify({'status': 'Success!'})
+                elif check_status == 'username':
+                    return jsonify({'status': 'Username already exist!'})
+                else:
+                    return jsonify({'status': 'Email already exist!'})
+        except Exception as e:
+            return jsonify({'status': str(e)})
     return render_template("register.html")
 
 
