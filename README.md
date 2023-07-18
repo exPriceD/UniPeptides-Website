@@ -29,9 +29,9 @@ It is planned to add user information to the registration (full name, organizati
 
 # Database
 
-**For SQLite** `application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"`
+**SQLite** `application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"`
 
-**For SQLite** `application.config['SQLALCHEMY_DATABASE_URI'] = "mysql://user:pass!@host/database_name"`
+**MySQL** `application.config['SQLALCHEMY_DATABASE_URI'] = "mysql://user:pass!@host/database_name"`
 
 
 <p align="center">
@@ -46,6 +46,8 @@ It is planned to add user information to the registration (full name, organizati
 
 ## Search for peptides
 ![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/search.png)
+### Result example 
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/result.png)
 
 ## Peptides database
 ![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/database.png)
