@@ -428,6 +428,26 @@ def download(filename):
     return send_from_directory(full_path, filename)
 
 
+@application.errorhandler(404)
+def page_not_found(e):
+    return render_template('errors.html', code='404', error='Page not found')
+
+
+@application.errorhandler(400)
+def page_not_found(e):
+    return render_template('errors.html', code='400', error='I’m a teapot')
+
+
+@application.errorhandler(418)
+def page_not_found(e):
+    return render_template('errors.html', code='418', error='Bad Request')
+
+
+@application.errorhandler(500)
+def page_not_found(e):
+    return render_template('errors.html', code='500', error='Internal Server Error ')
+
+
 def async_send_mail(app, msg):
     with app.app_context():
         mail.send(msg)

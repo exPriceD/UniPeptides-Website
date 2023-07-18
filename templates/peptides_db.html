@@ -23,23 +23,25 @@
           <span style="background-color:#fff;"></span>
         </button>
       </div>
-      <a class="nav-btn" href="/search" style="text-decoration: none; color: #fff;"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--search.svg')}}" />
-        <label class="search">Search</label>
-      </a>
-      <a class="nav-btn" href="/database"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--database.svg')}}" />
-        <label class="search">Database</label>
-      </a>
-      <a class="nav-btn" href="/account"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--user.svg')}}" />
-        <label class="search">Account</label>
-      </a>
-      {% if is_auth %}
-      <a class="nav-btn" href="/panel">
-        <label class="search">Edit panel</label>
-      </a>
-      {% endif %}
-      <a class="nav-btn" href="/"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
-        <label class="search">Menu</label>
-      </a>
+      <div class="burger-btns">
+        <a class="nav-btn" href="/search" style="text-decoration: none; color: #fff;"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--search.svg')}}" />
+          <label class="search">Search</label>
+        </a>
+        <a class="nav-btn" href="/database"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--database.svg')}}" />
+          <label class="search">Database</label>
+        </a>
+        <a class="nav-btn" href="/account"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--user.svg')}}" />
+          <label class="search">Account</label>
+        </a>
+        {% if is_auth %}
+        <a class="nav-btn" href="/panel">
+          <label class="search">Edit panel</label>
+        </a>
+        {% endif %}
+        <a class="nav-btn" href="/"> <img class="feather-icons-search" alt="" src="{{url_for('static', filename='images/header/light/feather-icons--menu1.svg')}}" />
+          <label class="search">Menu</label>
+        </a>
+      </div>
     </div>
     <div class="database-table" id="main-body" data-animate-on-scroll>
       <div class="container" data-animate-on-scroll>

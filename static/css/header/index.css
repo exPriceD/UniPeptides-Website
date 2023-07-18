@@ -360,7 +360,10 @@ a {
     position: fixed;
     z-index: 10;
     background-color: var(--color-dodgerblue);
-    padding-bottom: 150px;
+    display: none;
+    gap: 30%;
+    justify-content: flex-start;
+    padding-top: 40px;
   }
   .search {
     font-size: 23px;
@@ -418,12 +421,15 @@ a {
     background-color: #000;
   }
   .burger {
-    position: absolute;
     width: 100%;
     display: flex;
     justify-content: flex-end;
     padding-right: 60px;
-    bottom: 840px;
+  }
+  .burger-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
   }
 }
 
@@ -491,5 +497,8 @@ a {
   .t-menuburger {
     bottom: 167px;
     left: 140px;
+  }
+  .burger {
+    padding-right: 20px;
   }
 }
