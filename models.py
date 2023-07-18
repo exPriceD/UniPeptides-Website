@@ -4,7 +4,7 @@ from config import db, UserMixin
 class Users(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True)
-    username = db.Column(db.String(16), unique=True)
+    username = db.Column(db.String(20), unique=True)
     password = db.Column(db.String(128), nullable=True)
     role = db.Column(db.String(10))
     token = db.Column(db.String(50))
@@ -28,7 +28,7 @@ class Users(db.Model, UserMixin):
 class SearchResults(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-    date = db.Column(db.String(15))
+    date = db.Column(db.String(25))
     file = db.Column(db.LargeBinary)
     proteins = db.Column(db.String(65535))
     peptides = db.Column(db.String(65535))
@@ -39,7 +39,7 @@ class SearchResults(db.Model):
 
 class DatabaseReqests(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.String(10))
+    status = db.Column(db.String(20))
     date = db.Column(db.String(100))
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
     username = db.Column(db.String(16))
