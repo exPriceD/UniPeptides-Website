@@ -29,9 +29,9 @@ It is planned to add user information to the registration (full name, organizati
 
 # Database
 
-**For SQLite** `application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"`
+**SQLite** `application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"`
 
-**For SQLite** `application.config['SQLALCHEMY_DATABASE_URI'] = "mysql://user:pass!@host/database_name"`
+**MySQL** `application.config['SQLALCHEMY_DATABASE_URI'] = "mysql://user:pass!@host/database_name"`
 
 
 <p align="center">
@@ -39,31 +39,33 @@ It is planned to add user information to the registration (full name, organizati
 </p>
 
 # Interface
-![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/prew.png)
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/README/prew.png)
 
 ## Menu
-![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/menu.png)
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/README/menu.png)
 
 ## Search for peptides
-![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/search.png)
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/README/search.png)
+### Result example 
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/README/result.png)
 
 ## Peptides database
-![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/database.png)
-![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/add_form.png)
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/README/database.png)
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/README/add_form.png)
 
 ## Account
-![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/account.png)
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/README/account.png)
 
 #Authorization pages
-![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/login.png)
-![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/register.png)
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/README/login.png)
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/README/register.png)
 
 ## Only for editors:
-![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/panel_db.png)
-![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/panel_req.png)
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/README/panel_db.png)
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/README/panel_req.png)
 
 ## Errors page
-![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/errors.png)
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/README/errors.png)
 
 ## Mail messages
-![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/static/images/mail.png)
+![alt text](https://github.com/exPriceD/UniPeptides-Website/blob/master/README/mail.png)
