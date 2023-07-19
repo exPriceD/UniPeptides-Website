@@ -71,6 +71,8 @@ $(document).on('submit', '#post-form', function(e) {
         success: function(data) {
             console.log(data);
             updateModal(data);
+            $('#userProteinsFile').val('');
+            $('#userPeptidesFile').val('');
         }
     })
 });
