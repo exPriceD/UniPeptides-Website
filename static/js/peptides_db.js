@@ -34,6 +34,9 @@ new DataTable('#table', {
             data: 'length'
         },
         {
+            data: 'massDa'
+        },
+        {
             data: 'scientificName'
         },
         {
@@ -47,6 +50,10 @@ new DataTable('#table', {
         },
         {
             data: 'proteinSource'
+        },
+        {
+            className: 'display_none',
+            data: 'syntheticPeptide'
         },
         {
             className: 'display_none',
